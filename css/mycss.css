@@ -2,7 +2,7 @@ html, body {
 
     background-color: #fff;
     font-family:yw,zw;
-    background:url(../image/bg.webp)no-repeat center center fixed,url(../image/bg.png)no-repeat center center fixed;-webkit-background-size: cover;-o-background-size: cover;background-size: cover;
+    background:url(../img/default.webp)no-repeat center center fixed,url(../img/default.png)no-repeat center center fixed;-webkit-background-size: cover;-o-background-size: cover;background-size: cover;
     
 }
 
@@ -15,6 +15,7 @@ line-height: 3.4rem;
 .navbar .nav-item .nav-link {
 color:#2e2e2e;
 font-size: 19px;
+
 }
 
 .navbar .navbar-brand strong{
@@ -55,8 +56,19 @@ font-family:yw,zw;
 
 a.qr-trigger {
     font-size: 25px;
+    margin: 0 6px;
+    color:black;
 }
-.zsqk{margin-bottom:130px;font-size:19px}
+.zsqk{font-size: 19px;
+    background: #ffffff91;
+    width: 58%;
+    margin: 0 auto;
+    border-radius: 1em;
+    box-shadow: 2px 2px 6px #a9a9a9e8;
+    margin-bottom: 130px;
+        color: black;
+    
+    }
 .zsqk .zsyy{margin-top:9px;}
 
 
