@@ -2,6 +2,7 @@ html, body {
 
     background-color: #fff;
     font-family:yw,zw;
+    background:url(../image/bg.webp)no-repeat center center fixed,url(../image/bg.png)no-repeat center center fixed;-webkit-background-size: cover;-o-background-size: cover;background-size: cover;
     
 }
 
