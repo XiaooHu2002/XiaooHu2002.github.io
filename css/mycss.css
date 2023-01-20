@@ -22,8 +22,18 @@ font-size: 19px;
 
 color:#fff;
 
-
 }
+
+
+#board{
+
+    border-radius: 1em;
+}
+
+.index-img img{
+  border-radius: 1em;
+}
+
 
 @font-face {
 font-family:yw;
