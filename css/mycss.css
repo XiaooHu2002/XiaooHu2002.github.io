@@ -67,8 +67,7 @@ font-family:yw,zw;
 
 a.qr-trigger {
     font-size: 25px;
-    margin: 0 6px;
-    color:black;
+    
 }
 .zsqk{font-size: 19px;
     background: #ffffff91;
@@ -81,6 +80,12 @@ a.qr-trigger {
     
     }
 .zsqk .zsyy{margin-top:9px;}
+.zsqk .zstb a{
+margin: 0 6px;
+    color:black;
+
+
+}
 
 
 
