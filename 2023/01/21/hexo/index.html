@@ -16,24 +16,25 @@
   <meta name="author" content="严千屹">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Centos 8 strean 初始配置">
+    <meta name="description" content="基于Docker部署Hexo框架">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Centos 8 stream 初始配置">
-<meta property="og:url" content="https://qianyios.top/2023/01/14/C8/index.html">
+<meta property="og:title" content="基于Docker部署Hexo框架">
+<meta property="og:url" content="https://qianyios.top/2023/01/21/hexo/index.html">
 <meta property="og:site_name" content="严千屹">
-<meta property="og:description" content="Centos 8 strean 初始配置">
+<meta property="og:description" content="基于Docker部署Hexo框架">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://qianyios.top/img/C8.png">
-<meta property="article:published_time" content="2023-01-14T20:59:39.000Z">
-<meta property="article:modified_time" content="2023-01-19T19:50:56.171Z">
+<meta property="og:image" content="https://qianyios.top/img/hexo/hexo.png">
+<meta property="article:published_time" content="2023-01-21T20:31:39.000Z">
+<meta property="article:modified_time" content="2023-01-21T14:11:42.333Z">
 <meta property="article:author" content="严千屹">
-<meta property="article:tag" content="Centos 8 stream">
+<meta property="article:tag" content="Centos 8">
+<meta property="article:tag" content="Hexo">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://qianyios.top/img/C8.png">
+<meta name="twitter:image" content="https://qianyios.top/img/hexo/hexo.png">
   
   
   
-  <title>Centos 8 stream 初始配置 - 严千屹</title>
+  <title>基于Docker部署Hexo框架 - 严千屹</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -203,7 +204,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Centos 8 stream 初始配置"></span>
+            <span id="subtitle" data-typed-text="基于Docker部署Hexo框架"></span>
           
         </div>
 
@@ -214,8 +215,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-01-14 20:59" pubdate>
-          2023年1月14日 晚上
+        <time datetime="2023-01-21 20:31" pubdate>
+          2023年1月21日 晚上
         </time>
       </span>
     
@@ -226,7 +227,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          991 字
+          684 字
         
       </span>
     
@@ -237,7 +238,7 @@
         
         
         
-          9 分钟
+          6 分钟
         
       </span>
     
@@ -275,16 +276,28 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Centos 8 stream 初始配置</h1>
+            <h1 style="display: none">基于Docker部署Hexo框架</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="Centos-8-strean-初始配置"><a href="#Centos-8-strean-初始配置" class="headerlink" title="Centos 8 strean 初始配置"></a>Centos 8 strean 初始配置</h1><h2 id="配置网络yum"><a href="#配置网络yum" class="headerlink" title="配置网络yum"></a>配置网络yum</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cp</span> /etc/yum.repos.d/CentOS-Stream-BaseOS.repo /etc/yum.repos.d/CentOS-Stream-BaseOS.repo.bak<br><br>sed -i <span class="hljs-string">&#x27;s/mirrorlist/#mirrorlist/&#x27;</span> /etc/yum.repos.d/CentOS-Stream-BaseOS.repo<br><br>sed -i <span class="hljs-string">&#x27;s/#baseurl=http:\/\/mirror.centos.org/baseurl=http:\/\/mirrors.aliyun.com/g&#x27;</span> /etc/yum.repos.d/CentOS-Stream-BaseOS.repo<br></code></pre></td></tr></table></figure>
+                <h1 id="基于Docker部署Hexo框架"><a href="#基于Docker部署Hexo框架" class="headerlink" title="基于Docker部署Hexo框架"></a>基于Docker部署Hexo框架</h1><h2 id="创建dockerfile文件夹"><a href="#创建dockerfile文件夹" class="headerlink" title="创建dockerfile文件夹"></a>创建dockerfile文件夹</h2><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arduino">mkdir dockerfile<br></code></pre></td></tr></table></figure>
 
-<h2 id="配置本地yum"><a href="#配置本地yum" class="headerlink" title="配置本地yum"></a>配置本地yum</h2><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-section">[root@localhost ~]</span><span class="hljs-comment"># mkdir repo.bak</span><br><span class="hljs-section">[root@localhost ~]</span><span class="hljs-comment"># mv /etc/yum.repos.d/* repo.bak/</span><br><span class="hljs-section">[root@localhost ~]</span><span class="hljs-comment"># vi /etc/yum.repos.d/centos.repo</span><br>    <span class="hljs-section">[BaseOS]</span><br>    <span class="hljs-attr">name</span>=BaseOS<br>    <span class="hljs-attr">baseurl</span>=file:///mnt/BaseOS<br>    <span class="hljs-attr">gpgcheck</span>=<span class="hljs-number">0</span><br>    <span class="hljs-attr">enabled</span>=<span class="hljs-number">1</span><br><br>    <span class="hljs-section">[AppStream]</span><br>    <span class="hljs-attr">name</span>=AppStream<br>    <span class="hljs-attr">baseurl</span>=file:///mnt/AppStream<br>    <span class="hljs-attr">gpgcheck</span>=<span class="hljs-number">0</span><br>    <span class="hljs-attr">enabled</span>=<span class="hljs-number">1</span><br><span class="hljs-section">[root@localhost ~]</span><span class="hljs-comment"># yum clean all &amp;&amp; yum makecache</span><br></code></pre></td></tr></table></figure>
+<h2 id="使用vim创建和编辑Dockerfile"><a href="#使用vim创建和编辑Dockerfile" class="headerlink" title="使用vim创建和编辑Dockerfile"></a>使用vim创建和编辑Dockerfile</h2><p>vim dockerfile&#x2F;Dockerfile</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs dockerfile"><span class="hljs-comment"># 使用最新的node镜像作为基础环境  </span><br><span class="hljs-keyword">FROM</span> node:latest  <br><span class="hljs-comment"># 设置临时工作目录  </span><br><span class="hljs-keyword">WORKDIR</span><span class="language-bash"> /usr/blog</span><br><span class="hljs-comment"># 配置 npm 镜像站点  </span><br><span class="hljs-keyword">RUN</span><span class="language-bash"> npm config <span class="hljs-built_in">set</span> registry https://registry.npm.taobao.org  </span><br><span class="hljs-comment"># 安装 hexo-cli  </span><br><span class="hljs-keyword">RUN</span><span class="language-bash"> npm install hexo-cli -g  </span><br><span class="hljs-comment"># 初始化 hexo blog  </span><br><span class="hljs-keyword">RUN</span><span class="language-bash"> hexo init  </span><br><span class="hljs-comment"># hexo 默认端口号 4000  </span><br><span class="hljs-keyword">EXPOSE</span> <span class="hljs-number">4000</span><br></code></pre></td></tr></table></figure>
 
-<h2 id="配置防火墙和Selinux"><a href="#配置防火墙和Selinux" class="headerlink" title="配置防火墙和Selinux"></a>配置防火墙和Selinux</h2><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs autoit">[root<span class="hljs-symbol">@localhost</span> ~]<span class="hljs-meta"># systemctl disable --now firewalld</span><br>    Removed <span class="hljs-string">&quot;/etc/systemd/system/multi-user.target.wants/firewalld.service&quot;</span>.<br>    Removed <span class="hljs-string">&quot;/etc/systemd/system/dbus-org.fedoraproject.FirewallD1.service&quot;</span>.<br>[root<span class="hljs-symbol">@localhost</span> ~]<span class="hljs-meta"># sed -i <span class="hljs-string">&#x27;s/^SELINUX=.*/SELINUX=disabled/&#x27;</span> /etc/selinux/config</span><br></code></pre></td></tr></table></figure>
+<h2 id="构建镜像"><a href="#构建镜像" class="headerlink" title="构建镜像"></a>构建镜像</h2><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">docker build -t hexo-image <span class="hljs-regexp">/root/</span>dockerfile/<br></code></pre></td></tr></table></figure>
+
+<h2 id="创建容器"><a href="#创建容器" class="headerlink" title="创建容器"></a>创建容器</h2><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">docker run -itd -v <span class="hljs-regexp">/root/</span>blog:<span class="hljs-regexp">/usr/</span>blog -p <span class="hljs-number">4000</span>:<span class="hljs-number">4000</span> --name hexo-blog hexo-image<br></code></pre></td></tr></table></figure>
+
+<p>-v &#x2F;root&#x2F;blog:&#x2F;usr&#x2F;blog  可以实现把容器中的&#x2F;usr&#x2F;blog挂载到宿主机的&#x2F;root&#x2F;blog，非常方便</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs routeros">docker update hexo-blog <span class="hljs-attribute">--restart</span>=always <br><span class="hljs-comment">#增加开机自启动属性</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="查看容器id"><a href="#查看容器id" class="headerlink" title="查看容器id"></a>查看容器id</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs css">docker ps -<span class="hljs-selector-tag">a</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="加入容器"><a href="#加入容器" class="headerlink" title="加入容器"></a>加入容器</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker <span class="hljs-built_in">exec</span> -it 容器<span class="hljs-built_in">id</span> /bin/bash<br><span class="hljs-comment">#也可以是名字</span><br>docker <span class="hljs-built_in">exec</span> -it hexo-blog /bin/bash<br></code></pre></td></tr></table></figure>
+
+<h2 id="开启服务"><a href="#开启服务" class="headerlink" title="开启服务"></a>开启服务</h2><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">hexo s</span><br></code></pre></td></tr></table></figure>
 
 
                 
@@ -298,7 +311,9 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/Centos-8-stream/">#Centos 8 stream</a>
+        <a href="/tags/Centos-8/">#Centos 8</a>
+      
+        <a href="/tags/Hexo/">#Hexo</a>
       
     </div>
   
@@ -310,8 +325,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Centos 8 stream 初始配置</div>
-      <div>https://qianyios.top/2023/01/14/C8/</div>
+      <div>基于Docker部署Hexo框架</div>
+      <div>https://qianyios.top/2023/01/21/hexo/</div>
     </div>
     <div class="license-meta">
       
@@ -323,7 +338,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年1月14日</div>
+          <div>2023年1月21日</div>
         </div>
       
       
@@ -355,18 +370,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/01/17/docker/" title="Centos 8 使用Docker实现容器">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Centos 8 使用Docker实现容器</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/01/14/NFS/" title="Centos 7 部署 NFS 服务">
-                        <span class="hidden-mobile">Centos 7 部署 NFS 服务</span>
+                      <a href="/2023/01/20/LAMP/" title="基于LAMP部署Discuz论坛">
+                        <span class="hidden-mobile">基于LAMP部署Discuz论坛</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

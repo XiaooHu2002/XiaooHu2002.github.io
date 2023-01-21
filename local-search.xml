@@ -4,6 +4,27 @@
   
   
   <entry>
+    <title>基于Docker部署Hexo框架</title>
+    <link href="/2023/01/21/hexo/"/>
+    <url>/2023/01/21/hexo/</url>
+    
+    <content type="html"><![CDATA[<h1 id="基于Docker部署Hexo框架"><a href="#基于Docker部署Hexo框架" class="headerlink" title="基于Docker部署Hexo框架"></a>基于Docker部署Hexo框架</h1><h2 id="创建dockerfile文件夹"><a href="#创建dockerfile文件夹" class="headerlink" title="创建dockerfile文件夹"></a>创建dockerfile文件夹</h2><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arduino">mkdir dockerfile<br></code></pre></td></tr></table></figure><h2 id="使用vim创建和编辑Dockerfile"><a href="#使用vim创建和编辑Dockerfile" class="headerlink" title="使用vim创建和编辑Dockerfile"></a>使用vim创建和编辑Dockerfile</h2><p>vim dockerfile&#x2F;Dockerfile</p><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs dockerfile"><span class="hljs-comment"># 使用最新的node镜像作为基础环境  </span><br><span class="hljs-keyword">FROM</span> node:latest  <br><span class="hljs-comment"># 设置临时工作目录  </span><br><span class="hljs-keyword">WORKDIR</span><span class="language-bash"> /usr/blog</span><br><span class="hljs-comment"># 配置 npm 镜像站点  </span><br><span class="hljs-keyword">RUN</span><span class="language-bash"> npm config <span class="hljs-built_in">set</span> registry https://registry.npm.taobao.org  </span><br><span class="hljs-comment"># 安装 hexo-cli  </span><br><span class="hljs-keyword">RUN</span><span class="language-bash"> npm install hexo-cli -g  </span><br><span class="hljs-comment"># 初始化 hexo blog  </span><br><span class="hljs-keyword">RUN</span><span class="language-bash"> hexo init  </span><br><span class="hljs-comment"># hexo 默认端口号 4000  </span><br><span class="hljs-keyword">EXPOSE</span> <span class="hljs-number">4000</span><br></code></pre></td></tr></table></figure><h2 id="构建镜像"><a href="#构建镜像" class="headerlink" title="构建镜像"></a>构建镜像</h2><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">docker build -t hexo-image <span class="hljs-regexp">/root/</span>dockerfile/<br></code></pre></td></tr></table></figure><h2 id="创建容器"><a href="#创建容器" class="headerlink" title="创建容器"></a>创建容器</h2><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">docker run -itd -v <span class="hljs-regexp">/root/</span>blog:<span class="hljs-regexp">/usr/</span>blog -p <span class="hljs-number">4000</span>:<span class="hljs-number">4000</span> --name hexo-blog hexo-image<br></code></pre></td></tr></table></figure><p>-v &#x2F;root&#x2F;blog:&#x2F;usr&#x2F;blog  可以实现把容器中的&#x2F;usr&#x2F;blog挂载到宿主机的&#x2F;root&#x2F;blog，非常方便</p><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs routeros">docker update hexo-blog <span class="hljs-attribute">--restart</span>=always <br><span class="hljs-comment">#增加开机自启动属性</span><br></code></pre></td></tr></table></figure><h2 id="查看容器id"><a href="#查看容器id" class="headerlink" title="查看容器id"></a>查看容器id</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs css">docker ps -<span class="hljs-selector-tag">a</span><br></code></pre></td></tr></table></figure><h2 id="加入容器"><a href="#加入容器" class="headerlink" title="加入容器"></a>加入容器</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker <span class="hljs-built_in">exec</span> -it 容器<span class="hljs-built_in">id</span> /bin/bash<br><span class="hljs-comment">#也可以是名字</span><br>docker <span class="hljs-built_in">exec</span> -it hexo-blog /bin/bash<br></code></pre></td></tr></table></figure><h2 id="开启服务"><a href="#开启服务" class="headerlink" title="开启服务"></a>开启服务</h2><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">hexo s</span><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Centos 8</tag>
+      
+      <tag>Hexo</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>基于LAMP部署Discuz论坛</title>
     <link href="/2023/01/20/LAMP/"/>
     <url>/2023/01/20/LAMP/</url>
@@ -84,7 +105,7 @@
   
   
   <entry>
-    <title>Centos7 部署 NFS 服务</title>
+    <title>Centos 7 部署 NFS 服务</title>
     <link href="/2023/01/14/NFS/"/>
     <url>/2023/01/14/NFS/</url>
     
@@ -94,7 +115,7 @@
     
     <tags>
       
-      <tag>Centos7</tag>
+      <tag>Centos 7</tag>
       
       <tag>NFS</tag>
       
