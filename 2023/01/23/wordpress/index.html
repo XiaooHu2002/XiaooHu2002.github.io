@@ -16,26 +16,26 @@
   <meta name="author" content="严千屹">
   <meta name="keywords" content="">
   
-    <meta name="description" content="基于LAMP部署Discuz论坛">
+    <meta name="description" content="基于Lnmp部署WordPress博客">
 <meta property="og:type" content="article">
-<meta property="og:title" content="基于LAMP部署Discuz论坛">
-<meta property="og:url" content="https://qianyios.top/2023/01/20/LAMP/index.html">
+<meta property="og:title" content="基于Lnmp部署WordPress博客">
+<meta property="og:url" content="https://qianyios.top/2023/01/23/wordpress/index.html">
 <meta property="og:site_name" content="严千屹">
-<meta property="og:description" content="基于LAMP部署Discuz论坛">
+<meta property="og:description" content="基于Lnmp部署WordPress博客">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://qianyios.top/img/LAMP/discuz.png">
-<meta property="article:published_time" content="2023-01-20T23:15:39.000Z">
-<meta property="article:modified_time" content="2023-01-23T14:22:32.722Z">
+<meta property="og:image" content="https://qianyios.top/img/wordpress/wordpress.png">
+<meta property="article:published_time" content="2023-01-23T22:15:39.000Z">
+<meta property="article:modified_time" content="2023-01-23T14:22:46.601Z">
 <meta property="article:author" content="严千屹">
 <meta property="article:tag" content="Centos 7">
-<meta property="article:tag" content="Lamp">
-<meta property="article:tag" content="Discuz">
+<meta property="article:tag" content="Lnmp">
+<meta property="article:tag" content="WordPress">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://qianyios.top/img/LAMP/discuz.png">
+<meta name="twitter:image" content="https://qianyios.top/img/wordpress/wordpress.png">
   
   
   
-  <title>基于LAMP部署Discuz论坛 - 严千屹</title>
+  <title>基于Lnmp部署WordPress博客 - 严千屹</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -205,7 +205,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="基于LAMP部署Discuz论坛"></span>
+            <span id="subtitle" data-typed-text="基于Lnmp部署WordPress博客"></span>
           
         </div>
 
@@ -216,8 +216,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-01-20 23:15" pubdate>
-          2023年1月20日 晚上
+        <time datetime="2023-01-23 22:15" pubdate>
+          2023年1月23日 晚上
         </time>
       </span>
     
@@ -228,7 +228,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.1k 字
+          2.3k 字
         
       </span>
     
@@ -239,7 +239,7 @@
         
         
         
-          18 分钟
+          20 分钟
         
       </span>
     
@@ -277,29 +277,29 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">基于LAMP部署Discuz论坛</h1>
+            <h1 style="display: none">基于Lnmp部署WordPress博客</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="基于LAMP部署Discuz论坛"><a href="#基于LAMP部署Discuz论坛" class="headerlink" title="基于LAMP部署Discuz论坛"></a>基于LAMP部署Discuz论坛</h1><p>系统：Centos 7</p>
-<h2 id="配置阿里yum"><a href="#配置阿里yum" class="headerlink" title="配置阿里yum"></a>配置阿里yum</h2><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs awk">mkdir repo.bak<br>mv <span class="hljs-regexp">/etc/yum</span>.repos.d<span class="hljs-regexp">/* repo.bak/</span><br>wget -O <span class="hljs-regexp">/etc/yum</span>.repos.d<span class="hljs-regexp">/CentOS-Base.repo https:/</span><span class="hljs-regexp">/mirrors.aliyun.com/</span>repo/Centos-<span class="hljs-number">7</span>.repo<br>yum clean all &amp;&amp; yum makecache<br>systemctl disable firewalld --now<br>sed -i <span class="hljs-string">&#x27;s/SELINUX=enforcing/SELINUX=disabled/g&#x27;</span> <span class="hljs-regexp">/etc/</span>sysconfig/selinux<br>setenforce <span class="hljs-number">0</span><br>yum update -y<br></code></pre></td></tr></table></figure>
+                <h1 id="基于Lnmp部署WordPress博客"><a href="#基于Lnmp部署WordPress博客" class="headerlink" title="基于Lnmp部署WordPress博客"></a>基于Lnmp部署WordPress博客</h1><h2 id="配置基础环境"><a href="#配置基础环境" class="headerlink" title="配置基础环境"></a>配置基础环境</h2><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs awk">mkdir repo.bak<br>mv <span class="hljs-regexp">/etc/yum</span>.repos.d<span class="hljs-regexp">/* repo.bak/</span><br>wget -O <span class="hljs-regexp">/etc/yum</span>.repos.d<span class="hljs-regexp">/CentOS-Base.repo https:/</span><span class="hljs-regexp">/mirrors.aliyun.com/</span>repo/Centos-<span class="hljs-number">7</span>.repo<br>yum clean all &amp;&amp; yum makecache<br>systemctl disable firewalld --now<br>sed -i <span class="hljs-string">&#x27;s/SELINUX=enforcing/SELINUX=disabled/g&#x27;</span> <span class="hljs-regexp">/etc/</span>sysconfig/selinux<br>setenforce <span class="hljs-number">0</span><br>yum update -y<br></code></pre></td></tr></table></figure>
 
-<h2 id="安装apache"><a href="#安装apache" class="headerlink" title="安装apache"></a>安装apache</h2><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">yum install -y httpd<br>systemctl <span class="hljs-keyword">enable</span> <span class="hljs-comment">--now httpd</span><br></code></pre></td></tr></table></figure>
+<h2 id="安装epel-release源和安装remi源"><a href="#安装epel-release源和安装remi源" class="headerlink" title="安装epel-release源和安装remi源"></a>安装epel-release源和安装remi源</h2><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs awk">rpm -ivh https:<span class="hljs-regexp">//</span>dl.fedoraproject.org<span class="hljs-regexp">/pub/</span>epel<span class="hljs-regexp">/7/</span>aarch64<span class="hljs-regexp">/Packages/</span>e/epel-release-<span class="hljs-number">7</span>-<span class="hljs-number">12</span>.noarch.rpm<br>rpm -ivh http:<span class="hljs-regexp">//</span>rpms.remirepo.net<span class="hljs-regexp">/enterprise/</span>remi-release-<span class="hljs-number">7</span>.rpm<br>yum clean all &amp;&amp; yum makecache<br></code></pre></td></tr></table></figure>
 
-<h2 id="安装epel-release源和安装remi源"><a href="#安装epel-release源和安装remi源" class="headerlink" title="安装epel-release源和安装remi源"></a>安装epel-release源和安装remi源</h2><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs awk">rpm -ivh https:<span class="hljs-regexp">//</span>dl.fedoraproject.org<span class="hljs-regexp">/pub/</span>epel<span class="hljs-regexp">/7/</span>aarch64<span class="hljs-regexp">/Packages/</span>e/epel-release-<span class="hljs-number">7</span>-<span class="hljs-number">12</span>.noarch.rpm<br>rpm -ivh http:<span class="hljs-regexp">//</span>rpms.remirepo.net<span class="hljs-regexp">/enterprise/</span>remi-release-<span class="hljs-number">7</span>.rpm<br></code></pre></td></tr></table></figure>
+<h2 id="安装PHP扩展"><a href="#安装PHP扩展" class="headerlink" title="安装PHP扩展"></a>安装PHP扩展</h2><figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs smali"> yum install -y php74-php php74-php-fpm php74-php-cli php74-php-common php74-php-devel php74-php-gd php74-php-pdo php74-php-mysql php74-php-mbstring php74-php-bcmath php74-php-xml php74-php-pecl-redis php74-php-process php74-php-intl php74-php-xmlrpc php74-php-soap php74-php-ldap php74-php-opcache <span class="hljs-keyword"></span><br><span class="hljs-keyword">system</span>ctl enable --now php74-php-fpm<span class="hljs-keyword"></span><br><span class="hljs-keyword">system</span>ctl restart nginx<br><span class="hljs-comment">#将php74版本替换原来的php版本</span><br>cp /usr/bin/php74 /usr/bin/php<br>chmod +x /usr/bin/php<br>php -v<br><br></code></pre></td></tr></table></figure>
 
-<h2 id="安装PHP扩展"><a href="#安装PHP扩展" class="headerlink" title="安装PHP扩展"></a>安装PHP扩展</h2><figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs smali"> yum install -y php74-php php74-php-fpm php74-php-cli php74-php-common php74-php-devel php74-php-gd php74-php-pdo php74-php-mysql php74-php-mbstring php74-php-bcmath php74-php-xml php74-php-pecl-redis php74-php-process php74-php-intl php74-php-xmlrpc php74-php-soap php74-php-ldap php74-php-opcache <span class="hljs-keyword"></span><br><span class="hljs-keyword">system</span>ctl restart httpd<br><span class="hljs-comment">#将php74版本替换原来的php版本</span><br>cp /usr/bin/php74 /usr/bin/php<br>chmod +x /usr/bin/php<br>php -v<br></code></pre></td></tr></table></figure>
+<h2 id="安装Nginx"><a href="#安装Nginx" class="headerlink" title="安装Nginx"></a>安装Nginx</h2><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">yum install -y nginx<br>systemctl <span class="hljs-keyword">enable</span> <span class="hljs-comment">--now nginx</span><br></code></pre></td></tr></table></figure>
 
-<h2 id="安装mariadb数据库并且修改密码"><a href="#安装mariadb数据库并且修改密码" class="headerlink" title="安装mariadb数据库并且修改密码"></a>安装mariadb数据库并且修改密码</h2><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"> yum install -y mariadb mariadb-<span class="hljs-keyword">server</span><br> systemctl <span class="hljs-keyword">enable</span> <span class="hljs-comment">--now mariadb</span><br> mysqladmin -uroot <span class="hljs-keyword">password</span> &quot;000000&quot;<br> <br> [root@lamp ~]# mysql -uroot -p000000<br>Welcome <span class="hljs-keyword">to</span> the MariaDB monitor.  Commands <span class="hljs-keyword">end</span> <span class="hljs-keyword">with</span> ; <span class="hljs-keyword">or</span> \g.<br>Your MariaDB <span class="hljs-keyword">connection</span> id <span class="hljs-keyword">is</span> <span class="hljs-number">6</span><br><span class="hljs-keyword">Server</span> <span class="hljs-keyword">version</span>: <span class="hljs-number">5.5</span><span class="hljs-number">.68</span>-MariaDB MariaDB <span class="hljs-keyword">Server</span><br><br>Copyright (c) <span class="hljs-number">2000</span>, <span class="hljs-number">2018</span>, Oracle, MariaDB Corporation Ab <span class="hljs-keyword">and</span> others.<br><br><span class="hljs-keyword">Type</span> <span class="hljs-string">&#x27;help;&#x27;</span> <span class="hljs-keyword">or</span> <span class="hljs-string">&#x27;\h&#x27;</span> <span class="hljs-keyword">for</span> help. <span class="hljs-keyword">Type</span> <span class="hljs-string">&#x27;\c&#x27;</span> <span class="hljs-keyword">to</span> clear the <span class="hljs-keyword">current</span> <span class="hljs-keyword">input</span> <span class="hljs-keyword">statement</span>.<br><br>MariaDB [(<span class="hljs-keyword">none</span>)]&gt; <span class="hljs-keyword">show</span> databases;<br>+<span class="hljs-comment">--------------------+</span><br>| <span class="hljs-keyword">Database</span>           |<br>+<span class="hljs-comment">--------------------+</span><br>| information_schema |<br>| mysql              |<br>| performance_schema |<br>| test               |<br>+<span class="hljs-comment">--------------------+</span><br><span class="hljs-number">4</span> <span class="hljs-keyword">rows</span> <span class="hljs-keyword">in</span> <span class="hljs-keyword">set</span> (<span class="hljs-number">0.00</span> sec)<br><br></code></pre></td></tr></table></figure>
+<h2 id="编辑Nginx配置文件"><a href="#编辑Nginx配置文件" class="headerlink" title="编辑Nginx配置文件"></a>编辑Nginx配置文件</h2><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli">vi <span class="hljs-string">/etc/nginx/nginx.conf</span>    <br>    <br>    server &#123;<br>        listen       80;<br>        listen       [::]<span class="hljs-function">:80</span>;<br>        server_name  _;<br>        root         <span class="hljs-string">/opt/qianyios</span>;   <span class="hljs-params">----</span>设置网站目录<br>        index        index.php;       <span class="hljs-params">----</span>设置默认文件<br>        <span class="hljs-comment"># Load configuration files for the default server block.</span><br>        include <span class="hljs-string">/etc/nginx/default.d/</span>*<span class="hljs-string">.conf</span>;<br><br>        error_page 404 <span class="hljs-string">/404.html</span>;<br>        location = <span class="hljs-string">/404.html</span> &#123;<br>        &#125;<br><br>        error_page 500 502 503 504 <span class="hljs-string">/50x.html</span>;<br>        location = <span class="hljs-string">/50x.html</span> &#123;<br>        &#125;<br>         location ~ \<span class="hljs-string">.php</span>$ &#123;               <span class="hljs-params">------</span><br>         root       <span class="hljs-string">/opt/qianyios</span>;<br>         fastcgi_pass   127.0.0.1<span class="hljs-function">:9000</span>;<br>         fastcgi_index  index.php;<br>         fastcgi_param  SCRIPT_FILENAME<br>$document_root$fastcgi_script_name;<br>         include       fastcgi_params;<br>        &#125;                                  <span class="hljs-params">------</span><br>&#125;<br></code></pre></td></tr></table></figure>
 
-<h2 id="安装Discuz！"><a href="#安装Discuz！" class="headerlink" title="安装Discuz！"></a>安装Discuz！</h2><p>前往<a target="_blank" rel="noopener" href="https://www.discuz.net/download.html">官网</a>下载最新 【简体中文】zip 下载之后上传到root目录下  我这里下载的是X3.5 简体中文</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs awk">[root@localhost ~]<span class="hljs-comment"># ll</span><br>total <span class="hljs-number">11424</span><br>-rw-------. <span class="hljs-number">1</span> root root     <span class="hljs-number">1284</span> Nov <span class="hljs-number">19</span> <span class="hljs-number">17</span>:<span class="hljs-number">27</span> anaconda-ks.cfg<br>-rw-r--r--. <span class="hljs-number">1</span> root root <span class="hljs-number">11693954</span> Jan <span class="hljs-number">20</span> <span class="hljs-number">22</span>:<span class="hljs-number">48</span> Discuz_X3.<span class="hljs-number">5</span>_SC_UTF8_20221231.zip<br>drwxr-xr-x. <span class="hljs-number">2</span> root root      <span class="hljs-number">238</span> Nov <span class="hljs-number">19</span> <span class="hljs-number">17</span>:<span class="hljs-number">59</span> repo.bak<br><span class="hljs-comment">#安装解压工具，并解压</span><br>yum install -y unzip<br>unzip Discuz_X3.<span class="hljs-number">5</span>_SC_UTF8_20221231.zip -d discuz<br>cp -rf discuz<span class="hljs-regexp">/upload/</span>* <span class="hljs-regexp">/var/</span>www<span class="hljs-regexp">/html/</span><br>chmod <span class="hljs-number">777</span> -R <span class="hljs-regexp">/var/</span>www<span class="hljs-regexp">/html/</span><br>systemctl restart httpd<br></code></pre></td></tr></table></figure>
 
-<p>然后你就可以访问<a target="_blank" rel="noopener" href="http://ip/%E8%BF%9B%E8%A1%8C%E5%AE%89%E8%A3%85%E4%BA%86">http://ip/进行安装了</a></p>
-<p>数据库用户名:  root</p>
-<p>数据库密码:000000  （我上面设置的是这个）</p>
-<p>管理员账户和密码，要记好！</p>
+
+<h2 id="安装mariadb"><a href="#安装mariadb" class="headerlink" title="安装mariadb"></a>安装mariadb</h2><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs awk">yum install -y mariadb mariadb-server<br>systemctl enable --now mariadb<br>mysqladmin -uroot password <span class="hljs-string">&quot;000000&quot;</span><br>mysql -uroot -p000000<br>create database wordpress;<br><span class="hljs-keyword">exit</span><br><br></code></pre></td></tr></table></figure>
+
+<h2 id="安装wordpress"><a href="#安装wordpress" class="headerlink" title="安装wordpress"></a>安装wordpress</h2><p><a target="_blank" rel="noopener" href="https://cn.wordpress.org/download/#download-install">点此下载</a>最新班tar.gz文件</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs awk">wget https:<span class="hljs-regexp">//</span>cn.wordpress.org/latest-zh_CN.tar.gz<br>tar -xf wordpress-<span class="hljs-number">6.1</span>.<span class="hljs-number">1</span>-zh_CN.tar.gz<br>mkdir <span class="hljs-regexp">/opt/</span>qianyios<br>mv wordpress<span class="hljs-regexp">/* /</span>opt<span class="hljs-regexp">/qianyios/</span><br>cd <span class="hljs-regexp">/opt/</span>qianyios/<br>cp wp-config-sample.php wp-config.php<br>vi wp-config.php<br><span class="hljs-regexp">/** The name of the database for WordPress */</span><br>define( <span class="hljs-string">&#x27;DB_NAME&#x27;</span>, <span class="hljs-string">&#x27;wordpress&#x27;</span> );    ----设置数据库名字<br><br><span class="hljs-regexp">/** Database username */</span><br>define( <span class="hljs-string">&#x27;DB_USER&#x27;</span>, <span class="hljs-string">&#x27;root&#x27;</span> );         ----设置数据库用户名<br><br><span class="hljs-regexp">/** Database password */</span><br>define( <span class="hljs-string">&#x27;DB_PASSWORD&#x27;</span>, <span class="hljs-string">&#x27;000000&#x27;</span> );   ----设置数据库密码<br><br>退出<br>nginx -s reload<br></code></pre></td></tr></table></figure>
+
+<p>随后就可以访问<a target="_blank" rel="noopener" href="http://ip/">http://ip/</a>   去安装wordpress了</p>
 
                 
               </div>
@@ -314,9 +314,9 @@
       
         <a href="/tags/Centos-7/">#Centos 7</a>
       
-        <a href="/tags/Lamp/">#Lamp</a>
+        <a href="/tags/Lnmp/">#Lnmp</a>
       
-        <a href="/tags/Discuz/">#Discuz</a>
+        <a href="/tags/WordPress/">#WordPress</a>
       
     </div>
   
@@ -328,8 +328,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>基于LAMP部署Discuz论坛</div>
-      <div>https://qianyios.top/2023/01/20/LAMP/</div>
+      <div>基于Lnmp部署WordPress博客</div>
+      <div>https://qianyios.top/2023/01/23/wordpress/</div>
     </div>
     <div class="license-meta">
       
@@ -341,7 +341,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年1月20日</div>
+          <div>2023年1月23日</div>
         </div>
       
       
@@ -373,18 +373,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/01/21/hexo/" title="基于Docker部署Hexo框架">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">基于Docker部署Hexo框架</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/01/20/mysql/" title="Mysql笔记">
-                        <span class="hidden-mobile">Mysql笔记</span>
+                      <a href="/2023/01/21/hexo/" title="基于Docker部署Hexo框架">
+                        <span class="hidden-mobile">基于Docker部署Hexo框架</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
