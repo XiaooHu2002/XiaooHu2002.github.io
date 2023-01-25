@@ -6,7 +6,22 @@ html, body {
     
 }
 
-
+.tbsm {
+    border: 1px solid #42424273;
+    border-radius: 1.5em;
+    box-shadow: 2px 2px 9px #939393;
+}
+.tbsm-wz {
+    text-align: center;
+    line-height: 35px;
+    font-size: 20px;
+    font-weight: 300;
+}
+.tbsm-top {
+    
+    text-align: center;
+    line-height: 38px;
+}
 .index-excerpt > div {
 line-height: 3.4rem;
 
