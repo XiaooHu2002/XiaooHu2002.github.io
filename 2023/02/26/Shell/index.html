@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://article.biliimg.com/bfs/article/8580d818ee5184751cf94951d938eb498c95fae5.jpg">
 <meta property="article:published_time" content="2023-02-26T10:38:39.000Z">
-<meta property="article:modified_time" content="2023-02-26T03:04:03.955Z">
+<meta property="article:modified_time" content="2023-03-26T05:14:41.548Z">
 <meta property="article:author" content="严千屹">
 <meta property="article:tag" content="Shell">
 <meta name="twitter:card" content="summary_large_image">
@@ -229,7 +229,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          9.7k 字
+          13k 字
         
       </span>
     
@@ -240,7 +240,7 @@
         
         
         
-          82 分钟
+          111 分钟
         
       </span>
     
@@ -321,7 +321,7 @@
 <li>在bash中，变量默认类型都是字符串类型，无法直接进行数值运算</li>
 <li>变量的值如果有<span style="color:red;">空格</span>，需要使用双引号或单引号括起来</li>
 </ol>
-<h4 id="实例操作-1"><a href="#实例操作-1" class="headerlink" title="实例操作"></a>实例操作</h4><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm"><span class="hljs-comment">#自定义变量</span><br>[root@<span class="hljs-keyword">shell </span>~]<span class="hljs-comment"># QY=qianyi</span><br>[root@<span class="hljs-keyword">shell </span>~]<span class="hljs-comment"># echo $QY</span><br>qianyi<br>[root@<span class="hljs-keyword">shell </span>~]<span class="hljs-comment"># QY=&quot;qian yi&quot;</span><br>[root@<span class="hljs-keyword">shell </span>~]<span class="hljs-comment"># echo $QY</span><br>qian yi<br><br>变量为空和未定义变量是两个不同的概念<br>[root@<span class="hljs-keyword">shell </span>~]<span class="hljs-comment"># echo $age      ---未定义</span><br><br>[root@<span class="hljs-keyword">shell </span>~]<span class="hljs-comment"># age=&quot;&quot;</span><br>[root@<span class="hljs-keyword">shell </span>~]<span class="hljs-comment"># echo $age      ---已定义</span><br><br><span class="hljs-comment">#两个没办法辨认</span><br>[root@<span class="hljs-keyword">shell </span>~]<span class="hljs-comment"># set -u        ---调用为声明变量会报错</span><br>[root@<span class="hljs-keyword">shell </span>~]<span class="hljs-comment"># echo $add</span><br>-<span class="hljs-keyword">bash: </span><span class="hljs-keyword">add: </span>unbound variable<br>[root@<span class="hljs-keyword">shell </span>~]<span class="hljs-comment"># add=123</span><br>[root@<span class="hljs-keyword">shell </span>~]<span class="hljs-comment"># echo $add</span><br><span class="hljs-number">123</span><br><span class="hljs-comment">#删除变量  不需要加$ 符号</span><br>[root@<span class="hljs-keyword">shell </span>~]<span class="hljs-comment"># echo $add</span><br><span class="hljs-number">123</span><br>[root@<span class="hljs-keyword">shell </span>~]<span class="hljs-comment"># unset add</span><br>[root@<span class="hljs-keyword">shell </span>~]<span class="hljs-comment"># echo $add</span><br>-<span class="hljs-keyword">bash: </span><span class="hljs-keyword">add: </span>unbound variable<br></code></pre></td></tr></table></figure>
+<h4 id="实例操作-1"><a href="#实例操作-1" class="headerlink" title="实例操作"></a>实例操作</h4><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm"><span class="hljs-comment">#自定义变量</span><br>[root@<span class="hljs-keyword">shell </span>~]<span class="hljs-comment"># QY=qianyi</span><br>[root@<span class="hljs-keyword">shell </span>~]<span class="hljs-comment"># echo $QY</span><br>qianyi<br>[root@<span class="hljs-keyword">shell </span>~]<span class="hljs-comment"># QY=&quot;qian yi&quot;</span><br>[root@<span class="hljs-keyword">shell </span>~]<span class="hljs-comment"># echo $QY</span><br>qian yi<br><br>变量为空和未定义变量是两个不同的概念<br>[root@<span class="hljs-keyword">shell </span>~]<span class="hljs-comment"># echo $age      ---未定义</span><br><br>[root@<span class="hljs-keyword">shell </span>~]<span class="hljs-comment"># age=&quot;&quot;</span><br>[root@<span class="hljs-keyword">shell </span>~]<span class="hljs-comment"># echo $age      ---已定义</span><br><br><span class="hljs-comment">#两个没办法辨认</span><br>[root@<span class="hljs-keyword">shell </span>~]<span class="hljs-comment"># set -u        ---调用为声明变量会报错</span><br>[root@<span class="hljs-keyword">shell </span>~]<span class="hljs-comment"># echo $add</span><br>-<span class="hljs-keyword">bash: </span><span class="hljs-keyword">add: </span>unbound variable<br>[root@<span class="hljs-keyword">shell </span>~]<span class="hljs-comment"># add=123</span><br>[root@<span class="hljs-keyword">shell </span>~]<span class="hljs-comment"># echo $add</span><br><span class="hljs-number">123</span><br><span class="hljs-comment">#删除变量  不需要加$add</span><br>[root@<span class="hljs-keyword">shell </span>~]<span class="hljs-comment"># echo $add</span><br><span class="hljs-number">123</span><br>[root@<span class="hljs-keyword">shell </span>~]<span class="hljs-comment"># unset add</span><br>[root@<span class="hljs-keyword">shell </span>~]<span class="hljs-comment"># echo $add</span><br>-<span class="hljs-keyword">bash: </span><span class="hljs-keyword">add: </span>unbound variable<br></code></pre></td></tr></table></figure>
 
 <h3 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h3><ol>
 <li>环境变量设置</li>
@@ -626,6 +626,223 @@
 <p>~&#x2F;.bash_profile</p>
 <p>~&#x2F;.bashrc</p>
 <p>写在前三个的配置文件对所有用户生效，写在最后两个对当前用户生效</p>
+<h2 id="基础正则"><a href="#基础正则" class="headerlink" title="基础正则"></a>基础正则</h2><p>基础正则表达式</p>
+<table>
+<thead>
+<tr>
+<th>元字符</th>
+<th align="left">作	用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>*</td>
+<td align="left">前一个字符匹配 0 次或任意多次。</td>
+</tr>
+<tr>
+<td>.</td>
+<td align="left">匹配除了换行符外任意一个字符。</td>
+</tr>
+<tr>
+<td>^</td>
+<td align="left">匹配行首。例如：^hello 会匹配以 hello 开头的行。</td>
+</tr>
+<tr>
+<td>$</td>
+<td align="left">匹配行尾。例如：hello&amp;会匹配以 hello 结尾的行。</td>
+</tr>
+<tr>
+<td>[]</td>
+<td align="left">匹配中括号中指定的任意一个字符，只匹配一个字符。例如：[aoeiu] 匹配任意一个元音字母，[0-9] 匹配任意一位数字，[a-z][0-9]匹配小写字和一位数字构成的两位字符。</td>
+</tr>
+<tr>
+<td>[^]</td>
+<td align="left">匹配除中括号的字符以外的任意一个字符。例如：[^0-9] 匹配任意一位非数字字符，[^a-z] 表示任意一位非小写字母。</td>
+</tr>
+<tr>
+<td>\</td>
+<td align="left">转义符。用于取消讲特殊符号的含义取消。</td>
+</tr>
+<tr>
+<td>{n}</td>
+<td align="left">表示其前面的字符恰好出现 n 次。例如：[0-9]{4} 匹配 4 位数字，[1][3-8][0-9]{9} 匹配手机号码。</td>
+</tr>
+<tr>
+<td>{n,}</td>
+<td align="left">表示其前面的字符出现不小于 n 次。例如： [0-9]{2,} 表示两位及以上的数字。</td>
+</tr>
+<tr>
+<td>{n,m}</td>
+<td align="left">表示其前面的字符至少出现n 次，最多出现m 次。例如：[a-z]{6,8}匹配 6 到 8 位的小写字母。</td>
+</tr>
+</tbody></table>
+<h3 id="x2F-bashrc-文件中建立这个别名："><a href="#x2F-bashrc-文件中建立这个别名：" class="headerlink" title="~&#x2F;.bashrc 文件中建立这个别名："></a>~&#x2F;.bashrc 文件中建立这个别名：</h3><p>实现grep能显示颜色</p>
+<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arcade">echo <span class="hljs-string">&quot;alias grep=\&#x27;grep --color=auto\&#x27;&quot;</span> &gt;&gt; <span class="hljs-regexp">/root/</span>.bashrc <br></code></pre></td></tr></table></figure>
+
+<p>建立练习文档</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs stata">[root@<span class="hljs-keyword">shell</span> datas]# vi <span class="hljs-keyword">test</span>.txt<br>Mr. <span class="hljs-keyword">Li</span> Ming said:<br><span class="hljs-keyword">he</span> was the most honest <span class="hljs-keyword">man</span>.<br>123despise him.<br>google<br>gooooogle<br>ggle<br>gogle<br>soooooid<br>But since Mr. shen Chao came, <span class="hljs-keyword">he</span> never saaaid those words. 5555nice!<br>because,actuaaaally,<br>Mr. Shen Chao is the most honest <span class="hljs-keyword">man</span><br>Later,Mr. <span class="hljs-keyword">Li</span> ming soid his hot body.<br>hello is<br>hello was<br></code></pre></td></tr></table></figure>
+
+
+
+<p>练习*号</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm"><span class="hljs-comment"># a*意思是最少包含0个a或无数个a</span><br>[root@<span class="hljs-keyword">shell </span>datas]<span class="hljs-comment"># grep &quot;a*&quot; test.txt</span><br>Mr. Li Ming said:<br>he was the most honest man.<br><span class="hljs-number">123</span>despise him.<br><span class="hljs-keyword">But </span>since Mr. <span class="hljs-keyword">shen </span>Chao came, he never saaaid those words. <span class="hljs-number">5555</span>nice!<br><span class="hljs-keyword">because,actuaaaally,</span><br><span class="hljs-keyword"></span>Mr. <span class="hljs-keyword">Shen </span>Chao is the most honest man<br>Later,Mr. Li ming soid his hot <span class="hljs-keyword">body.</span><br><span class="hljs-keyword"></span><br><span class="hljs-comment"># aa*意思是最少包含1个a或无数个a</span><br>[root@<span class="hljs-keyword">shell </span>datas]<span class="hljs-comment"># grep &quot;aa*&quot; test.txt</span><br>Mr. Li Ming said:<br>he was the most honest man.<br><span class="hljs-keyword">But </span>since Mr. <span class="hljs-keyword">shen </span>Chao came, he never saaaid those words. <span class="hljs-number">5555</span>nice!<br><span class="hljs-keyword">because,actuaaaally,</span><br><span class="hljs-keyword"></span>Mr. <span class="hljs-keyword">Shen </span>Chao is the most honest man<br>Later,Mr. Li ming soid his hot <span class="hljs-keyword">body.</span><br><span class="hljs-keyword"></span><br><span class="hljs-comment"># aaa*意思是最少包含2个a或无数个a</span><br>[root@<span class="hljs-keyword">shell </span>datas]<span class="hljs-comment"># grep &quot;aaa*&quot; test.txt</span><br><span class="hljs-keyword">But </span>since Mr. <span class="hljs-keyword">shen </span>Chao came, he never saaaid those words. <span class="hljs-number">5555</span>nice!<br><span class="hljs-keyword">because,actuaaaally,</span><br><span class="hljs-keyword"></span><br>grep <span class="hljs-string">&quot;a&quot;</span> count4.<span class="hljs-keyword">sh </span>  也行<br><br></code></pre></td></tr></table></figure>
+
+<p>练习 . 号   正则表达式“.”只能匹配一个字符，这个字符可以是任意字符</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs stata">[root@<span class="hljs-keyword">shell</span> datas]# grep <span class="hljs-string">&quot;s..d&quot;</span> <span class="hljs-keyword">test</span>.txt<br>Mr. <span class="hljs-keyword">Li</span> Ming said:<br>Later,Mr. <span class="hljs-keyword">Li</span> ming soid his hot body.<br></code></pre></td></tr></table></figure>
+
+<p>[root@shell datas]# grep “s.*d” test.txt<br>Mr. Li Ming <strong>said</strong>:<br>But <strong>since Mr. shen Chao came, he never saaaid those word</strong>s. 5555nice!<br>Later,Mr. Li ming <strong>soid his hot bod</strong>y.</p>
+<p>“[]”会匹配中括号中指定任意一个字符，注意只能匹配一个字符。比如[ao]要不会匹配一个 a</p>
+<p>字符，要不会匹配一个 o 字符：</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs stata">[root@<span class="hljs-keyword">shell</span> datas]# grep <span class="hljs-string">&quot;s[ao]id&quot;</span> <span class="hljs-keyword">test</span>.txt<br>Mr. <span class="hljs-keyword">Li</span> Ming said:<br>Later,Mr. <span class="hljs-keyword">Li</span> ming soid his hot body.<br>[root@<span class="hljs-keyword">shell</span> datas]# grep <span class="hljs-string">&quot;[0-9]&quot;</span> <span class="hljs-keyword">test</span>.txt<br>123despise him.<br>But since Mr. shen Chao came, <span class="hljs-keyword">he</span> never saaaid those words. 5555nice!<br></code></pre></td></tr></table></figure>
+
+<h2 id="扩展正则"><a href="#扩展正则" class="headerlink" title="扩展正则"></a>扩展正则</h2><table>
+<thead>
+<tr>
+<th>扩展元字符</th>
+<th>作	用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>+</td>
+<td>前一个字符匹配 1 次或任意多次。如“go+gle”会匹配“gogle”、“google”或“gooogle”，当然如果“o”有更多个，也能匹配。</td>
+</tr>
+<tr>
+<td>？</td>
+<td>前一个字符匹配 0 次或 1 次。如“colou?r”可以匹配“colour”或“color”。</td>
+</tr>
+<tr>
+<td>|</td>
+<td>匹配两个或多个分支选择。如“was|his”会匹配既包含“was”的行，也匹配包含“his”的行。</td>
+</tr>
+<tr>
+<td>（）</td>
+<td>匹配其整体为一个字符，即模式单元。可以理解为由多个单个字符组成的大字符。<br />如“(dog)+”会匹配“dog”、“dogdog”、“dogdogdog”等，因为被（）包含的字符会当成一个整体。但“hello （world|earth）”会匹配“hello world”及“hello earth”。</td>
+</tr>
+</tbody></table>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs vim">[root@localhost <span class="hljs-keyword">sh</span>]# <span class="hljs-keyword">grep</span> -E <span class="hljs-string">&quot;go*gle&quot;</span> test.txt<br>google<br>gooooogle<br>ggle<br>gogle<br>[root@localhost <span class="hljs-keyword">sh</span>]# <span class="hljs-keyword">grep</span> -E <span class="hljs-string">&quot;go+gle&quot;</span> test.txt<br>google<br>gooooogle<br>gogle<br>[root@localhost <span class="hljs-keyword">sh</span>]# <span class="hljs-keyword">grep</span> -E <span class="hljs-string">&quot;go?gle&quot;</span> test.txt<br>ggle<br>gogle<br>[root@localhost <span class="hljs-keyword">sh</span>]# <span class="hljs-keyword">grep</span> -E <span class="hljs-string">&quot;go+&quot;</span> test.txt<br>google<br>gooooogle<br>gogle<br>[root@localhost <span class="hljs-keyword">sh</span>]# <span class="hljs-keyword">grep</span> -E <span class="hljs-string">&quot;g(oo)+&quot;</span> test.txt<br>google<br>gooooogle<br>[root@localhost <span class="hljs-keyword">sh</span>]# <span class="hljs-keyword">grep</span> -E <span class="hljs-string">&quot;g(ooo)+&quot;</span> test.txt<br>gooooogle<br>[root@localhost <span class="hljs-keyword">sh</span>]# <span class="hljs-keyword">grep</span> -E <span class="hljs-string">&quot;hello (was|is)&quot;</span> test.txt<br>hello <span class="hljs-keyword">is</span><br>hello was<br><br></code></pre></td></tr></table></figure>
+
+<p>匹配邮箱</p>
+<figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs inform7">grep -E <span class="hljs-string">&quot;<span class="hljs-subst">[0-9a-zA-Z_]</span>+@<span class="hljs-subst">[0-9a-zA-Z_]</span>+(\.<span class="hljs-subst">[0-9a-zA-Z_]</span>+)&#123;1,3&#125;&quot;</span> test.txt<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="常用字符表"><a href="#常用字符表" class="headerlink" title="常用字符表"></a>常用字符表</h2><p>在 echo 命令中如果使用了“-e”选项，则可以支持控制字符，如表 11-2 所示：</p>
+<table>
+<thead>
+<tr>
+<th>控制字符</th>
+<th>作	用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>\</td>
+<td>输出\本身</td>
+</tr>
+<tr>
+<td>\a</td>
+<td>输出警告音</td>
+</tr>
+<tr>
+<td>\b</td>
+<td>退格键，也就是向左删除键</td>
+</tr>
+<tr>
+<td>\c</td>
+<td>取消输出行末的换行符。和“-n”选项一致</td>
+</tr>
+<tr>
+<td>\e</td>
+<td>ESCAPE 键</td>
+</tr>
+<tr>
+<td>\f</td>
+<td>换页符</td>
+</tr>
+<tr>
+<td>\n</td>
+<td>换行符</td>
+</tr>
+<tr>
+<td>\r</td>
+<td>回车键</td>
+</tr>
+<tr>
+<td>\t</td>
+<td>制表符，也就是 Tab 键</td>
+</tr>
+<tr>
+<td>\v</td>
+<td>垂直制表符</td>
+</tr>
+<tr>
+<td>\0nnn</td>
+<td>按照八进制 ASCII 码表输出字符。其中 0 为数字零，nnn 是三位八进制数</td>
+</tr>
+<tr>
+<td>\xhh</td>
+<td>按照十六进制 ASCII 码表输出字符。其中 hh 是两位十六进制数</td>
+</tr>
+</tbody></table>
+<p>Bash常用快捷键</p>
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>作	用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ctrl+A</td>
+<td>把光标移动到命令行开头。如果我们输入的命令过长，想要把光标移动到命令行开头时使用。</td>
+</tr>
+<tr>
+<td>ctrl+E</td>
+<td>把光标移动到命令行结尾。</td>
+</tr>
+<tr>
+<td><strong>ctrl+C</strong></td>
+<td>强制终止当前的命令。</td>
+</tr>
+<tr>
+<td><strong>ctrl+L</strong></td>
+<td>清屏，相当于 clear 命令。</td>
+</tr>
+<tr>
+<td><strong>ctrl+U</strong></td>
+<td>删除或剪切光标之前的命令。我输入了一行很长的命令，不用使用退格键一个一个字符的删除，使用这个快捷键会更加方便</td>
+</tr>
+<tr>
+<td>ctrl+K</td>
+<td>删除或剪切光标之后的内容。</td>
+</tr>
+<tr>
+<td><strong>ctrl+Y</strong></td>
+<td>粘贴 ctrl+U 或 ctrl+K 剪切的内容。</td>
+</tr>
+<tr>
+<td><strong>ctrl+R</strong></td>
+<td>在历史命令中搜索，按下ctrl+R 之后，就会出现搜索界面，只要输入搜索内容，就会从历史命令中搜索。</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th><strong>ctrl+D</strong></th>
+<th>退出当前终端。</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ctrl+Z</td>
+<td>暂停，并放入后台。这个快捷键牵扯工作管理的内容，我们在系统管理章节详细介绍。</td>
+</tr>
+<tr>
+<td>ctrl+S</td>
+<td>暂停屏幕输出。</td>
+</tr>
+<tr>
+<td>ctrl+Q</td>
+<td>恢复屏幕输出。</td>
+</tr>
+</tbody></table>
 <div class="tbsm" style="margin-top:54px;">
 <div class="tbsm-top"><span><svg t="1674654360507" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="987" data-spm-anchor-id="a313x.7781069.0.i0" width="35" height="35"><path d="M410.49 97.74H155.08a56.74 56.74 0 0 0-56.84 56.73V410a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 467.32 410V154.58a56.83 56.83 0 0 0-56.83-56.84zM410.49 558.74H155.08a56.74 56.74 0 0 0-56.84 56.73V871a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 467.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84zM871.49 558.74H616.08a56.74 56.74 0 0 0-56.84 56.73V871a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 928.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84z" fill="#66EEFF" p-id="988"></path><path d="M410.49 558.74h-4.14A475 475 0 0 0 299.52 859.6a481.16 481.16 0 0 0 4.84 68.22h106.13A56.83 56.83 0 0 0 467.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84zM871.49 558.74H616.08a56.74 56.74 0 0 0-56.84 56.73V871a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 928.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84z" fill="#C2F8FF" p-id="989"></path></svg></span><span style="font-size:30px;"> 特别声明</span></div>
 <div class="tbsm-wz">千屹博客旗下的所有文章，是通过本人课堂学习和课外自学所精心整理的知识巨著<br/>难免会有出错的地方<br/>如果细心的你发现了小失误，可以在下方评论区告诉我，或者私信我！<br />非常感谢大家的热烈支持！</div>
@@ -697,6 +914,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2023/03/24/Hadoop/" title="Hadoop部署">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Hadoop部署</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
