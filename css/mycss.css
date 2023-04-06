@@ -1,7 +1,7 @@
 html, body {
 
     background-color: #fff;
-    font-family:yw,zw;
+    font-family:'Gill Sans', sans-serif,"youyuan";
     background:url(../img/default.webp)no-repeat center center fixed,url(../img/default.png)no-repeat center center fixed;-webkit-background-size: cover;-o-background-size: cover;background-size: cover;
     
 }
@@ -52,15 +52,18 @@ color:#fff;
 
 
 @font-face {
-font-family:yw;
-    src: url('../font/yw.ttf');
+font-family:sans-serif;
+    src: url('../font/sans-serif.ttf');
 }
 
 @font-face {
-font-family:zw;
-    src: url('../font/zw.ttf');  
+font-family:Gill Sans;
+    src: url('../font/Gill Sans.ttf');  
 }
-
+@font-face {
+font-family:youyuan;
+    src: url('../font/youyuan.ttf');  
+}
 
 
 .top-nav-collapse .navbar-brand strong{
