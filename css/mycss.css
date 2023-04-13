@@ -21,8 +21,11 @@ html, body {
     text-align: center;
     line-height: 38px;
 }
-ol.tocbot-list {
-    background: #007bff40;
+div#toc-body {
+    background: #007bff24;
+    border-radius: 0.5em;
+    padding: 10px;
+    box-shadow: 3px 3px 12px 1px;
 }
 .index-excerpt > div {
 line-height: 3.4rem;
