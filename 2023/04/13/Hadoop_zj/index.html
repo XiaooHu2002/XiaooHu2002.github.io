@@ -1,0 +1,1021 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#9ce8f452">
+  <meta name="author" content="严千屹">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Zookeeper,HBase,NoSQL,MongoDB,Hive">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hadoop组件部署">
+<meta property="og:url" content="https://blog.qianyios.top/2023/04/13/Hadoop_zj/index.html">
+<meta property="og:site_name" content="严千屹">
+<meta property="og:description" content="Zookeeper,HBase,NoSQL,MongoDB,Hive">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://article.biliimg.com/bfs/article/88f4227f2324f3bcf343ed25fc636bf36f92cd73.png">
+<meta property="article:published_time" content="2023-04-13T15:21:40.000Z">
+<meta property="article:modified_time" content="2023-04-13T15:51:45.895Z">
+<meta property="article:author" content="严千屹">
+<meta property="article:tag" content="Hadoop">
+<meta property="article:tag" content="Zookeeper">
+<meta property="article:tag" content="HBase">
+<meta property="article:tag" content="NoSQL">
+<meta property="article:tag" content="MongoDB">
+<meta property="article:tag" content="Hive">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://article.biliimg.com/bfs/article/88f4227f2324f3bcf343ed25fc636bf36f92cd73.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Hadoop组件部署 - 严千屹</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/mycss.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.qianyios.top","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":true,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  <meta name="referrer" content="no-referrer"/>
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>严 千 屹</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/null') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Hadoop组件部署"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-04-13 15:21" pubdate>
+          2023年4月13日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          24k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          200 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Hadoop组件部署</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <meta name="referrer" content="no-referrer"/>
+
+<h1 id="Hadoop组件部署"><a href="#Hadoop组件部署" class="headerlink" title="Hadoop组件部署"></a>Hadoop组件部署</h1><p><a href="https://blog.qianyios.top/2023/03/24/Hadoop/">Hadoop部署 - 严千屹 (qianyios.top)</a>本笔记建立在Hadoop伪分布机子上，可以前往查看安装机子</p>
+<h2 id="Zookeeper"><a href="#Zookeeper" class="headerlink" title="Zookeeper"></a>Zookeeper</h2><table>
+<thead>
+<tr>
+<th align="center">名称</th>
+<th align="center">ip</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">zk01</td>
+<td align="center">192.168.48.11</td>
+</tr>
+<tr>
+<td align="center">zk02</td>
+<td align="center">192.168.48.12</td>
+</tr>
+<tr>
+<td align="center">zk03</td>
+<td align="center">192.168.48.13</td>
+</tr>
+</tbody></table>
+<h3 id="设置hosts"><a href="#设置hosts" class="headerlink" title="设置hosts"></a>设置hosts</h3><figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs accesslog"><span class="hljs-string">[root@localhost ~]</span># cat /etc/hosts<br><span class="hljs-number">127.0.0.1</span>   localhost localhost.localdomain localhost4 localhost4.localdomain4<br>::<span class="hljs-number">1</span>         localhost localhost.localdomain localhost6 localhost6.localdomain6<br><span class="hljs-number">192.168.48.11</span> zk01<br><span class="hljs-number">192.168.48.12</span> zk02<br><span class="hljs-number">192.168.48.13</span> zk03<br></code></pre></td></tr></table></figure>
+
+<h3 id="更改主机名"><a href="#更改主机名" class="headerlink" title="更改主机名"></a>更改主机名</h3><figure class="highlight dsconfig"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dsconfig"><span class="hljs-string">hostnamectl</span> <span class="hljs-built_in">set-hostname</span> <span class="hljs-string">zk01</span> &amp;&amp; <span class="hljs-string">bash</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="检查java版本"><a href="#检查java版本" class="headerlink" title="检查java版本"></a>检查java版本</h3><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">[root@zk01 ~]<span class="hljs-comment"># java -version</span><br><span class="hljs-keyword">java </span>version <span class="hljs-string">&quot;1.8.0_162&quot;</span><br><span class="hljs-keyword">Java(TM) </span>SE Runtime Environment (<span class="hljs-keyword">build </span><span class="hljs-number">1</span>.<span class="hljs-number">8</span>.<span class="hljs-number">0</span>_162-<span class="hljs-keyword">b12)</span><br><span class="hljs-keyword"></span><span class="hljs-keyword">Java </span>HotSpot(TM) <span class="hljs-number">64</span>-<span class="hljs-keyword">Bit </span>Server VM (<span class="hljs-keyword">build </span><span class="hljs-number">25</span>.<span class="hljs-number">162</span>-<span class="hljs-keyword">b12, </span>mixed mode)<br></code></pre></td></tr></table></figure>
+
+<h3 id="检查hadoop版本"><a href="#检查hadoop版本" class="headerlink" title="检查hadoop版本"></a>检查hadoop版本</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs awk">[root@zk01 ~]<span class="hljs-comment"># hadoop version</span><br>Hadoop <span class="hljs-number">3.1</span>.<span class="hljs-number">3</span><br>Source code repository https:<span class="hljs-regexp">//gi</span>tbox.apache.org<span class="hljs-regexp">/repos/</span>asf/hadoop.git -r ba631c436b806728f8ec2f54ab1e289526c90579<br>Compiled by ztang on <span class="hljs-number">2019</span>-<span class="hljs-number">09</span>-<span class="hljs-number">12</span>T02:<span class="hljs-number">47</span>Z<br>Compiled with protoc <span class="hljs-number">2.5</span>.<span class="hljs-number">0</span><br>From source with checksum ec785077c385118ac91aadde5ec9799<br>This command was run using <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/hadoop/</span>share<span class="hljs-regexp">/hadoop/</span>common/hadoop-common-<span class="hljs-number">3.1</span>.<span class="hljs-number">3</span>.jar<br></code></pre></td></tr></table></figure>
+
+<h3 id="安装zookeeper"><a href="#安装zookeeper" class="headerlink" title="安装zookeeper"></a>安装zookeeper</h3><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">tar</span> -xf apache-zookeeper-<span class="hljs-number">3</span>.<span class="hljs-number">8</span>.<span class="hljs-number">0</span>-bin.tar.gz -C /opt<br><span class="hljs-attribute">echo</span> <span class="hljs-string">&quot;export ZOOKEEPER_HOME=/opt/apache-zookeeper-3.8.0-bin&quot;</span> &gt;&gt; /etc/profile<br><span class="hljs-attribute">echo</span> <span class="hljs-string">&quot;export PATH=\$ZOOKEEPER_HOME/bin:\$PATH&quot;</span> &gt;&gt; /etc/profile<br><span class="hljs-attribute">source</span> /etc/profile<br><span class="hljs-attribute">cd</span> /opt/apache-zookeeper-<span class="hljs-number">3</span>.<span class="hljs-number">8</span>.<span class="hljs-number">0</span>-bin/<br><span class="hljs-attribute">cp</span> conf/zoo_sample.cfg conf/zoo.cfg<br><br><span class="hljs-attribute">vi</span> conf/zoo.cfg<br>    <span class="hljs-attribute">tickTime</span>=<span class="hljs-number">2000</span><br>    <span class="hljs-attribute">dataDir</span>=/opt/apache-zookeeper-<span class="hljs-number">3</span>.<span class="hljs-number">8</span>.<span class="hljs-number">0</span>-bin/data<br>    <span class="hljs-attribute">clientPort</span>=<span class="hljs-number">2181</span><br>    <span class="hljs-attribute">initLimit</span>=<span class="hljs-number">10</span><br>    <span class="hljs-attribute">syncLimit</span>=<span class="hljs-number">5</span><br>    <span class="hljs-attribute">maxClientCnxns</span>=<span class="hljs-number">60</span><br>    <span class="hljs-attribute">server</span>.<span class="hljs-number">1</span>=zk01:<span class="hljs-number">2888</span>:<span class="hljs-number">3888</span><br>    <span class="hljs-attribute">server</span>.<span class="hljs-number">2</span>=zk02:<span class="hljs-number">2888</span>:<span class="hljs-number">3888</span><br>    <span class="hljs-attribute">server</span>.<span class="hljs-number">3</span>=zk03:<span class="hljs-number">2888</span>:<span class="hljs-number">3888</span><br><br><span class="hljs-attribute">mkdir</span> /opt/apache-zookeeper-<span class="hljs-number">3</span>.<span class="hljs-number">8</span>.<span class="hljs-number">0</span>-bin/data<br><span class="hljs-attribute">echo</span> <span class="hljs-number">1</span> &gt; /opt/apache-zookeeper-<span class="hljs-number">3</span>.<span class="hljs-number">8</span>.<span class="hljs-number">0</span>-bin/data/myid<br><span class="hljs-attribute">cat</span> /opt/apache-zookeeper-<span class="hljs-number">3</span>.<span class="hljs-number">8</span>.<span class="hljs-number">0</span>-bin/data/myid<br></code></pre></td></tr></table></figure>
+
+<h3 id="关机克隆出两台机-zk02-zk03"><a href="#关机克隆出两台机-zk02-zk03" class="headerlink" title="关机克隆出两台机 zk02 zk03"></a>关机克隆出两台机 zk02 zk03</h3><p>zk02  192.168.48.12</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs awk">vi <span class="hljs-regexp">/opt/</span>apache-zookeeper-<span class="hljs-number">3.8</span>.<span class="hljs-number">0</span>-bin<span class="hljs-regexp">/data/myi</span>d<br><span class="hljs-number">2</span><br></code></pre></td></tr></table></figure>
+
+<p>zk03  192.168.48.13</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs awk">vi <span class="hljs-regexp">/opt/</span>apache-zookeeper-<span class="hljs-number">3.8</span>.<span class="hljs-number">0</span>-bin<span class="hljs-regexp">/data/myi</span>d<br><span class="hljs-number">3</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="互相ping测试连通性"><a href="#互相ping测试连通性" class="headerlink" title="互相ping测试连通性"></a>互相ping测试连通性</h3><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs autoit"><span class="hljs-built_in">ping</span> zk01<br><span class="hljs-built_in">ping</span> zk02<br><span class="hljs-built_in">ping</span> zk03<br></code></pre></td></tr></table></figure>
+
+<p>能互通说明成功</p>
+<h3 id="开启zookeeper服务"><a href="#开启zookeeper服务" class="headerlink" title="开启zookeeper服务"></a>开启zookeeper服务</h3><p>需开启两台才能看见Mode: follower</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs vim">zkServer.<span class="hljs-keyword">sh</span> start<br>zkServer.<span class="hljs-keyword">sh</span> status<br>zkServer.<span class="hljs-keyword">sh</span> <span class="hljs-keyword">stop</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="HBase安装"><a href="#HBase安装" class="headerlink" title="HBase安装"></a>HBase安装</h2><h3 id="安装hbase"><a href="#安装hbase" class="headerlink" title="安装hbase"></a>安装hbase</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs awk">[root@hadoop ~]<span class="hljs-comment"># ll</span><br>-rw-r--r--  <span class="hljs-number">1</span> root root <span class="hljs-number">232190985</span> <span class="hljs-number">3</span>月  <span class="hljs-number">17</span> <span class="hljs-number">19</span>:<span class="hljs-number">37</span> hbase-<span class="hljs-number">2.2</span>.<span class="hljs-number">2</span>-bin.tar.gz<br><br>tar -xf hbase-<span class="hljs-number">2.2</span>.<span class="hljs-number">2</span>-bin.tar.gz -C <span class="hljs-regexp">/usr/</span>local/<br>mv <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/hbase-2.2.2 /u</span>sr<span class="hljs-regexp">/local/</span>hbase<br>echo <span class="hljs-string">&quot;export HBASE_HOME=/usr/local/hbase&quot;</span> &gt;&gt; <span class="hljs-regexp">/etc/</span>profile<br>echo <span class="hljs-string">&quot;export PATH=\$PATH:\$HBASE_HOME/bin&quot;</span> &gt;&gt; <span class="hljs-regexp">/etc/</span>profile<br>source <span class="hljs-regexp">/etc/</span>profile<br><br>------------------------------------------------------------------------<br>[root@hadoop ~]<span class="hljs-comment"># vi /usr/local/hbase/bin/hbase</span><br>CLASSPATH=<span class="hljs-variable">$&#123;CLASSPATH&#125;</span>:<span class="hljs-variable">$JAVA_HOME</span><span class="hljs-regexp">/lib/</span>tools.jar:<span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/hbase/</span>lib/*<br>或<br>[root@hadoop ~]<span class="hljs-comment"># sed -i &quot;s/CLASSPATH=\$&#123;CLASSPATH&#125;:\$JAVA_HOME\/lib\/tools.jar/CLASSPATH=\$&#123;CLASSPATH&#125;:\$JAVA_HOME\/lib\/tools.jar:\/usr\/local\/hbase\/lib\/*/g&quot; /usr/local/hbase/bin/hbase</span><br>------------------------------------------------------------------------<br><br>[root@hadoop ~]<span class="hljs-comment"># hbase version                                                       SLF4J: Class path contains multiple SLF4J bindings.</span><br>SLF4J: Found binding <span class="hljs-keyword">in</span> [jar:file:<span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/hadoop/</span>share<span class="hljs-regexp">/hadoop/</span>common<span class="hljs-regexp">/lib/</span>slf4j-log4j12-<span class="hljs-number">1.7</span>.<span class="hljs-number">25</span>.jar!<span class="hljs-regexp">/org/</span>slf4j<span class="hljs-regexp">/impl/</span>StaticLoggerBinder.class]<br>SLF4J: Found binding <span class="hljs-keyword">in</span> [jar:file:<span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/hbase/</span>lib<span class="hljs-regexp">/client-facing-thirdparty/</span>slf4j-log4j12-<span class="hljs-number">1.7</span>.<span class="hljs-number">25</span>.jar!<span class="hljs-regexp">/org/</span>slf4j<span class="hljs-regexp">/impl/</span>StaticLoggerBinder.class]<br>SLF4J: See http:<span class="hljs-regexp">//</span>www.slf4j.org/codes.html<span class="hljs-comment">#multiple_bindings for an explanation.</span><br>SLF4J: Actual binding is of type [org.slf4j.impl.Log4jLoggerFactory]<br>HBase <span class="hljs-number">2.2</span>.<span class="hljs-number">2</span><br>Source code repository git:<span class="hljs-regexp">//</span><span class="hljs-number">6</span>ad68c41b902<span class="hljs-regexp">/opt/</span>hbase-rm<span class="hljs-regexp">/output/</span>hbase revision=e6513a76c91cceda95dad7af246ac81d46fa2589<br>Compiled by hbase-rm on Sat Oct <span class="hljs-number">19</span> <span class="hljs-number">10</span>:<span class="hljs-number">10</span>:<span class="hljs-number">12</span> UTC <span class="hljs-number">2019</span><br>From source with checksum <span class="hljs-number">4</span>d23f97701e395c5d34db1882ac5021b<br></code></pre></td></tr></table></figure>
+
+<h3 id="HBase配置"><a href="#HBase配置" class="headerlink" title="HBase配置"></a>HBase配置</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;export JAVA_HOME=/usr/lib/jvm/jdk1.8.0_162&quot;</span> &gt;&gt; <span class="hljs-variable">$HBASE_HOME</span>/conf/hbase-env.sh<br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;export HBASE_CLASSPATH=/usr/local/hbase/conf&quot;</span> &gt;&gt; <span class="hljs-variable">$HBASE_HOME</span>/conf/hbase-env.sh<br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;export HBASE_MANAGES_ZK=true&quot;</span> &gt;&gt; <span class="hljs-variable">$HBASE_HOME</span>/conf/hbase-env.sh<br><br>vi <span class="hljs-variable">$HBASE_HOME</span>/conf/hbase-site.xml<br>&lt;configuration&gt;<br>        &lt;property&gt;<br>                &lt;name&gt;hbase.rootdir&lt;/name&gt;<br>                &lt;value&gt;hdfs://yjx48:9000/hbase&lt;/value&gt;<br>        &lt;/property&gt;<br>        &lt;property&gt;<br>                &lt;name&gt;hbase.cluster.distributed&lt;/name&gt;<br>                &lt;value&gt;<span class="hljs-literal">true</span>&lt;/value&gt;<br>        &lt;/property&gt;<br>        &lt;property&gt;<br>                &lt;name&gt;hbase.unsafe.stream.capability.enforce&lt;/name&gt;<br>                &lt;value&gt;<span class="hljs-literal">false</span>&lt;/value&gt;<br>        &lt;/property&gt;<br>&lt;/configuration&gt;<br></code></pre></td></tr></table></figure>
+
+<h3 id="HBase启动"><a href="#HBase启动" class="headerlink" title="HBase启动"></a>HBase启动</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs awk">start-all.sh <br>start-hbase.sh<br>[root@hadoop hbase]<span class="hljs-comment"># jps</span><br><span class="hljs-number">16532</span> ResourceManager<br><span class="hljs-number">22502</span> HMaster-----------<br><span class="hljs-number">15799</span> NameNode<br><span class="hljs-number">16697</span> NodeManager<br><span class="hljs-number">23097</span> Jps<br><span class="hljs-number">15962</span> DataNode<br><span class="hljs-number">22666</span> HRegionServer-----------<br><span class="hljs-number">16223</span> SecondaryNameNode<br><span class="hljs-number">22431</span> HQuorumPeer<br>[root@hadoop ~]<span class="hljs-comment"># hbase shell</span><br>hbase(main):<span class="hljs-number">001</span>:<span class="hljs-number">0</span>&gt; list<br>TABLE<br><span class="hljs-number">0</span> row(s)<br>Took <span class="hljs-number">0.3118</span> seconds<br>=&gt; []<br>hbase(main):<span class="hljs-number">002</span>:<span class="hljs-number">0</span>&gt; <span class="hljs-keyword">exit</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="访问网页"><a href="#访问网页" class="headerlink" title="访问网页"></a>访问网页</h3><p>ip:16010</p>
+<h3 id="HBase管理"><a href="#HBase管理" class="headerlink" title="HBase管理"></a>HBase管理</h3><table>
+<thead>
+<tr>
+<th align="center">学号（S_No）</th>
+<th align="center">姓名（S_Name）</th>
+<th align="center">性别（S_Sex）</th>
+<th align="center">年龄（S_Age）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">2015001</td>
+<td align="center">zhangsan</td>
+<td align="center">male</td>
+<td align="center">23</td>
+</tr>
+<tr>
+<td align="center">2015002</td>
+<td align="center">Mary</td>
+<td align="center">female</td>
+<td align="center">22</td>
+</tr>
+<tr>
+<td align="center">2015003</td>
+<td align="center">Lisi</td>
+<td align="center">male</td>
+<td align="center">24</td>
+</tr>
+</tbody></table>
+<h4 id="创建学生表"><a href="#创建学生表" class="headerlink" title="创建学生表"></a>创建学生表</h4><figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs excel">hbase(main)<span class="hljs-symbol">:004</span><span class="hljs-symbol">:0</span>&gt; create &#x27;student&#x27;,&#x27;no&#x27;,&#x27;name&#x27;,&#x27;sex&#x27;,&#x27;age&#x27;<br>Created table student<br>Took <span class="hljs-number">1.3125</span> seconds<br>=&gt; Hba<span class="hljs-symbol">se:</span><span class="hljs-symbol">:Ta</span>ble - student<br>hbase(main)<span class="hljs-symbol">:005</span><span class="hljs-symbol">:0</span>&gt; list<br>TABLE<br>student<br><span class="hljs-number">1</span> <span class="hljs-built_in">row</span>(s)<br>Took <span class="hljs-number">0.0074</span> seconds<br>=&gt; [<span class="hljs-string">&quot;student&quot;</span>]<br>#查看表结构<br>hbase(main)<span class="hljs-symbol">:001</span><span class="hljs-symbol">:0</span>&gt; describe &#x27;student&#x27;<br>Table student is ENABLED<br>student<br><span class="hljs-built_in">COLUMN</span> FAMILIES DESCRIPTION<br>&#123;NAME =&gt; &#x27;age&#x27;, VERSIONS =&gt; &#x27;<span class="hljs-number">1</span>&#x27;, EVICT_BLOCKS_ON_CLOSE =&gt; &#x27;<span class="hljs-built_in">false</span>&#x27;<br>.......<br></code></pre></td></tr></table></figure>
+
+<h4 id="添加数据"><a href="#添加数据" class="headerlink" title="添加数据"></a>添加数据</h4><p>s001为行键</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs stylus"><span class="hljs-function"><span class="hljs-title">hbase</span><span class="hljs-params">(main)</span></span>:<span class="hljs-number">001</span>:<span class="hljs-number">0</span>&gt; scan <span class="hljs-string">&#x27;student&#x27;</span><br>ROW                        COLUMN+CELL<br><span class="hljs-number">0</span> <span class="hljs-built_in">row</span>(s)<br>Took <span class="hljs-number">0.2712</span> seconds<br><span class="hljs-function"><span class="hljs-title">hbase</span><span class="hljs-params">(main)</span></span>:<span class="hljs-number">002</span>:<span class="hljs-number">0</span>&gt; put <span class="hljs-string">&#x27;student&#x27;</span>,<span class="hljs-string">&#x27;s001&#x27;</span>,<span class="hljs-string">&#x27;no&#x27;</span>,<span class="hljs-string">&#x27;2015001&#x27;</span><br>Took <span class="hljs-number">0.0236</span> seconds<br><span class="hljs-function"><span class="hljs-title">hbase</span><span class="hljs-params">(main)</span></span>:<span class="hljs-number">003</span>:<span class="hljs-number">0</span>&gt; put <span class="hljs-string">&#x27;student&#x27;</span>,<span class="hljs-string">&#x27;s001&#x27;</span>,<span class="hljs-string">&#x27;name&#x27;</span>,<span class="hljs-string">&#x27;zhangsan&#x27;</span><br>Took <span class="hljs-number">0.0057</span> seconds<br><span class="hljs-function"><span class="hljs-title">hbase</span><span class="hljs-params">(main)</span></span>:<span class="hljs-number">004</span>:<span class="hljs-number">0</span>&gt; scan <span class="hljs-string">&#x27;student&#x27;</span><br>ROW                        COLUMN+CELL<br> s001                      column=name:, timestamp=<span class="hljs-number">1679058447572</span>, value=zhangsan<br> s001                      column=no:, timestamp=<span class="hljs-number">1679058447550</span>, value=<span class="hljs-number">2015001</span><br><span class="hljs-number">1</span> <span class="hljs-built_in">row</span>(s)<br>Took <span class="hljs-number">0.0179</span> seconds<br></code></pre></td></tr></table></figure>
+
+<h4 id="查看整行"><a href="#查看整行" class="headerlink" title="查看整行"></a>查看整行</h4><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs routeros">hbase(main):001:0&gt; <span class="hljs-built_in">get</span> <span class="hljs-string">&#x27;student&#x27;</span>,<span class="hljs-string">&#x27;s001&#x27;</span><br>COLUMN                     CELL<br> name:                     <span class="hljs-attribute">timestamp</span>=1679058447572, <span class="hljs-attribute">value</span>=zhangsan<br> <span class="hljs-literal">no</span>:                       <span class="hljs-attribute">timestamp</span>=1679058447550, <span class="hljs-attribute">value</span>=2015001<br>1 row(s)<br>Took 0.2910 seconds<br></code></pre></td></tr></table></figure>
+
+<h4 id="查看单元格"><a href="#查看单元格" class="headerlink" title="查看单元格"></a>查看单元格</h4><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs routeros">hbase(main):008:0&gt; <span class="hljs-built_in">get</span> <span class="hljs-string">&#x27;student&#x27;</span>,<span class="hljs-string">&#x27;s001&#x27;</span>,<span class="hljs-string">&#x27;name&#x27;</span><br>COLUMN                     CELL<br> name:                     <span class="hljs-attribute">timestamp</span>=1679058447572, <span class="hljs-attribute">value</span>=zhangsan<br>1 row(s)<br>Took 0.0053 seconds<br></code></pre></td></tr></table></figure>
+
+<h3 id="订单例子"><a href="#订单例子" class="headerlink" title="订单例子"></a>订单例子</h3><p><img src="https://article.biliimg.com/bfs/article/7105ba3fd997598b9d7de8368254d5aaf24c1aec.png" srcset="/img/loading.gif" lazyload alt="image-20230317212813880"></p>
+<h4 id="创建order表"><a href="#创建order表" class="headerlink" title="创建order表"></a>创建order表</h4><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs routeros">create <span class="hljs-string">&#x27;order&#x27;</span>,<span class="hljs-string">&#x27;userinfo&#x27;</span>,<span class="hljs-string">&#x27;orderinfo&#x27;</span><br>list<br>put <span class="hljs-string">&#x27;order&#x27;</span>,<span class="hljs-string">&#x27;1&#x27;</span>,<span class="hljs-string">&#x27;userinfo:name&#x27;</span>,<span class="hljs-string">&#x27;sw&#x27;</span><br>put <span class="hljs-string">&#x27;order&#x27;</span>,<span class="hljs-string">&#x27;1&#x27;</span>,<span class="hljs-string">&#x27;userinfo:age&#x27;</span>,<span class="hljs-string">&#x27;24&#x27;</span><br>put <span class="hljs-string">&#x27;order&#x27;</span>,<span class="hljs-string">&#x27;1&#x27;</span>,<span class="hljs-string">&#x27;orderinfo:id&#x27;</span>,<span class="hljs-string">&#x27;23333&#x27;</span><br>put <span class="hljs-string">&#x27;order&#x27;</span>,<span class="hljs-string">&#x27;1&#x27;</span>,<span class="hljs-string">&#x27;orderinfo:money&#x27;</span>,<span class="hljs-string">&#x27;30&#x27;</span><br>scan <span class="hljs-string">&#x27;order&#x27;</span><br>-----------------------------------------------------------<br>hbase(main):017:0* create <span class="hljs-string">&#x27;order&#x27;</span>,<span class="hljs-string">&#x27;userinfo&#x27;</span>,<span class="hljs-string">&#x27;orderinfo&#x27;</span><br>Created table order<br>Took 2.3102 seconds<br>=&gt; Hbase::Table - order<br>hbase(main):018:0&gt; list<br>TABLE<br>order<br>student<br>2 row(s)<br>Took 0.0104 seconds<br>=&gt; [<span class="hljs-string">&quot;order&quot;</span>, <span class="hljs-string">&quot;student&quot;</span>]<br>hbase(main):019:0&gt; put <span class="hljs-string">&#x27;order&#x27;</span>,<span class="hljs-string">&#x27;1&#x27;</span>,<span class="hljs-string">&#x27;userinfo:name&#x27;</span>,<span class="hljs-string">&#x27;sw&#x27;</span><br>Took 0.0326 seconds<br>hbase(main):020:0&gt; put <span class="hljs-string">&#x27;order&#x27;</span>,<span class="hljs-string">&#x27;1&#x27;</span>,<span class="hljs-string">&#x27;userinfo:age&#x27;</span>,<span class="hljs-string">&#x27;24&#x27;</span><br>Took 0.0031 seconds<br>hbase(main):021:0&gt; put <span class="hljs-string">&#x27;order&#x27;</span>,<span class="hljs-string">&#x27;1&#x27;</span>,<span class="hljs-string">&#x27;orderinfo:id&#x27;</span>,<span class="hljs-string">&#x27;23333&#x27;</span><br>Took 0.0036 seconds<br>hbase(main):022:0&gt; put <span class="hljs-string">&#x27;order&#x27;</span>,<span class="hljs-string">&#x27;1&#x27;</span>,<span class="hljs-string">&#x27;orderinfo:money&#x27;</span>,<span class="hljs-string">&#x27;30&#x27;</span><br>Took 0.0031 seconds<br>hbase(main):023:0&gt; scan <span class="hljs-string">&#x27;order&#x27;</span><br>ROW                        COLUMN+CELL<br> 1                         <span class="hljs-attribute">column</span>=orderinfo:id, <span class="hljs-attribute">timestamp</span>=1679060732699, <span class="hljs-attribute">value</span>=23333<br> 1                         <span class="hljs-attribute">column</span>=orderinfo:money, <span class="hljs-attribute">timestamp</span>=1679060732711, <span class="hljs-attribute">value</span>=30<br> 1                         <span class="hljs-attribute">column</span>=userinfo:age, <span class="hljs-attribute">timestamp</span>=1679060732685, <span class="hljs-attribute">value</span>=24<br> 1                         <span class="hljs-attribute">column</span>=userinfo:name, <span class="hljs-attribute">timestamp</span>=1679060732667, <span class="hljs-attribute">value</span>=sw<br>1 row(s)<br>Took 0.0116 seconds<br></code></pre></td></tr></table></figure>
+
+<h3 id="修改数据"><a href="#修改数据" class="headerlink" title="修改数据"></a>修改数据</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs stylus"><span class="hljs-function"><span class="hljs-title">hbase</span><span class="hljs-params">(main)</span></span>:<span class="hljs-number">001</span>:<span class="hljs-number">0</span>&gt; put <span class="hljs-string">&#x27;student&#x27;</span>,<span class="hljs-string">&#x27;s001&#x27;</span>,<span class="hljs-string">&#x27;name&#x27;</span>,<span class="hljs-string">&#x27;zhangxiaosan&#x27;</span><br>Took <span class="hljs-number">0.2879</span> seconds<br><span class="hljs-function"><span class="hljs-title">hbase</span><span class="hljs-params">(main)</span></span>:<span class="hljs-number">002</span>:<span class="hljs-number">0</span>&gt; get <span class="hljs-string">&#x27;student&#x27;</span>,<span class="hljs-string">&#x27;s001&#x27;</span>,<span class="hljs-string">&#x27;name&#x27;</span><br>COLUMN                     CELL<br> name:                     timestamp=<span class="hljs-number">1679061655288</span>, value=zhangxiaosan<br><span class="hljs-number">1</span> <span class="hljs-built_in">row</span>(s)<br>Took <span class="hljs-number">0.0280</span> seconds<br></code></pre></td></tr></table></figure>
+
+<h3 id="时间戳"><a href="#时间戳" class="headerlink" title="时间戳"></a>时间戳</h3><p>#数据添加到HBase的时候都会被记录一个时间戳，这个时间戳被我们当做一个版本。</p>
+<p>当修改某一条的时候，本质上是往里边新增一条数据，记录的版本加一。</p>
+<p><img src="https://article.biliimg.com/bfs/article/41ae96ec2b636400a97d0c0377d7ba5f7e4467f6.png" srcset="/img/loading.gif" lazyload alt="image-20230317220909473"></p>
+<p>#现在要把这条记录的值改为40，实际上就是多添加一条记录，在读的时候按照时间戳读最新的记录</p>
+<p><img src="https://article.biliimg.com/bfs/article/b5b87b734906aa507db9aa8474c02f6856295bca.png" srcset="/img/loading.gif" lazyload alt="image-20230317221537086"></p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs routeros">put <span class="hljs-string">&#x27;order&#x27;</span>,<span class="hljs-string">&#x27;1&#x27;</span>,<span class="hljs-string">&#x27;orderinfo:money&#x27;</span>,<span class="hljs-string">&#x27;40&#x27;</span><br><span class="hljs-built_in">get</span> <span class="hljs-string">&#x27;order&#x27;</span>,<span class="hljs-string">&#x27;1&#x27;</span>,<span class="hljs-string">&#x27;orderinfo:money&#x27;</span><br><br>hbase(main):008:0&gt; put <span class="hljs-string">&#x27;order&#x27;</span>,<span class="hljs-string">&#x27;1&#x27;</span>,<span class="hljs-string">&#x27;orderinfo:money&#x27;</span>,<span class="hljs-string">&#x27;40&#x27;</span><br>Took 0.0190 seconds<br>hbase(main):009:0&gt; <span class="hljs-built_in">get</span> <span class="hljs-string">&#x27;order&#x27;</span>,<span class="hljs-string">&#x27;1&#x27;</span>,<span class="hljs-string">&#x27;orderinfo:money&#x27;</span><br>COLUMN                     CELL<br> orderinfo:money           <span class="hljs-attribute">timestamp</span>=1679064515487, <span class="hljs-attribute">value</span>=40<br>1 row(s)<br>Took 0.0096 seconds<br><br></code></pre></td></tr></table></figure>
+
+<h3 id="删除数据"><a href="#删除数据" class="headerlink" title="删除数据"></a>删除数据</h3><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs actionscript">scan <span class="hljs-string">&#x27;student&#x27;</span><br><span class="hljs-keyword">delete</span> <span class="hljs-string">&#x27;student&#x27;</span>,<span class="hljs-string">&#x27;s001&#x27;</span>,<span class="hljs-string">&#x27;name&#x27;</span><br><span class="hljs-keyword">get</span> <span class="hljs-string">&#x27;student&#x27;</span>,<span class="hljs-string">&#x27;s001&#x27;</span>,<span class="hljs-string">&#x27;name&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="删除表"><a href="#删除表" class="headerlink" title="删除表"></a>删除表</h3><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">disable</span> <span class="hljs-string">&#x27;student&#x27;</span><br>describe <span class="hljs-string">&#x27;student&#x27;</span><br><span class="hljs-keyword">drop</span> <span class="hljs-string">&#x27;student&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="访问网页-1"><a href="#访问网页-1" class="headerlink" title="访问网页"></a>访问网页</h3><p>ip:16010</p>
+<h2 id="NoSQL数据库安装"><a href="#NoSQL数据库安装" class="headerlink" title="NoSQL数据库安装"></a>NoSQL数据库安装</h2><p>（Redis键值对非关系型数据库）</p>
+<h3 id="安装redis"><a href="#安装redis" class="headerlink" title="安装redis"></a>安装redis</h3><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli">tar -xf redis-5.0.5.tar.gz<br>mv redis-5.0.5 <span class="hljs-string">/opt/redis</span><br><span class="hljs-keyword">cd</span> <span class="hljs-string">/opt/redis</span><br>yum install -y gcc automake autoconf libtool<br><span class="hljs-comment">#编译安装</span><br>make &amp;&amp; make install<br><span class="hljs-keyword">cd</span> src<br>[root@yjx48 src]<span class="hljs-comment"># ./redis-server</span><br>5861<span class="hljs-function">:C</span> 30 Mar 2023 08<span class="hljs-function">:49</span><span class="hljs-function">:48.699</span> <span class="hljs-comment"># oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo</span><br>5861<span class="hljs-function">:C</span> 30 Mar 2023 08<span class="hljs-function">:49</span><span class="hljs-function">:48.699</span> <span class="hljs-comment"># Redis version=5.0.5, bits=64, commit=00000000, modified=0, pid=5861, just started</span><br>5861<span class="hljs-function">:C</span> 30 Mar 2023 08<span class="hljs-function">:49</span><span class="hljs-function">:48.699</span> <span class="hljs-comment"># Warning: no config file specified, using the default config. In order to specify a config file use ./redis-server /path/to/redis.conf</span><br>5861<span class="hljs-function">:M</span> 30 Mar 2023 08<span class="hljs-function">:49</span><span class="hljs-function">:48.699</span> * Increased maximum number of open files to 10032 <span class="hljs-params">(it was originally set to 1024)</span>.<br>                _._<br>           _.-``__ &#x27;&#x27;-<span class="hljs-string">._</span><br>      _.-``    `.  `_.  &#x27;&#x27;-<span class="hljs-string">._</span>           Redis 5.0.5 <span class="hljs-params">(00000000/0)</span> 64 bit<br>  <span class="hljs-string">.-</span>`` <span class="hljs-string">.-</span>```.  ```\/    _.,_ &#x27;&#x27;-<span class="hljs-string">._</span><br> <span class="hljs-params">(    &#x27;      ,       .-`  | `,    )</span>     Running in standalone mode<br> |`-<span class="hljs-string">._</span>`-<span class="hljs-string">...-</span>` __.<span class="hljs-string">..-.</span>``-<span class="hljs-string">._</span>|&#x27;` _.-&#x27;|     Port: 6379<br> |    `-<span class="hljs-string">._</span>   `<span class="hljs-string">._</span>    /     _.-&#x27;    |     PID: 5861<br>  `-<span class="hljs-string">._</span>    `-<span class="hljs-string">._</span>  `-<span class="hljs-string">./</span>  _.-&#x27;    _.-&#x27;<br> |`-<span class="hljs-string">._</span>`-<span class="hljs-string">._</span>    `-<span class="hljs-string">.__.-</span>&#x27;    _.-&#x27;_.-&#x27;|<br> |    `-<span class="hljs-string">._</span>`-<span class="hljs-string">._</span>        _.-&#x27;_.-&#x27;    |           http:<span class="hljs-string">//redis.io</span><br>  `-<span class="hljs-string">._</span>    `-<span class="hljs-string">._</span>`-<span class="hljs-string">.__.-</span>&#x27;_.-&#x27;    _.-&#x27;<br> |`-<span class="hljs-string">._</span>`-<span class="hljs-string">._</span>    `-<span class="hljs-string">.__.-</span>&#x27;    _.-&#x27;_.-&#x27;|<br> |    `-<span class="hljs-string">._</span>`-<span class="hljs-string">._</span>        _.-&#x27;_.-&#x27;    |<br>  `-<span class="hljs-string">._</span>    `-<span class="hljs-string">._</span>`-<span class="hljs-string">.__.-</span>&#x27;_.-&#x27;    _.-&#x27;<br>      `-<span class="hljs-string">._</span>    `-<span class="hljs-string">.__.-</span>&#x27;    _.-&#x27;<br>          `-<span class="hljs-string">._</span>        _.-&#x27;<br>              `-<span class="hljs-string">.__.-</span>&#x27;<br><br>5861<span class="hljs-function">:M</span> 30 Mar 2023 08<span class="hljs-function">:49</span><span class="hljs-function">:48.700</span> <span class="hljs-comment"># WARNING: The TCP backlog setting of 511 cannot be enforced because /proc/sys/net/core/somaxconn is set to the lower value of 128.</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs accesslog">#另开一个会话<br><span class="hljs-string">[root@yjx48 ~]</span># cd /opt/redis/src<br><span class="hljs-string">[root@yjx48 src]</span># ./redis-cli<br><span class="hljs-number">127.0.0.1:6379</span>&gt; set hello world<br>OK<br><span class="hljs-number">127.0.0.1:6379</span>&gt; get hello<br><span class="hljs-string">&quot;world&quot;</span><br><span class="hljs-number">127.0.0.1:6379</span>&gt; exit<br><span class="hljs-string">[root@yjx48 src]</span>#<br></code></pre></td></tr></table></figure>
+
+<h3 id="数据库管理"><a href="#数据库管理" class="headerlink" title="数据库管理"></a>数据库管理</h3><p><img src="https://article.biliimg.com/bfs/article/23833340d878c73b11cf4064c0a4ab51ecc4b4d3.png" srcset="/img/loading.gif" lazyload alt="image-20230330112542140"></p>
+<h3 id="redis语法"><a href="#redis语法" class="headerlink" title="redis语法"></a>redis语法</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-comment">#插入数据</span><br><span class="hljs-built_in">set</span> student:2015001:sname zhangsan<br><span class="hljs-built_in">get</span> student:2015001:sname<br><span class="hljs-built_in">set</span> student:2015001:sex male<br><span class="hljs-built_in">get</span> student:2015001:sex<br><span class="hljs-comment">#修改数据</span><br><span class="hljs-built_in">set</span> student:2015001:sname zhangxiaosan<br><span class="hljs-built_in">get</span> student:2015001:sname<br><span class="hljs-comment">#删除数据</span><br><span class="hljs-built_in">get</span> <span class="hljs-built_in">set</span> student:2015001:sname<br>del <span class="hljs-built_in">set</span> student:2015001:sname<br><span class="hljs-built_in">get</span> <span class="hljs-built_in">set</span> student:2015001:sname<br><span class="hljs-comment">#没数据了</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="Hash数据库"><a href="#Hash数据库" class="headerlink" title="Hash数据库"></a>Hash数据库</h3><p>student表</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs routeros">2015001=&#123;<br>	<span class="hljs-attribute">name</span>=zhangsan<br>	<span class="hljs-attribute">sex</span>=male<br>	<span class="hljs-attribute">age</span>=23<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>插入和查询数据</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">hset</span> student:<span class="hljs-number">2015001</span> name zhangsan<br><span class="hljs-attribute">hset</span> student:<span class="hljs-number">2015001</span> sex male<br><span class="hljs-attribute">hset</span> student:<span class="hljs-number">2015001</span> age <span class="hljs-number">23</span><br><span class="hljs-attribute">hget</span> student:<span class="hljs-number">2015001</span> name <br><span class="hljs-attribute">hget</span> student:<span class="hljs-number">2015001</span> sex<br><span class="hljs-attribute">hgetall</span> student:<span class="hljs-number">2015001</span><br></code></pre></td></tr></table></figure>
+
+<p>修改数据</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">hset</span> student:<span class="hljs-number">2015001</span> sex female<br><span class="hljs-attribute">hget</span> student:<span class="hljs-number">2015001</span> sex female<br></code></pre></td></tr></table></figure>
+
+<p>删除数据</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">hdel</span> student:<span class="hljs-number">2015001</span> sex<br><span class="hljs-attribute">hget</span> student:<span class="hljs-number">2015001</span> sex<br><span class="hljs-comment">#无数据</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="MongoDB"><a href="#MongoDB" class="headerlink" title="MongoDB"></a>MongoDB</h2><p>​		Mongodb是一个基于分布式文件存储的文档数据库，介于关系数据库和非关系数据库之间，是非关系数<br>据库当中功能最丰富、最像关系数据库的一种 NOSQL数据库。<br>​		Mongo最大的特点是支持的查询语言非常强大，语法有点类似于面向对象的查询语言，几乎可以实现类<br>似关系数据库单表查询的绝大部分功能，而且还支持对数据建立索引。<br>​		Mongodb支持的数据结构非常松散，是类似json的bson格式，因此可以存储比较复杂的数据类型。</p>
+<h3 id="JSON语法"><a href="#JSON语法" class="headerlink" title="JSON语法"></a>JSON语法</h3><p>JSON 语法是 JavaScript 语法的子集。</p>
+<h4 id="JSON-数字"><a href="#JSON-数字" class="headerlink" title="JSON 数字"></a>JSON 数字</h4><p>JSON 数字可以是整型或者浮点型：<br>{ “age”:30 }</p>
+<h4 id="JSON-对象"><a href="#JSON-对象" class="headerlink" title="JSON 对象"></a>JSON 对象</h4><p>JSON 对象在大括号 {} 中书写：<br>对象可以包含多个名称&#x2F;值对：</p>
+<h4 id="JSON-数组"><a href="#JSON-数组" class="headerlink" title="JSON 数组"></a>JSON 数组</h4><p>JSON 数组在中括号 [] 中书写：<br>数组可包含多个对象：</p>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs ada">[<br>&#123; key1 : <span class="hljs-type">value1</span>-<span class="hljs-number">1</span> , key2:value1-<span class="hljs-number">2</span> &#125;,<br>&#123; key1 : <span class="hljs-type">value2</span>-<span class="hljs-number">1</span> , key2:value2-<span class="hljs-number">2</span> &#125;,<br>&#123; key1 : <span class="hljs-type">value3</span>-<span class="hljs-number">1</span> , key2:value3-<span class="hljs-number">2</span> &#125;,<br>...<br>&#123; key1 : <span class="hljs-type">valueN</span>-<span class="hljs-number">1</span> , key2:valueN-<span class="hljs-number">2</span> &#125;,<br>]<br><br>&#123;<br>	<span class="hljs-string">&quot;sites&quot;</span>: [<br>        &#123; <span class="hljs-string">&quot;name&quot;</span>:<span class="hljs-string">&quot;菜鸟教程&quot;</span> , <span class="hljs-string">&quot;url&quot;</span>:<span class="hljs-string">&quot;www.runoob.com&quot;</span> &#125;,<br>        &#123; <span class="hljs-string">&quot;name&quot;</span>:<span class="hljs-string">&quot;google&quot;</span> , <span class="hljs-string">&quot;url&quot;</span>:<span class="hljs-string">&quot;www.google.com&quot;</span> &#125;,<br>        &#123; <span class="hljs-string">&quot;name&quot;</span>:<span class="hljs-string">&quot;微博&quot;</span> , <span class="hljs-string">&quot;url&quot;</span>:<span class="hljs-string">&quot;www.weibo.com&quot;</span> &#125;<br>       ]<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>在上面的例子中，对象 sites 是包含三个对象的数组。每个对象代表一条关于某个网站（name、url）<br>的记录。</p>
+<h4 id="JSON-布尔值"><a href="#JSON-布尔值" class="headerlink" title="JSON 布尔值"></a>JSON 布尔值</h4><p>JSON 布尔值可以是 true 或者 false：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span> <span class="hljs-attr">&quot;flag&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-literal"><span class="hljs-keyword">true</span></span> <span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="JSON-null"><a href="#JSON-null" class="headerlink" title="JSON null"></a>JSON null</h4><p>JSON 可以设置 null 值：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span> <span class="hljs-attr">&quot;runoob&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-literal"><span class="hljs-keyword">null</span></span> <span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="MongoDB安装"><a href="#MongoDB安装" class="headerlink" title="MongoDB安装"></a>MongoDB安装</h3><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs gradle">tar -xf mongodb-linux-x86_64-rhel70-<span class="hljs-number">5.0</span>.<span class="hljs-number">5</span>.tgz <br>mv mongodb-linux-x86_64-rhel70-<span class="hljs-number">5.0</span>.<span class="hljs-number">5</span> <span class="hljs-regexp">/opt/m</span>ongodb<br>cd <span class="hljs-regexp">/opt/m</span>ongodb/bin<br>./mongo -version<br><br>#默认情况下 MongoDB 启动后会初始化以下两个目录，事先创建好：<br>#数据存储目录：<span class="hljs-regexp">/var/</span>lib/mongodb<br>#日志文件目录：<span class="hljs-regexp">/var/</span>log/mongodb<br>mkdir -p <span class="hljs-regexp">/var/</span>lib/mongo<br>mkdir -p <span class="hljs-regexp">/var/</span>log/mongodb<br>#启动mongodb服务<br>cd <span class="hljs-regexp">/opt/m</span>ongodb/bin<br>.<span class="hljs-regexp">/mongod --dbpath /</span>var<span class="hljs-regexp">/lib/m</span>ongo --logpath <span class="hljs-regexp">/var/</span>log<span class="hljs-regexp">/mongodb/m</span>ongod.log --fork<br>ps ax | <span class="hljs-keyword">grep</span> mongod<br>./mongo<br></code></pre></td></tr></table></figure>
+
+<h3 id="数据库管理-1"><a href="#数据库管理-1" class="headerlink" title="数据库管理"></a>数据库管理</h3><h4 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h4><p>#列出所有数据库</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">&gt;<span class="hljs-keyword">show</span> dbs<br><span class="hljs-keyword">admin</span> <span class="hljs-number">0.000</span>GB<br>config <span class="hljs-number">0.000</span>GB<br><span class="hljs-keyword">local</span> <span class="hljs-number">0.000</span>GB<br></code></pre></td></tr></table></figure>
+
+<p>#切换数据库</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">&gt;use <span class="hljs-keyword">admin</span><br>switched <span class="hljs-keyword">to</span> db <span class="hljs-keyword">admin</span><br></code></pre></td></tr></table></figure>
+
+<p>#显示当前数据库的所有集合</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">&gt;<span class="hljs-keyword">show</span> collections<br><span class="hljs-keyword">system</span>.<span class="hljs-keyword">version</span><br></code></pre></td></tr></table></figure>
+
+<p>#显示集合的所有数据</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs stylus">&gt;db<span class="hljs-selector-class">.system</span><span class="hljs-selector-class">.version</span><span class="hljs-selector-class">.find</span>()<br>&#123; <span class="hljs-string">&quot;_id&quot;</span> : <span class="hljs-string">&quot;featureCompatibilityVersion&quot;</span>, <span class="hljs-string">&quot;version&quot;</span> : <span class="hljs-string">&quot;5.0&quot;</span> &#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="创建数据库和集合"><a href="#创建数据库和集合" class="headerlink" title="创建数据库和集合"></a>创建数据库和集合</h4><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm"><span class="hljs-comment">#mongodb没有创建数据库命令</span><br>&gt; use <span class="hljs-keyword">school</span><br><span class="hljs-keyword"></span><span class="hljs-keyword">switched </span>to db <span class="hljs-keyword">school</span><br><span class="hljs-keyword"></span><span class="hljs-comment">#创建集合，同时会自动创建以上的数据库</span><br>&gt; db.createCollection(<span class="hljs-string">&#x27;student&#x27;</span>)<br>&#123; <span class="hljs-string">&quot;ok&quot;</span> : <span class="hljs-number">1</span> &#125;<br>&gt; <span class="hljs-keyword">show </span>dbs<br>admin <span class="hljs-number">0</span>.<span class="hljs-number">000</span>GB<br><span class="hljs-built_in">config</span> <span class="hljs-number">0</span>.<span class="hljs-number">000</span>GB<br>local <span class="hljs-number">0</span>.<span class="hljs-number">000</span>GB<br><span class="hljs-keyword">school </span><span class="hljs-number">0</span>.<span class="hljs-number">000</span>GB<br>&gt; <span class="hljs-keyword">show </span>collections<br>Student<br></code></pre></td></tr></table></figure>
+
+<h4 id="插入数据"><a href="#插入数据" class="headerlink" title="插入数据"></a>插入数据</h4><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs stylus">#两种方法插入数据：insert和save<br>#_id可以手动输入，否则会自动生成<br>&gt;db<span class="hljs-selector-class">.student</span><span class="hljs-selector-class">.insert</span>(&#123;<br>  sno: <span class="hljs-number">2015001</span>,<br>  name: <span class="hljs-string">&quot;zhangsan&quot;</span>,<br>  sex: <span class="hljs-string">&quot;male&quot;</span>,<br>  age: <span class="hljs-number">23</span><br>&#125;)<br><span class="hljs-function"><span class="hljs-title">WriteResult</span><span class="hljs-params">(&#123; <span class="hljs-string">&quot;nInserted&quot;</span> : <span class="hljs-number">1</span> &#125;)</span></span><br><br>&gt; db<span class="hljs-selector-class">.student</span><span class="hljs-selector-class">.find</span>()<br>&#123; <span class="hljs-string">&quot;_id&quot;</span> : <span class="hljs-built_in">ObjectId</span>(<span class="hljs-string">&quot;642e21279c9d145e592fda70&quot;</span>), <span class="hljs-string">&quot;sno&quot;</span> : <span class="hljs-number">2015001</span>, <span class="hljs-string">&quot;name&quot;</span> : <span class="hljs-string">&quot;zhangsan&quot;</span>, <span class="hljs-string">&quot;sex&quot;</span> : <span class="hljs-string">&quot;male&quot;</span>, <span class="hljs-string">&quot;age&quot;</span> : <span class="hljs-number">23</span> &#125;<br><br>&gt; db<span class="hljs-selector-class">.student</span><span class="hljs-selector-class">.save</span>(&#123;sno:<span class="hljs-number">2015002</span>,name:<span class="hljs-string">&#x27;marry&#x27;</span>,sex:<span class="hljs-string">&#x27;female&#x27;</span>,age:<span class="hljs-number">22</span>&#125;)<br><span class="hljs-function"><span class="hljs-title">WriteResult</span><span class="hljs-params">(&#123; <span class="hljs-string">&quot;nInserted&quot;</span> : <span class="hljs-number">1</span> &#125;)</span></span><br><br>&gt; db<span class="hljs-selector-class">.student</span><span class="hljs-selector-class">.find</span>()<br>&#123; <span class="hljs-string">&quot;_id&quot;</span> : <span class="hljs-built_in">ObjectId</span>(<span class="hljs-string">&quot;642e259014c45ed3f90756c0&quot;</span>), <span class="hljs-string">&quot;sno&quot;</span> : <span class="hljs-number">2015001</span>, <span class="hljs-string">&quot;name&quot;</span> : <span class="hljs-string">&quot;zhangsan&quot;</span>, <span class="hljs-string">&quot;sex&quot;</span> : <span class="hljs-string">&quot;male&quot;</span>, <span class="hljs-string">&quot;age&quot;</span> : <span class="hljs-number">23</span> &#125;<br>&#123; <span class="hljs-string">&quot;_id&quot;</span> : <span class="hljs-built_in">ObjectId</span>(<span class="hljs-string">&quot;642e259614c45ed3f90756c1&quot;</span>), <span class="hljs-string">&quot;sno&quot;</span> : <span class="hljs-number">2015002</span>, <span class="hljs-string">&quot;name&quot;</span> : <span class="hljs-string">&quot;marry&quot;</span>, <span class="hljs-string">&quot;sex&quot;</span> : <span class="hljs-string">&quot;female&quot;</span>, <span class="hljs-string">&quot;age&quot;</span> : <span class="hljs-number">22</span> &#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs stylus">#insert和save区别：手动插入一行时，如_id已经存在，insert则出错，save则替代原值。<br>&gt; db<span class="hljs-selector-class">.student</span><span class="hljs-selector-class">.insert</span>(&#123;<span class="hljs-string">&quot;_id&quot;</span>: <span class="hljs-built_in">ObjectId</span>(<span class="hljs-string">&quot;642e259014c45ed3f90756c0&quot;</span>),   <span class="hljs-string">&quot;sno&quot;</span>: <span class="hljs-number">2015001</span>,   <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;zhangsan&quot;</span>,   <span class="hljs-string">&quot;sex&quot;</span>: <span class="hljs-string">&quot;male&quot;</span>,   <span class="hljs-string">&quot;age&quot;</span>: <span class="hljs-number">23</span> &#125;)<br><br><span class="hljs-built_in">WriteResult</span>(&#123;<br>        <span class="hljs-string">&quot;nInserted&quot;</span> : <span class="hljs-number">0</span>,<br>        <span class="hljs-string">&quot;writeError&quot;</span> : &#123;<br>                <span class="hljs-string">&quot;code&quot;</span> : <span class="hljs-number">11000</span>,<br>                <span class="hljs-string">&quot;errmsg&quot;</span> : <span class="hljs-string">&quot;E11000 duplicate key error collection: test.student index: _id_ dup key: &#123; _id: ObjectId(&#x27;642e21279c9d145e592fda70&#x27;) &#125;&quot;</span><br>        &#125;<br>&#125;)<br>#更改年龄<span class="hljs-number">23</span>→<span class="hljs-number">24</span><br>&gt; db<span class="hljs-selector-class">.student</span><span class="hljs-selector-class">.save</span>(&#123;<span class="hljs-string">&quot;_id&quot;</span>: <span class="hljs-built_in">ObjectId</span>(<span class="hljs-string">&quot;642e259014c45ed3f90756c0&quot;</span>),   <span class="hljs-string">&quot;sno&quot;</span>: <span class="hljs-number">2015001</span>,   <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;zhangsan&quot;</span>,   <span class="hljs-string">&quot;sex&quot;</span>: <span class="hljs-string">&quot;male&quot;</span>,   <span class="hljs-string">&quot;age&quot;</span>: <span class="hljs-number">24</span> &#125;)<br><span class="hljs-function"><span class="hljs-title">WriteResult</span><span class="hljs-params">(&#123; <span class="hljs-string">&quot;nMatched&quot;</span> : <span class="hljs-number">1</span>, <span class="hljs-string">&quot;nUpserted&quot;</span> : <span class="hljs-number">0</span>, <span class="hljs-string">&quot;nModified&quot;</span> : <span class="hljs-number">1</span> &#125;)</span></span><br><br>&gt; db<span class="hljs-selector-class">.student</span><span class="hljs-selector-class">.find</span>()<br>&#123; <span class="hljs-string">&quot;_id&quot;</span> : <span class="hljs-built_in">ObjectId</span>(<span class="hljs-string">&quot;642e259014c45ed3f90756c0&quot;</span>), <span class="hljs-string">&quot;sno&quot;</span> : <span class="hljs-number">2015001</span>, <span class="hljs-string">&quot;name&quot;</span> : <span class="hljs-string">&quot;zhangsan&quot;</span>, <span class="hljs-string">&quot;sex&quot;</span> : <span class="hljs-string">&quot;male&quot;</span>, <span class="hljs-string">&quot;age&quot;</span> : <span class="hljs-number">24</span> &#125;<br>&#123; <span class="hljs-string">&quot;_id&quot;</span> : <span class="hljs-built_in">ObjectId</span>(<span class="hljs-string">&quot;642e259614c45ed3f90756c1&quot;</span>), <span class="hljs-string">&quot;sno&quot;</span> : <span class="hljs-number">2015002</span>, <span class="hljs-string">&quot;name&quot;</span> : <span class="hljs-string">&quot;marry&quot;</span>, <span class="hljs-string">&quot;sex&quot;</span> : <span class="hljs-string">&quot;female&quot;</span>, <span class="hljs-string">&quot;age&quot;</span> : <span class="hljs-number">22</span> &#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="查找数据"><a href="#查找数据" class="headerlink" title="查找数据"></a>查找数据</h4><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs stylus">#查询<br>#查询格式：<span class="hljs-built_in">find</span>(<span class="hljs-selector-attr">[query]</span>,<span class="hljs-selector-attr">[fields]</span>)，类似于sql的select语句，query相当于where，fields相当<br>于显示的列<br>#查询名字为zhangsan的数据<br>&gt; db<span class="hljs-selector-class">.student</span><span class="hljs-selector-class">.find</span>(&#123;name:<span class="hljs-string">&#x27;zhangsan&#x27;</span>&#125;)<br>&#123; <span class="hljs-string">&quot;_id&quot;</span> : <span class="hljs-built_in">ObjectId</span>(<span class="hljs-string">&quot;642e259014c45ed3f90756c0&quot;</span>), <span class="hljs-string">&quot;sno&quot;</span> : <span class="hljs-number">2015001</span>, <span class="hljs-string">&quot;name&quot;</span> : <span class="hljs-string">&quot;zhangsan&quot;</span>, <span class="hljs-string">&quot;sex&quot;</span> : <span class="hljs-string">&quot;male&quot;</span>, <span class="hljs-string">&quot;age&quot;</span> : <span class="hljs-number">24</span> &#125;<br>#查询名字为zhangsan的人的性别<br>&gt; db<span class="hljs-selector-class">.student</span><span class="hljs-selector-class">.find</span>(&#123;name:<span class="hljs-string">&#x27;zhangsan&#x27;</span>&#125;,&#123;name:<span class="hljs-number">1</span>,sex:<span class="hljs-number">1</span>&#125;)<br>&#123; <span class="hljs-string">&quot;_id&quot;</span> : <span class="hljs-built_in">ObjectId</span>(<span class="hljs-string">&quot;642e259014c45ed3f90756c0&quot;</span>), <span class="hljs-string">&quot;name&quot;</span> : <span class="hljs-string">&quot;zhangsan&quot;</span>, <span class="hljs-string">&quot;sex&quot;</span> : <span class="hljs-string">&quot;male&quot;</span> &#125;<br>#不显示_id<br>&gt; db<span class="hljs-selector-class">.student</span><span class="hljs-selector-class">.find</span>(&#123;name:<span class="hljs-string">&#x27;zhangsan&#x27;</span>&#125;,&#123;_id:<span class="hljs-number">0</span>,name:<span class="hljs-number">1</span>,sex:<span class="hljs-number">1</span>&#125;)<br>&#123; <span class="hljs-string">&quot;name&quot;</span> : <span class="hljs-string">&quot;zhangsan&quot;</span>, <span class="hljs-string">&quot;sex&quot;</span> : <span class="hljs-string">&quot;male&quot;</span> &#125;<br>#查询指定列<br>&gt; db<span class="hljs-selector-class">.student</span><span class="hljs-selector-class">.find</span>(&#123;&#125;,&#123;name:<span class="hljs-number">1</span>&#125;)<br>&#123; <span class="hljs-string">&quot;_id&quot;</span> : <span class="hljs-built_in">ObjectId</span>(<span class="hljs-string">&quot;642e259014c45ed3f90756c0&quot;</span>), <span class="hljs-string">&quot;name&quot;</span> : <span class="hljs-string">&quot;zhangsan&quot;</span> &#125;<br>&#123; <span class="hljs-string">&quot;_id&quot;</span> : <span class="hljs-built_in">ObjectId</span>(<span class="hljs-string">&quot;642e259614c45ed3f90756c1&quot;</span>), <span class="hljs-string">&quot;name&quot;</span> : <span class="hljs-string">&quot;marry&quot;</span> &#125;<br>#and查询条件 <br>&gt; db<span class="hljs-selector-class">.student</span><span class="hljs-selector-class">.find</span>(&#123;name:<span class="hljs-string">&#x27;zhangsan&#x27;</span>,sex:<span class="hljs-string">&#x27;female&#x27;</span>&#125;)<br>&gt; db<span class="hljs-selector-class">.student</span><span class="hljs-selector-class">.find</span>(&#123;name:<span class="hljs-string">&#x27;zhangsan&#x27;</span>,sex:<span class="hljs-string">&#x27;male&#x27;</span>&#125;)<br>&#123; <span class="hljs-string">&quot;_id&quot;</span> : <span class="hljs-built_in">ObjectId</span>(<span class="hljs-string">&quot;642e259014c45ed3f90756c0&quot;</span>), <span class="hljs-string">&quot;sno&quot;</span> : <span class="hljs-number">2015001</span>, <span class="hljs-string">&quot;name&quot;</span> : <span class="hljs-string">&quot;zhangsan&quot;</span>, <span class="hljs-string">&quot;sex&quot;</span> : <span class="hljs-string">&quot;male&quot;</span>, <span class="hljs-string">&quot;age&quot;</span> : <span class="hljs-number">24</span> &#125;<br>&gt;db<span class="hljs-selector-class">.student</span><span class="hljs-selector-class">.find</span>(&#123;<span class="hljs-variable">$or</span>:<span class="hljs-selector-attr">[&#123;age:24&#125;,&#123;age:22&#125;]</span>&#125;)<br>#or查询<br>&gt; db<span class="hljs-selector-class">.student</span><span class="hljs-selector-class">.find</span>(&#123;  <span class="hljs-variable">$or</span>:<span class="hljs-selector-attr">[&#123;age:24&#125;,&#123;age:22&#125;]</span>  &#125;)<br>&#123; <span class="hljs-string">&quot;_id&quot;</span> : <span class="hljs-built_in">ObjectId</span>(<span class="hljs-string">&quot;642e259014c45ed3f90756c0&quot;</span>), <span class="hljs-string">&quot;sno&quot;</span> : <span class="hljs-number">2015001</span>, <span class="hljs-string">&quot;name&quot;</span> : <span class="hljs-string">&quot;zhangsan&quot;</span>, <span class="hljs-string">&quot;sex&quot;</span> : <span class="hljs-string">&quot;male&quot;</span>, <span class="hljs-string">&quot;age&quot;</span> : <span class="hljs-number">24</span> &#125;<br>&#123; <span class="hljs-string">&quot;_id&quot;</span> : <span class="hljs-built_in">ObjectId</span>(<span class="hljs-string">&quot;642e259614c45ed3f90756c1&quot;</span>), <span class="hljs-string">&quot;sno&quot;</span> : <span class="hljs-number">2015002</span>, <span class="hljs-string">&quot;name&quot;</span> : <span class="hljs-string">&quot;marry&quot;</span>, <span class="hljs-string">&quot;sex&quot;</span> : <span class="hljs-string">&quot;female&quot;</span>, <span class="hljs-string">&quot;age&quot;</span> : <span class="hljs-number">22</span> &#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="修改数据-1"><a href="#修改数据-1" class="headerlink" title="修改数据"></a>修改数据</h4><p>#格式：update( query, <update object or pipeline>[, upsert_bool, multi_bool] )<br>#query : update的查询条件，类似sql update查询内where后面的。<br>#update : update的对象和一些更新的操作符（如$,$inc…）等，也可以理解为sql update查询内<br>set后面的<br>#upsert : 可选，这个参数的意思是，如果不存在update的记录，是否插入objNew,true为插入，默认是<br>false，不插入。<br>#multi : 可选，mongodb 默认是false,只更新找到的第一条记录，如果这个参数为true,就把按条件查<br>出来多条记录全部更新。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs stylus">&gt; db<span class="hljs-selector-class">.student</span><span class="hljs-selector-class">.update</span>(&#123;name:<span class="hljs-string">&#x27;zhangsan&#x27;</span>&#125;,&#123;<span class="hljs-variable">$set</span>:&#123;age:<span class="hljs-number">23</span>&#125;&#125;)<br><span class="hljs-function"><span class="hljs-title">WriteResult</span><span class="hljs-params">(&#123; <span class="hljs-string">&quot;nMatched&quot;</span> : <span class="hljs-number">1</span>, <span class="hljs-string">&quot;nUpserted&quot;</span> : <span class="hljs-number">0</span>, <span class="hljs-string">&quot;nModified&quot;</span> : <span class="hljs-number">1</span> &#125;)</span></span><br><br>&gt; db<span class="hljs-selector-class">.student</span><span class="hljs-selector-class">.find</span>()<br>&#123; <span class="hljs-string">&quot;_id&quot;</span> : <span class="hljs-built_in">ObjectId</span>(<span class="hljs-string">&quot;642e259014c45ed3f90756c0&quot;</span>), <span class="hljs-string">&quot;sno&quot;</span> : <span class="hljs-number">2015001</span>, <span class="hljs-string">&quot;name&quot;</span> : <span class="hljs-string">&quot;zhangsan&quot;</span>, <span class="hljs-string">&quot;sex&quot;</span> : <span class="hljs-string">&quot;male&quot;</span>, <span class="hljs-string">&quot;age&quot;</span> : <span class="hljs-number">23</span> &#125;<br>&#123; <span class="hljs-string">&quot;_id&quot;</span> : <span class="hljs-built_in">ObjectId</span>(<span class="hljs-string">&quot;642e259614c45ed3f90756c1&quot;</span>), <span class="hljs-string">&quot;sno&quot;</span> : <span class="hljs-number">2015002</span>, <span class="hljs-string">&quot;name&quot;</span> : <span class="hljs-string">&quot;marry&quot;</span>, <span class="hljs-string">&quot;sex&quot;</span> : <span class="hljs-string">&quot;female&quot;</span>, <span class="hljs-string">&quot;age&quot;</span> : <span class="hljs-number">22</span> &#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="删除数据-1"><a href="#删除数据-1" class="headerlink" title="删除数据"></a>删除数据</h4><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs stylus">&gt; db<span class="hljs-selector-class">.student</span><span class="hljs-selector-class">.remove</span>(&#123;name:<span class="hljs-string">&#x27;zhangsan&#x27;</span>&#125;)<br><span class="hljs-function"><span class="hljs-title">WriteResult</span><span class="hljs-params">(&#123; <span class="hljs-string">&quot;nRemoved&quot;</span> : <span class="hljs-number">1</span> &#125;)</span></span><br>&gt; db<span class="hljs-selector-class">.student</span><span class="hljs-selector-class">.find</span>()<br>&#123; <span class="hljs-string">&quot;_id&quot;</span> : <span class="hljs-built_in">ObjectId</span>(<span class="hljs-string">&quot;642e259614c45ed3f90756c1&quot;</span>), <span class="hljs-string">&quot;sno&quot;</span> : <span class="hljs-number">2015002</span>, <span class="hljs-string">&quot;name&quot;</span> : <span class="hljs-string">&quot;marry&quot;</span>, <span class="hljs-string">&quot;sex&quot;</span> : <span class="hljs-string">&quot;female&quot;</span>, <span class="hljs-string">&quot;age&quot;</span> : <span class="hljs-number">22</span> &#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="删除集合"><a href="#删除集合" class="headerlink" title="删除集合"></a>删除集合</h4><figure class="highlight node-repl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs node-repl"><span class="hljs-meta prompt_">&gt;</span> <span class="language-javascript">db.<span class="hljs-title function_">createCollection</span>(<span class="hljs-string">&#x27;course&#x27;</span>)</span><br>&#123; &quot;ok&quot; : 1 &#125;<br><span class="hljs-meta prompt_">&gt;</span> <span class="language-javascript">show collections</span><br>course<br>student<br><span class="hljs-meta prompt_">&gt;</span> <span class="language-javascript">db.<span class="hljs-property">course</span>.<span class="hljs-title function_">drop</span>()</span><br>true<br><span class="hljs-meta prompt_">&gt;</span> <span class="language-javascript">show collections</span><br>student<br><br></code></pre></td></tr></table></figure>
+
+<h2 id="Hive数据仓库安装"><a href="#Hive数据仓库安装" class="headerlink" title="Hive数据仓库安装"></a>Hive数据仓库安装</h2><p>hive 是一种底层封装了Hadoop 的数据仓库处理工具，使用类SQL 的hiveSQL 语言实现数据查询，所有hive 的数据都存储在Hadoop 兼容的文件系统（例如，[Amazon S3](<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/Amazon">https://baike.baidu.com/item/Amazon</a> S3&#x2F;10809744)、HDFS）中。hive 在加载数据过程中不会对数据进行任何的修改，只是将数据移动到HDFS 中hive 设定的目录下，因此，hive 不支持对数据的改写和添加，所有的数据都是在加载的时候确定的。</p>
+<p><strong>用户接口Client</strong></p>
+<p>用户接口主要有三个：CLI，Client 和 WUI。其中最常用的是 Cli，Cli 启动的时候，会同时启动一个 hive 副本。Client 是 hive 的客户端，用户连接至 hive Server。在启动 Client 模式的时候，需要指出 hive Server 所在节点，并且在该节点启动 hive Server。 WUI 是通过浏览器访问 hive。</p>
+<p><strong>元数据存储 Metastore</strong></p>
+<p>hive 将元数据存储在数据库中，如 mysql、derby。hive 中的元数据包括表的名字，表的列和分区及其属性，表的属性（是否为外部表等），表的数据所在目录等。</p>
+<p><strong>驱动器：Driver 解释器、编译器、优化器、执行器</strong></p>
+<p>解释器、编译器、优化器完成 HQL 查询语句从词法分析、语法分析、编译、优化以及查询计划的生成。生成的查询计划存储在 HDFS 中，并在随后由 MapReduce 调用执行。</p>
+<p><strong>Hadoop</strong></p>
+<p>hive 的数据存储在 HDFS 中，大部分的查询由 MapReduce 完成（不包含 * 的查询，比如 select * from tbl 不会生成 MapReduce 任务）。</p>
+<p><img src="https://article.biliimg.com/bfs/article/f79d1b048d8f3badd95b31cb952d9b151e4db804.png" srcset="/img/loading.gif" lazyload alt="image-20230413095240448"></p>
+<p><img src="https://article.biliimg.com/bfs/article/9a7cd6b9a3e1e3b57b9dde839c2a59cb113cdec9.png" srcset="/img/loading.gif" lazyload alt="image-20230413095305455"></p>
+<h3 id="安装hive"><a href="#安装hive" class="headerlink" title="安装hive"></a>安装hive</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs xml">tar -xf apache-hive-3.1.2-bin.tar.gz<br>mv apache-hive-3.1.2-bin /usr/local/hive<br>echo &quot;export HIVE_HOME=/usr/local/hive&quot; &gt;&gt; /etc/profile<br>echo &quot;export PATH=\$HIVE_HOME/bin:\$PATH&quot; &gt;&gt; /etc/profile<br>source /etc/profile<br>cd /usr/local/hive/conf/<br>cp hive-default.xml.template hive-default.xml<br>vi hive-site.xml<br><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span> standalone=<span class="hljs-string">&quot;no&quot;</span>?&gt;</span><br><span class="hljs-meta">&lt;?xml-stylesheet type=<span class="hljs-string">&quot;text/xsl&quot;</span> href=<span class="hljs-string">&quot;configuration.xsl&quot;</span>?&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">configuration</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>javax.jdo.option.ConnectionURL<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>jdbc:mysql://yjx48:3306/hive?useSSL=false<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">description</span>&gt;</span>JDBC connect string for a JDBC metastore<span class="hljs-tag">&lt;/<span class="hljs-name">description</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>javax.jdo.option.ConnectionDriverName<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>com.mysql.jdbc.Driver<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">description</span>&gt;</span>Driver class name for a JDBC metastore<span class="hljs-tag">&lt;/<span class="hljs-name">description</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>javax.jdo.option.ConnectionUserName<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>root<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">description</span>&gt;</span>username to use against metastore database<span class="hljs-tag">&lt;/<span class="hljs-name">description</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>javax.jdo.option.ConnectionPassword<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>Yjx@666.<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">description</span>&gt;</span>password to use against metastore database<span class="hljs-tag">&lt;/<span class="hljs-name">description</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">configuration</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>其中Yjx@666.是mysql密码</p>
+<h3 id="安装mysql"><a href="#安装mysql" class="headerlink" title="安装mysql"></a>安装mysql</h3><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">cd</span><br><span class="hljs-attribute">yum</span> remove mariadb-libs.x86_64 -y<br><span class="hljs-attribute">yum</span> install -y net-tools<br><span class="hljs-attribute">mkdir</span> mysql<br><span class="hljs-attribute">tar</span> -xf mysql-<span class="hljs-number">5</span>.<span class="hljs-number">7</span>.<span class="hljs-number">37</span>-<span class="hljs-number">1</span>.el7.x86_64.rpm-bundle.tar -C mysql<br><span class="hljs-attribute">cd</span> mysql<br><span class="hljs-attribute">rpm</span> -ivh mysql-community-common-<span class="hljs-number">5</span>.<span class="hljs-number">7</span>.<span class="hljs-number">37</span>-<span class="hljs-number">1</span>.el7.x86_64.rpm<br><span class="hljs-attribute">rpm</span> -ivh mysql-community-libs-<span class="hljs-number">5</span>.<span class="hljs-number">7</span>.<span class="hljs-number">37</span>-<span class="hljs-number">1</span>.el7.x86_64.rpm<br><span class="hljs-attribute">rpm</span> -ivh mysql-community-libs-compat-<span class="hljs-number">5</span>.<span class="hljs-number">7</span>.<span class="hljs-number">37</span>-<span class="hljs-number">1</span>.el7.x86_64.rpm<br><span class="hljs-attribute">rpm</span> -ivh mysql-community-client-<span class="hljs-number">5</span>.<span class="hljs-number">7</span>.<span class="hljs-number">37</span>-<span class="hljs-number">1</span>.el7.x86_64.rpm<br><span class="hljs-attribute">rpm</span> -ivh mysql-community-devel-<span class="hljs-number">5</span>.<span class="hljs-number">7</span>.<span class="hljs-number">37</span>-<span class="hljs-number">1</span>.el7.x86_64.rpm<br><span class="hljs-attribute">rpm</span> -ivh mysql-community-server-<span class="hljs-number">5</span>.<span class="hljs-number">7</span>.<span class="hljs-number">37</span>-<span class="hljs-number">1</span>.el7.x86_64.rpm<br><span class="hljs-attribute">systemctl</span> enable --now mysqld<br><span class="hljs-attribute">grep</span>  &#x27;temporary password&#x27; /var/log/mysqld.log<br><span class="hljs-attribute">mysqladmin</span> -uroot -p&#x27;darm4hb.<span class="hljs-number">2</span>Rsy&#x27; password &#x27;Yjx@<span class="hljs-number">666</span>.&#x27;<br><span class="hljs-attribute">mysql</span> -uroot -pYjx@<span class="hljs-number">666</span>.<br><span class="hljs-comment">#给root用户授权</span><br><span class="hljs-attribute">grant</span> <span class="hljs-literal">all</span> privileges <span class="hljs-literal">on</span> *.* to &#x27;root&#x27;@&#x27;localhost&#x27; identified by &#x27;Yjx@<span class="hljs-number">666</span>.&#x27; with grant option;<br><span class="hljs-attribute">grant</span> <span class="hljs-literal">all</span> privileges <span class="hljs-literal">on</span> *.* to &#x27;root&#x27;@&#x27;%&#x27; identified by &#x27;Yjx@<span class="hljs-number">666</span>.&#x27; with grant option;<br><span class="hljs-attribute">flush</span> privileges;<br><span class="hljs-attribute">create</span> database hive;<br><span class="hljs-attribute">exit</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="配置和启动hive"><a href="#配置和启动hive" class="headerlink" title="配置和启动hive"></a>配置和启动hive</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs awk">cd<br>tar -xf mysql-connector-java-<span class="hljs-number">5.1</span>.<span class="hljs-number">40</span>.tar.gz<br>cp mysql-connector-java-<span class="hljs-number">5.1</span>.<span class="hljs-number">40</span><span class="hljs-regexp">/mysql-connector-java-5.1.40-bin.jar /u</span>sr<span class="hljs-regexp">/local/</span>hive<span class="hljs-regexp">/lib/</span><br>mv <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/hive/</span>lib/guava-<span class="hljs-number">19.0</span>.jar&#123;,.bak&#125;<br>cp <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/hadoop/</span>share<span class="hljs-regexp">/hadoop/</span>common<span class="hljs-regexp">/lib/gu</span>ava-<span class="hljs-number">27.0</span>-jre.jar  <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/hive/</span>lib<br>start-all.sh <br>schematool -dbType mysql -initSchema<br>hive<br></code></pre></td></tr></table></figure>
+
+<h3 id="Hive数据类型"><a href="#Hive数据类型" class="headerlink" title="Hive数据类型"></a>Hive数据类型</h3><table>
+<thead>
+<tr>
+<th align="center">类型</th>
+<th align="center">描述</th>
+<th align="center">示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">TINYINT（tinyint）</td>
+<td align="center">一个字节（8位）有符号整数，  -128~127</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">SMALLINT（smallint）</td>
+<td align="center">2字节（16位）有符号整数，-32768~32767</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">INT（int）</td>
+<td align="center">4字节（32位）有符号整数</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">BIGINT（bigint）</td>
+<td align="center">8字节（64位）有符号整数</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">FLOAT（float）</td>
+<td align="center">4字节（32位）单精度浮点数</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">DOUBLE（double）</td>
+<td align="center">8字节（64位）双精度浮点数</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">DECIMAL(decimal)</td>
+<td align="center">任意精度的带符号小数</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">BOOLEAN（boolean）</td>
+<td align="center">true&#x2F;false</td>
+<td align="center">true&#x2F;false</td>
+</tr>
+<tr>
+<td align="center">STRING（string）</td>
+<td align="center">字符串，变长</td>
+<td align="center">‘a’,‘b’,‘1’</td>
+</tr>
+<tr>
+<td align="center">VARCHAR（varchar）</td>
+<td align="center">变长字符串</td>
+<td align="center">‘a’</td>
+</tr>
+<tr>
+<td align="center">CHAR（char）</td>
+<td align="center">固定长度字符串</td>
+<td align="center">‘a’</td>
+</tr>
+<tr>
+<td align="center">BINANY（binany）</td>
+<td align="center">字节数组</td>
+<td align="center">无法表示</td>
+</tr>
+<tr>
+<td align="center">TIMESTAMP（timestamp）</td>
+<td align="center">时间戳，纳秒精度</td>
+<td align="center">1.22327E+11</td>
+</tr>
+<tr>
+<td align="center">DATE（date）</td>
+<td align="center">日期</td>
+<td align="center">‘2016-03-29’</td>
+</tr>
+</tbody></table>
+<h3 id="hive的集合数据类型"><a href="#hive的集合数据类型" class="headerlink" title="hive的集合数据类型"></a>hive的集合数据类型</h3><table>
+<thead>
+<tr>
+<th align="center">类型</th>
+<th align="center">描述</th>
+<th align="center">示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">ARRAY</td>
+<td align="center">有序数组，字段的类型必须相同</td>
+<td align="center">Array（1，2）</td>
+</tr>
+<tr>
+<td align="center">MAP</td>
+<td align="center">一组无序的键值对，键的类型必须是原始数据类型，他的值可以是任何类型，同一个映射的键的类型必须相同，值得类型也必须相同</td>
+<td align="center">Map（‘a’,1）</td>
+</tr>
+<tr>
+<td align="center">STRUCT</td>
+<td align="center">一组命名的字段,字段类型可以不同</td>
+<td align="center">Struct（‘a’,1,2.0</td>
+</tr>
+<tr>
+<td align="center">UNION</td>
+<td align="center">UNION则类似于C语言中的UNION结构，在给定的任何一个时间点，UNION类型可以保存指定数据类型中的任意一种</td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<h3 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h3><h4 id="创建数据库和表"><a href="#创建数据库和表" class="headerlink" title="创建数据库和表"></a>创建数据库和表</h4><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">create</span> <span class="hljs-keyword">database</span> hive;<br>use hive;<br><span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> usr(id <span class="hljs-type">int</span>,<span class="hljs-type">name</span> string,age <span class="hljs-type">int</span>);<br></code></pre></td></tr></table></figure>
+
+<h4 id="查看和描述数据库和表"><a href="#查看和描述数据库和表" class="headerlink" title="查看和描述数据库和表"></a>查看和描述数据库和表</h4><figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs abnf">show databases<span class="hljs-comment">;</span><br>show tables<span class="hljs-comment">;</span><br>describe database hive<span class="hljs-comment">;</span><br>describe hive.usr<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="向表中装载数据"><a href="#向表中装载数据" class="headerlink" title="向表中装载数据"></a>向表中装载数据</h4><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> usr <span class="hljs-keyword">values</span>(<span class="hljs-number">1</span>,<span class="hljs-string">&#x27;sina&#x27;</span>,<span class="hljs-number">20</span>);<br><br>#从linux读取数据<br>[root@yjx48 ~]# echo &quot;2,zhangsan,22&quot; &gt;&gt; /opt/data<br>hive&gt; use hive;<br><span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> usr1(id <span class="hljs-type">int</span>,<span class="hljs-type">name</span> string,age <span class="hljs-type">int</span>) <span class="hljs-keyword">row</span> <span class="hljs-keyword">format</span> delimited fields terminated <span class="hljs-keyword">by</span> &quot;,&quot;;<br><span class="hljs-keyword">load</span> data <span class="hljs-keyword">local</span> inpath <span class="hljs-string">&#x27;/opt/data&#x27;</span> overwrite <span class="hljs-keyword">into</span> <span class="hljs-keyword">table</span> usr1;<br></code></pre></td></tr></table></figure>
+
+<h4 id="从hdfs中读取数据"><a href="#从hdfs中读取数据" class="headerlink" title="从hdfs中读取数据"></a>从hdfs中读取数据</h4><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs gradle">echo <span class="hljs-string">&quot;3,lisi,25&quot;</span> &gt;&gt; <span class="hljs-regexp">/opt/</span>test.txt<br>hdfs dfs -put <span class="hljs-regexp">/opt/</span>test.txt /<br>hive<br>load data inpath <span class="hljs-string">&#x27;hdfs://yjx48:9000/test.txt&#x27;</span> overwrite <span class="hljs-keyword">into</span> table usr1;<br></code></pre></td></tr></table></figure>
+
+<h4 id="从别的表中读取数据"><a href="#从别的表中读取数据" class="headerlink" title="从别的表中读取数据"></a>从别的表中读取数据</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs sql">hive<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> usr;<br>OK<br><span class="hljs-number">1</span>       sina    <span class="hljs-number">20</span><br><br>hive<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> usr1;<br>OK<br><span class="hljs-number">3</span>       lisi    <span class="hljs-number">25</span><br>#读取usr1的id<span class="hljs-operator">=</span><span class="hljs-number">3</span>的数据到usr<br><span class="hljs-keyword">insert</span> overwrite <span class="hljs-keyword">table</span> usr <span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> usr1 <span class="hljs-keyword">where</span> id<span class="hljs-operator">=</span><span class="hljs-number">3</span>;<br><br>hive<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> usr;<br>OK<br><span class="hljs-number">3</span>       lisi    <span class="hljs-number">25</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="查询表中数据"><a href="#查询表中数据" class="headerlink" title="查询表中数据"></a>查询表中数据</h4><figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs axapta"><span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> usr1;<br></code></pre></td></tr></table></figure>
+
+<h3 id="Hive实验：词频统计"><a href="#Hive实验：词频统计" class="headerlink" title="Hive实验：词频统计"></a>Hive实验：词频统计</h3><h4 id="在linux上创建输入目录：-x2F-opt-x2F-input；"><a href="#在linux上创建输入目录：-x2F-opt-x2F-input；" class="headerlink" title="在linux上创建输入目录：&#x2F;opt&#x2F;input；"></a>在linux上创建输入目录：&#x2F;opt&#x2F;input；</h4><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs vim"><span class="hljs-built_in">mkdir</span> /<span class="hljs-keyword">opt</span>/<span class="hljs-built_in">input</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="在以上输入目录中添加多个文本文件，其中文件中包含单词：姓名学号，例如：yjx48；"><a href="#在以上输入目录中添加多个文本文件，其中文件中包含单词：姓名学号，例如：yjx48；" class="headerlink" title="在以上输入目录中添加多个文本文件，其中文件中包含单词：姓名学号，例如：yjx48；"></a>在以上输入目录中添加多个文本文件，其中文件中包含单词：姓名学号，例如：yjx48；</h4><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs vim"><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;hello1 yjx48&quot;</span> &gt;&gt; /<span class="hljs-keyword">opt</span>/<span class="hljs-built_in">input</span>/text1.txt<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;hello2 yjx48&quot;</span> &gt;&gt; /<span class="hljs-keyword">opt</span>/<span class="hljs-built_in">input</span>/text2.txt<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;hello3 yjx48&quot;</span> &gt;&gt; /<span class="hljs-keyword">opt</span>/<span class="hljs-built_in">input</span>/text3.txt<br></code></pre></td></tr></table></figure>
+
+<h4 id="在Hive中创建表“docs”，并把输入目录的文件数据加载到该表中；"><a href="#在Hive中创建表“docs”，并把输入目录的文件数据加载到该表中；" class="headerlink" title="在Hive中创建表“docs”，并把输入目录的文件数据加载到该表中；"></a>在Hive中创建表“docs”，并把输入目录的文件数据加载到该表中；</h4><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">use hive;<br><span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> docs(<span class="hljs-type">line</span> string);<br><span class="hljs-keyword">load</span> data <span class="hljs-keyword">local</span> inpath <span class="hljs-string">&#x27;/opt/input&#x27;</span> overwrite <span class="hljs-keyword">into</span> <span class="hljs-keyword">table</span> docs;<br><span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> docs;<br></code></pre></td></tr></table></figure>
+
+<h4 id="编写HiveQL语句对输入目录的文本进行词频统计，统计单词“姓名学号”出现的次数。"><a href="#编写HiveQL语句对输入目录的文本进行词频统计，统计单词“姓名学号”出现的次数。" class="headerlink" title="编写HiveQL语句对输入目录的文本进行词频统计，统计单词“姓名学号”出现的次数。"></a>编写HiveQL语句对输入目录的文本进行词频统计，统计单词“姓名学号”出现的次数。</h4><figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">create</span> table word_count <span class="hljs-keyword">as</span><br><span class="hljs-keyword">select</span> word,<span class="hljs-built_in">count</span>(<span class="hljs-number">1</span>) <span class="hljs-keyword">as</span> <span class="hljs-built_in">count</span> <span class="hljs-keyword">from</span><br>(<span class="hljs-keyword">select</span> explode(<span class="hljs-built_in">split</span>(line,<span class="hljs-string">&#x27; &#x27;</span>)) <span class="hljs-keyword">as</span> word <span class="hljs-keyword">from</span> docs) w<br><span class="hljs-keyword">group</span> <span class="hljs-keyword">by</span> word<br><span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> word;<br><br><span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> word_count;<br>describe word_count;<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://article.biliimg.com/bfs/article/d20f98bec8ed685fde8bfd0e4db5fb446cc84539.png" srcset="/img/loading.gif" lazyload alt="image-20230413214018276"></p>
+<div class="tbsm" style="margin-top:54px;">
+<div class="tbsm-top"><span><svg t="1674654360507" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="987" data-spm-anchor-id="a313x.7781069.0.i0" width="35" height="35"><path d="M410.49 97.74H155.08a56.74 56.74 0 0 0-56.84 56.73V410a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 467.32 410V154.58a56.83 56.83 0 0 0-56.83-56.84zM410.49 558.74H155.08a56.74 56.74 0 0 0-56.84 56.73V871a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 467.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84zM871.49 558.74H616.08a56.74 56.74 0 0 0-56.84 56.73V871a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 928.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84z" fill="#66EEFF" p-id="988"></path><path d="M410.49 558.74h-4.14A475 475 0 0 0 299.52 859.6a481.16 481.16 0 0 0 4.84 68.22h106.13A56.83 56.83 0 0 0 467.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84zM871.49 558.74H616.08a56.74 56.74 0 0 0-56.84 56.73V871a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 928.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84z" fill="#C2F8FF" p-id="989"></path></svg></span><span style="font-size:30px;"> 特别声明</span></div>
+<div class="tbsm-wz">千屹博客旗下的所有文章，是通过本人课堂学习和课外自学所精心整理的知识巨著<br/>难免会有出错的地方<br/>如果细心的你发现了小失误，可以在下方评论区告诉我，或者私信我！<br />非常感谢大家的热烈支持！</div>
+</div>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Hadoop/">#Hadoop</a>
+      
+        <a href="/tags/Zookeeper/">#Zookeeper</a>
+      
+        <a href="/tags/HBase/">#HBase</a>
+      
+        <a href="/tags/NoSQL/">#NoSQL</a>
+      
+        <a href="/tags/MongoDB/">#MongoDB</a>
+      
+        <a href="/tags/Hive/">#Hive</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Hadoop组件部署</div>
+      <div>https://blog.qianyios.top/2023/04/13/Hadoop_zj/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>严千屹</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年4月13日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/04/02/OpenStackT/" title="OpenStack-Train双节点部署">
+                        <span class="hidden-mobile">OpenStack-Train双节点部署</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"geJAvpyCyYwmp1wI8u2CCkV5-gzGzoHsz","appKey":"WnNukDH4RUTtMsUwJvNG4vyR","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":true},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <div class="zsqk"> <p>(￣▽￣)" 赞赏！</p> <div class="zstb"> <a  class="qr-trigger" target="_self"> <i class="iconfont icon-wechat-fill" aria-hidden="true"></i> <img class="qr-img animate__animated animate__bounc animate__fadeInDown" src="https://blog.qianyios.top/img/zansang/wxzf.png" srcset="/img/loading.gif" lazyload alt="qrcode" /> </a> <a  class="qr-trigger" target="_self"> <i class="iconfont icon-alipay-fill" aria-hidden="true"></i> <img class="qr-img animate__animated animate__bounc animate__fadeInDown" src="https://blog.qianyios.top/img/zansang/zfb.png" srcset="/img/loading.gif" lazyload alt="qrcode" /> </a>
+</div>
+<p class="zsyy animate__animated animate__bounce animate__flash animate__infinite	infinite animate__slow">如果对你有帮助，就请我喝一杯吧！！</p> </div> <br /> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
