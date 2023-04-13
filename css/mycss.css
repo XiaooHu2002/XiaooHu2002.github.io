@@ -23,9 +23,9 @@ html, body {
 }
 div#toc-body {
     background: #007bff24;
-    border-radius: 0.5em;
+    border-radius: 1.5em;
     padding: 10px;
-    box-shadow: 3px 3px 12px 1px;
+    box-shadow: 1px 1px 10px -2px #000000;
 }
 .index-excerpt > div {
 line-height: 3.4rem;
