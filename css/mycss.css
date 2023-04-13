@@ -21,6 +21,9 @@ html, body {
     text-align: center;
     line-height: 38px;
 }
+ol.tocbot-list {
+    background: #007bff40;
+}
 .index-excerpt > div {
 line-height: 3.4rem;
 
