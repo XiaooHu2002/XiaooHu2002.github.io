@@ -1,7 +1,7 @@
 html, body {
 
     background-color: #fff;
-    font-family:Gill Sans,"youyuan",sans-serif;
+    font-family:Gill Sans,jcyt,sans-serif;
     background:url(../img/default.webp)no-repeat center center fixed,url(../img/default.png)no-repeat center center fixed;-webkit-background-size: cover;-o-background-size: cover;background-size: cover;
     
 }
@@ -40,7 +40,7 @@ color:#ffffff;
 
 }
 h1,h2,h3,h4,h5,h6,h7,h8,p{
-    font-family: 'Gill Sans',"youyuan", sans-serif
+    font-family: 'Gill Sans',jcyt, sans-serif
 }
 .navbar .navbar-brand strong{
 
@@ -63,6 +63,10 @@ color:#fff;
 font-family:sans-serif;
     src: url('../font/sans-serif.ttf');
 }
+@font-face {
+font-family:jcyt;
+    src: url('../font/jcyt.ttf');
+}
 
 @font-face {
 font-family:Gill Sans;
@@ -84,11 +88,11 @@ font-family:youyuan;
 }
 main .markdown-body{
 
-font-family:Gill Sans,sans-serif,youyuan;
+font-family:Gill Sans,sans-serif,jcyt;
 }
 
 #container *{
-  font-family:Gill Sans,sans-serif,youyuan;
+  font-family:Gill Sans,sans-serif,jcyt;
 }
 
 a.qr-trigger {
@@ -118,33 +122,33 @@ margin: 0 6px;
 .markdown-body h2 {
 	counter-increment: counter_h2;
 	counter-reset: counter_h3;
- font-family:Gill Sans,"youyuan",sans-serif;
+ font-family:Gill Sans,jcyt,sans-serif;
 }
 .markdown-body h2 .headerlink:before {
 	content: counter(counter_h2)"  ";
- font-family:Gill Sans,"youyuan",sans-serif;
+ font-family:Gill Sans,jcyt,sans-serif;
 }
 
 .markdown-body h3 {
 	counter-increment: counter_h3;
 	counter-reset: counter_h4;
- font-family:Gill Sans,"youyuan",sans-serif;
+ font-family:Gill Sans,jcyt,sans-serif;
 }
 
 .markdown-body h3 .headerlink:before {
 	content: counter(counter_h2)"."counter(counter_h3)"  ";
- font-family:Gill Sans,"youyuan",sans-serif;
+ font-family:Gill Sans,jcyt,sans-serif;
 }
 
 .markdown-body h4 {
 	counter-increment: counter_h4;
 	counter-reset: counter_h5;
- font-family:Gill Sans,"youyuan",sans-serif;
+ font-family:Gill Sans,jcyt,sans-serif;
 }
 
 .markdown-body h4 .headerlink:before {
 	content: counter(counter_h2)"."counter(counter_h3)"."counter(counter_h4)"  ";
- font-family:Gill Sans,"youyuan",sans-serif;
+ font-family:Gill Sans,jcyt,sans-serif;
 }
 
 
