@@ -4,6 +4,27 @@
   
   
   <entry>
+    <title>Ansible练习手册</title>
+    <link href="/2023/09/10/Ansible-zsc/"/>
+    <url>/2023/09/10/Ansible-zsc/</url>
+    
+    <content type="html"><![CDATA[<h1 id="Ansible练习手册"><a href="#Ansible练习手册" class="headerlink" title="Ansible练习手册"></a>Ansible练习手册</h1><ol><li><a href="https://blog.qianyios.top/2023/09/09/Ansible-3jbs/">Ansible三机部署</a></li><li>用户级ansible环境构建（小练习）</li></ol>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Centos 7</tag>
+      
+      <tag>Ansible</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Ansible三机部署</title>
     <link href="/2023/09/09/Ansible-3jbs/"/>
     <url>/2023/09/09/Ansible-3jbs/</url>
