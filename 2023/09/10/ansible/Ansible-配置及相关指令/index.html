@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://article.biliimg.com/bfs/article/61a03c30bb8076e54a7ca642358aaefded5a9a98.png">
 <meta property="article:published_time" content="2023-09-10T13:39:40.000Z">
-<meta property="article:modified_time" content="2023-09-10T06:25:58.626Z">
+<meta property="article:modified_time" content="2023-09-12T15:56:40.137Z">
 <meta property="article:author" content="严千屹">
 <meta property="article:tag" content="Centos 7">
 <meta property="article:tag" content="Ansible">
@@ -230,7 +230,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.5k 字
+          4.3k 字
         
       </span>
     
@@ -241,7 +241,7 @@
         
         
         
-          29 分钟
+          37 分钟
         
       </span>
     
@@ -297,20 +297,24 @@
 </li>
 </ol>
 <h2 id="ansible配置文件"><a href="#ansible配置文件" class="headerlink" title="ansible配置文件"></a>ansible配置文件</h2><p>　ansible 的配置文件为<code>/etc/ansible/ansible.cfg</code>，ansible 有许多参数，下面我们列出一些常见的参数：</p>
-<blockquote>
-<p>inventory &#x3D; &#x2F;etc&#x2F;ansible&#x2F;hosts		<br>#这个参数表示资源清单inventory文件的位置</p>
-<p>library &#x3D; &#x2F;usr&#x2F;share&#x2F;ansible		<br>#指向存放Ansible模块的目录，支持多个目录方式，只要用冒号（：）隔开就可以</p>
-<p>forks &#x3D; 5		<br>#并发连接数，默认为5</p>
-<p>sudo_user &#x3D; root		<br>#设置默认执行命令的用户</p>
-<p>remote_port &#x3D; 22		<br>#指定连接被管节点的管理端口，默认为22端口，建议修改，能够更加安全</p>
-<p>host_key_checking &#x3D; False		<br>#设置是否检查SSH主机的密钥，值为True&#x2F;False。关闭后第一次连接不会提示配置实例</p>
-<p>timeout &#x3D; 60		<br>#设置SSH连接的超时时间，单位为秒</p>
-<p>log_path &#x3D; &#x2F;var&#x2F;log&#x2F;ansible.log		<br>#指定一个存储ansible日志的文件（默认不记录日志）</p>
-</blockquote>
-<h2 id="ansuble主机清单"><a href="#ansuble主机清单" class="headerlink" title="ansuble主机清单"></a>ansuble主机清单</h2><figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs clean"><span class="hljs-number">1</span>、 直接指明主机地址或主机名：<br>	## green.example.com#<br>	# blue.example.com#<br>	# <span class="hljs-number">192.168</span><span class="hljs-number">.100</span><span class="hljs-number">.1</span><br>	# <span class="hljs-number">192.168</span><span class="hljs-number">.100</span><span class="hljs-number">.10</span><br><span class="hljs-number">2</span>、 定义一个主机组[组名]把地址或主机名加进去<br>	[mysql_test]<br>	<span class="hljs-number">192.168</span><span class="hljs-number">.253</span><span class="hljs-number">.159</span><br>	<span class="hljs-number">192.168</span><span class="hljs-number">.253</span><span class="hljs-number">.160</span><br>	<span class="hljs-number">192.168</span><span class="hljs-number">.253</span><span class="hljs-number">.153</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs clean">[defaults]<br> <br>#inventory      = /etc/ansible/hosts   <span class="hljs-comment">//定义Inventory</span><br>#library        = /usr/share/my_modules/  <span class="hljs-comment">//自定义lib库存放目录 </span><br>#remote_tmp     = ~/.ansible/tmp       <span class="hljs-comment">//零时文件远程主机存放目录</span><br>#local_tmp      = ~/.ansible/tmp       <span class="hljs-comment">//零时文件本地存放目录</span><br>#forks          = <span class="hljs-number">5</span>                    <span class="hljs-comment">//默认开启的并发数</span><br>#poll_interval  = <span class="hljs-number">15</span>                   <span class="hljs-comment">//默认轮询时间间隔</span><br>#sudo_user      = root                 <span class="hljs-comment">//默认sudo用户</span><br>#ask_sudo_pass = <span class="hljs-literal">True</span>                  <span class="hljs-comment">//是否需要sudo密码</span><br>#ask_pass      = <span class="hljs-literal">True</span>                  <span class="hljs-comment">//是否需要密码</span><br>#host_key_checking = <span class="hljs-literal">False</span>             <span class="hljs-comment">//首次连接是否检查key认证</span><br>#roles_path    = /etc/ansible/roles    <span class="hljs-comment">//默认下载的Roles存放的目录</span><br>#log_path = /var/log/ansible.log       <span class="hljs-comment">//执行日志存放目录</span><br>#module_name = command                 <span class="hljs-comment">//默认执行的模块</span><br>#action_plugins     = /usr/share/ansible/plugins/action <span class="hljs-comment">//action插件存放目录</span><br>#callback_plugins   = /usr/share/ansible/plugins/callback <span class="hljs-comment">//callback插件存放目录</span><br>#connection_plugins = /usr/share/ansible/plugins/connection  <span class="hljs-comment">//connection插件存放目录</span><br>#lookup_plugins     = /usr/share/ansible/plugins/lookup <span class="hljs-comment">//lookup插件存放目录</span><br>#vars_plugins       = /usr/share/ansible/plugins/vars <span class="hljs-comment">//vars插件存放目录</span><br>#filter_plugins     = /usr/share/ansible/plugins/filter <span class="hljs-comment">//filter插件存放目录</span><br>#test_plugins       = /usr/share/ansible/plugins/test <span class="hljs-comment">//test插件存放目录</span><br>#strategy_plugins   = /usr/share/ansible/plugins/strategy <span class="hljs-comment">//strategy插件存放目录</span><br>#fact_caching = memory                 <span class="hljs-comment">//getfact缓存的主机信息存放方式</span><br>#retry_files_enabled = <span class="hljs-literal">False</span>              <br>#retry_files_save_path = ~/.ansible-retry  <span class="hljs-comment">//错误重启文件存放目录</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="配置文件的分类与优先级"><a href="#配置文件的分类与优先级" class="headerlink" title="配置文件的分类与优先级"></a>配置文件的分类与优先级</h3><p>Ansible只有一个配置文件ansible.cfg，但配置文件可以存在不同的位置，并且只有一个可用 (数字代表优先级，数字越小代表优先级越高) :</p>
+<p><img src="https://article.biliimg.com/bfs/article/3e62e0f58987c36f1c281e569f0ef32e54050a02.png" srcset="/img/loading.gif" lazyload alt="image-20230912232830688"></p>
+<h3 id="配置文件选项"><a href="#配置文件选项" class="headerlink" title="配置文件选项"></a>配置文件选项</h3><p><img src="https://article.biliimg.com/bfs/article/95f5be24e45da5da859f5a8acc399b4db58d07ce.png" srcset="/img/loading.gif" lazyload alt="image-20230912232950364"></p>
+<p><img src="https://article.biliimg.com/bfs/article/1d9d44369615e84436eb8b2eaf128ea95ad99951.png" srcset="/img/loading.gif" lazyload alt="image-20230912233003740"></p>
+<p><img src="https://article.biliimg.com/bfs/article/adfcdc9386fa5b860378d83e6951e4a2f0c593ac.png" srcset="/img/loading.gif" lazyload alt="image-20230912233019308"></p>
+<p>官网配置参考网址</p>
+<p><a target="_blank" rel="noopener" href="https://docs.ansible.com/ansible/2.9/reference_appendices/config.html">Ansible Configuration Settings — Ansible Documentation</a></p>
+<p><img src="https://article.biliimg.com/bfs/article/d2f0fbdcae4790300822cc6874ca63a9006fb7cf.png" srcset="/img/loading.gif" lazyload alt="image-20230912233124916"></p>
+<h2 id="ansuble主机清单"><a href="#ansuble主机清单" class="headerlink" title="ansuble主机清单"></a>ansuble主机清单</h2><figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs clean"><span class="hljs-number">1</span>、 定义单独主机：<br>	## green.example.com#<br>	# blue.example.com#<br>	# <span class="hljs-number">192.168</span><span class="hljs-number">.100</span><span class="hljs-number">.1</span><br>	# <span class="hljs-number">192.168</span><span class="hljs-number">.100</span><span class="hljs-number">.10</span><br><span class="hljs-number">2</span>、 定义一个主机组[组名]把地址或主机名加进去<br>	[mysql_test]<br>	<span class="hljs-number">192.168</span><span class="hljs-number">.253</span><span class="hljs-number">.159</span><br>	<span class="hljs-number">192.168</span><span class="hljs-number">.253</span><span class="hljs-number">.160</span><br>	<span class="hljs-number">192.168</span><span class="hljs-number">.253</span><span class="hljs-number">.153</span><br></code></pre></td></tr></table></figure>
 
 <p>需要注意的是，这里的<code>组成员可以使用通配符来匹配</code>，这样对于一些标准化的管理来说就很轻松方便了。<br>　　我们可以根据实际情况来配置我们的主机列表，具体操作如下：</p>
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs csharp">[<span class="hljs-meta">root@server ~</span>]<span class="hljs-meta"># vim /etc/ansible/hosts</span><br>	[<span class="hljs-meta">web</span>]<br>	<span class="hljs-number">192.168</span><span class="hljs-number">.37</span><span class="hljs-number">.122</span><br>	<span class="hljs-number">192.168</span><span class="hljs-number">.37</span><span class="hljs-number">.133</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-number">3</span>、 定义嵌套组<br>    <span class="hljs-selector-attr">[web-mysql]</span><br>       mysql_test<br>       web<br><span class="hljs-number">4</span>、 定义范围化ip<br>    <span class="hljs-number">172.16</span>.<span class="hljs-selector-attr">[0:4]</span>.<span class="hljs-selector-attr">[2:254]</span>  <br></code></pre></td></tr></table></figure>
+
+
 
 <h2 id="ansible-常用命令"><a href="#ansible-常用命令" class="headerlink" title="ansible 常用命令"></a>ansible 常用命令</h2><blockquote>
 <p><code>/usr/bin/ansible</code>　　Ansibe AD-Hoc 临时命令执行工具，常用于临时命令的执行<br><code>/usr/bin/ansible-doc</code> 　Ansible 模块功能查看工具<br><code>/usr/bin/ansible-galaxy</code>　　下载&#x2F;上传优秀代码或Roles模块 的官网平台，基于网络的<br><code>/usr/bin/ansible-playbook</code>　　Ansible 定制自动化的任务集编排工具<br><code>/usr/bin/ansible-pull</code>　　Ansible远程执行命令的工具，拉取配置而非推送配置（使用较少，海量机器时使用，对运维的架构能力要求较高）<br><code>/usr/bin/ansible-vault</code>　　Ansible 文件加密工具<br><code>/usr/bin/ansible-console</code>　　Ansible基于Linux Consoble界面可与用户交互的命令执行工具</p>
@@ -391,7 +395,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2023年9月10日</div>
+          <div>2023年9月12日</div>
         </div>
       
       
