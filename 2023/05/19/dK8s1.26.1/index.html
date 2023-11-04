@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://article.biliimg.com/bfs/article/e7d34dc2025d38f3c6156003a793bb1ef8555498.png">
 <meta property="article:published_time" content="2023-05-19T16:43:40.000Z">
-<meta property="article:modified_time" content="2023-07-12T05:41:15.169Z">
+<meta property="article:modified_time" content="2023-11-04T08:14:10.583Z">
 <meta property="article:author" content="严千屹">
 <meta property="article:tag" content="Centos 7">
 <meta property="article:tag" content="K8s">
@@ -241,7 +241,7 @@
         
         
         
-          87 分钟
+          88 分钟
         
       </span>
     
@@ -410,7 +410,8 @@
 <h2 id="node01、node02加入集群"><a href="#node01、node02加入集群" class="headerlink" title="node01、node02加入集群"></a>node01、node02加入集群</h2><p>两个node都打</p>
 <figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli">kubeadm join 192.168.48.100<span class="hljs-function">:6443</span> <span class="hljs-params">--token</span> 66nkqe.7yo5d2r48wor8r8l \<br>        <span class="hljs-params">--discovery-token-ca-cert-hash</span> sha256<span class="hljs-function">:5f62fbf4775349e16431fc62e25c1feed9e5a6c76ab457a2641b371386d1170e</span> <span class="hljs-params">--cri-socket</span> unix:<span class="hljs-string">///var/run/cri-dockerd.sock</span><br></code></pre></td></tr></table></figure>
 
-<h2 id="master配置网络插件calico"><a href="#master配置网络插件calico" class="headerlink" title="master配置网络插件calico"></a>master配置网络插件calico</h2><p><span style=color:red>以下操作在master节点操作</span></p>
+<h2 id="master配置网络插件calico"><a href="#master配置网络插件calico" class="headerlink" title="master配置网络插件calico"></a>master配置网络插件calico</h2><p>如果calico的文件下载不了，直接用文章最顶部的资源，已经给你们下载好了</p>
+<p><span style=color:red>以下操作在master节点操作</span></p>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs awk">增加解析记录<br>echo <span class="hljs-string">&#x27;185.199.108.133 raw.githubusercontent.com&#x27;</span> &gt;&gt; <span class="hljs-regexp">/etc/</span>hosts <br>curl https:<span class="hljs-regexp">//</span>raw.githubusercontent.com<span class="hljs-regexp">/projectcalico/</span>calico<span class="hljs-regexp">/v3.25.1/m</span>anifests/calico.yaml -O<br>kubectl apply -f calico.yaml<br></code></pre></td></tr></table></figure>
 
 <p>PS：如果部署失败，则删除calico ：kubectl  delete -f calico.yaml</p>
@@ -419,7 +420,8 @@
 
 <figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs crmsh"><span class="hljs-comment">#正常信息</span><br>[root@<span class="hljs-keyword">master</span> <span class="hljs-title">~]# kubectl</span> get nodes<br>NAME     STATUS   ROLES           AGE   <span class="hljs-keyword">VERSION</span><br><span class="hljs-keyword">master</span>   <span class="hljs-title">Ready</span>    control-plane   <span class="hljs-number">53m</span>   v1.<span class="hljs-number">26.1</span><br>node01   Ready    worker          <span class="hljs-number">46m</span>   v1.<span class="hljs-number">26.1</span><br>node02   Ready    worker          <span class="hljs-number">46m</span>   v1.<span class="hljs-number">26.1</span><br><span class="hljs-comment">##要过1分钟才会为Ready</span><br></code></pre></td></tr></table></figure>
 
-<h2 id="部署Dashboard"><a href="#部署Dashboard" class="headerlink" title="部署Dashboard"></a>部署Dashboard</h2><p>在master节点</p>
+<h2 id="部署Dashboard"><a href="#部署Dashboard" class="headerlink" title="部署Dashboard"></a>部署Dashboard</h2><p>如果dashboard的文件下载不了，直接用文章最顶部的资源，已经给你们下载好了</p>
+<p>在master节点</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">wget</span> <span class="hljs-string">https://raw.githubusercontent.com/cby-chen/Kubernetes/main/yaml/dashboard.yaml</span><br><br><span class="hljs-comment">#默认Dashboard只能集群内部访问，修改Service为NodePort类型，暴露到外部访问，修改如下：</span><br><span class="hljs-string">vim</span> <span class="hljs-string">dashboard.yaml</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">Service</span><br><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">v1</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">labels:</span><br>    <span class="hljs-attr">k8s-app:</span> <span class="hljs-string">kubernetes-dashboard</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">kubernetes-dashboard</span><br>  <span class="hljs-attr">namespace:</span> <span class="hljs-string">kubernetes-dashboard</span><br><span class="hljs-attr">spec:</span><br>  <span class="hljs-attr">ports:</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-attr">port:</span> <span class="hljs-number">443</span><br>      <span class="hljs-attr">targetPort:</span> <span class="hljs-number">8443</span><br>      <span class="hljs-attr">nodePort:</span> <span class="hljs-number">30001</span><br>  <span class="hljs-attr">selector:</span><br>    <span class="hljs-attr">k8s-app:</span> <span class="hljs-string">kubernetes-dashboard</span><br>  <span class="hljs-attr">type:</span> <span class="hljs-string">NodePort</span><br></code></pre></td></tr></table></figure>
 
 <img src="https://article.biliimg.com/bfs/article/8f9a85eb20ed5fc6ab567942b969fe96d74570db.png" srcset="/img/loading.gif" lazyload alt="image-20230512171256847" style="zoom:67%;" />
@@ -488,7 +490,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2023年7月12日</div>
+          <div>2023年11月4日</div>
         </div>
       
       
