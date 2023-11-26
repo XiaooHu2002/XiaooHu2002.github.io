@@ -23,14 +23,14 @@
 <meta property="og:site_name" content="严千屹博客">
 <meta property="og:description" content="Centos7 部署 k8s（基于containerd 运行时）">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://article.biliimg.com/bfs/article/4a4d2a32adcdf560ec39effd9c4d1c207ef127e7.png">
+<meta property="og:image" content="https://blog.qianyios.top/img/ck8s1.26.1/4a4d2a32adcdf560ec39effd9c4d1c207ef127e7.png">
 <meta property="article:published_time" content="2023-07-08T17:11:40.000Z">
-<meta property="article:modified_time" content="2023-11-04T08:13:53.510Z">
+<meta property="article:modified_time" content="2023-11-26T15:18:25.871Z">
 <meta property="article:author" content="严千屹">
 <meta property="article:tag" content="Centos 7">
 <meta property="article:tag" content="K8s">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://article.biliimg.com/bfs/article/4a4d2a32adcdf560ec39effd9c4d1c207ef127e7.png">
+<meta name="twitter:image" content="https://blog.qianyios.top/img/ck8s1.26.1/4a4d2a32adcdf560ec39effd9c4d1c207ef127e7.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -427,24 +427,24 @@
 <p>在master节点</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">wget</span> <span class="hljs-string">https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml</span><br><br><span class="hljs-comment">#默认Dashboard只能集群内部访问，修改Service为NodePort类型，暴露到外部访问，修改如下：</span><br><span class="hljs-string">vim</span> <span class="hljs-string">recommended.yaml</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">Service</span><br><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">v1</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">labels:</span><br>    <span class="hljs-attr">k8s-app:</span> <span class="hljs-string">kubernetes-dashboard</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">kubernetes-dashboard</span><br>  <span class="hljs-attr">namespace:</span> <span class="hljs-string">kubernetes-dashboard</span><br><span class="hljs-attr">spec:</span><br>  <span class="hljs-attr">ports:</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-attr">port:</span> <span class="hljs-number">443</span><br>      <span class="hljs-attr">targetPort:</span> <span class="hljs-number">8443</span><br>      <span class="hljs-attr">nodePort:</span> <span class="hljs-number">30001</span><br>  <span class="hljs-attr">selector:</span><br>    <span class="hljs-attr">k8s-app:</span> <span class="hljs-string">kubernetes-dashboard</span><br>  <span class="hljs-attr">type:</span> <span class="hljs-string">NodePort</span><br></code></pre></td></tr></table></figure>
 
-<img src="https://article.biliimg.com/bfs/article/8f9a85eb20ed5fc6ab567942b969fe96d74570db.png" srcset="/img/loading.gif" lazyload alt="image-20230512171256847" style="zoom:67%;" />
+<img src="../img/ck8s1.26.1/8f9a85eb20ed5fc6ab567942b969fe96d74570db.png" srcset="/img/loading.gif" lazyload alt="image-20230512171256847" style="zoom:67%;" />
 
 <p>位置顺序要按如图所示</p>
 <figure class="highlight nsis"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs nsis">kubectl apply -f recommended.yaml<br>kubectl get pods -n kubernetes-dashboard<br><span class="hljs-comment">#以下是正常信息 （Running）</span><br>[root@master ~]<span class="hljs-comment"># kubectl get pods -n kubernetes-dashboard</span><br><span class="hljs-keyword">NAME</span>                                        READY   STATUS    RESTARTS   AGE<br>dashboard-metrics-scraper-<span class="hljs-number">7</span>bc864c59-krfmg   <span class="hljs-number">1</span>/<span class="hljs-number">1</span>     Running   <span class="hljs-number">0</span>          <span class="hljs-number">2</span>m9s<br>kubernetes-dashboard-<span class="hljs-number">6</span>c7ccbcf87-krzr6       <span class="hljs-number">1</span>/<span class="hljs-number">1</span>     Running   <span class="hljs-number">0</span>          <span class="hljs-number">2</span>m9s<br><br><br>创建service account并绑定默认cluster-<span class="hljs-literal">admin</span>管理员群角色<br><span class="hljs-comment">#创建用户</span><br>kubectl create serviceaccount dashboard-<span class="hljs-literal">admin</span> -n kubernetes-dashboard<br><span class="hljs-comment">#用户授权</span><br>kubectl create clusterrolebinding dashboard-<span class="hljs-literal">admin</span> --clusterrole=cluster-<span class="hljs-literal">admin</span> --serviceaccount=kubernetes-dashboard:dashboard-<span class="hljs-literal">admin</span><br><span class="hljs-comment">#获取用户Token</span><br>kubectl create token dashboard-<span class="hljs-literal">admin</span> -n kubernetes-dashboard<br><br>eyJhbGciOiJSUzI1NiIsImtpZCI6IjdOQUpMNDVpVGpqMWxmSHdzdm81WGFkSmtQUTludHo5TEJvbk56NXFUOGcifQ.eyJhdWQiOlsiaHR0cHM6Ly9rdWJlcm5ldGVzLmRlZmF1bHQuc3ZjLmNsdXN0ZXIubG9jYWwiXSwiZXhwIjoxNjg4ODMyNDYxLCJpYXQiOjE2ODg4Mjg4NjEsImlzcyI6Imh0dHBzOi8va3ViZXJuZXRlcy5kZWZhdWx0LnN2Yy5jbHVzdGVyLmxvY2FsIiwia3ViZXJuZXRlcy5pbyI6eyJuYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsInNlcnZpY2VhY2NvdW50Ijp7Im5hbWUiOiJkYXNoYm9hcmQtYWRtaW4iLCJ1aWQiOiI2MjBiMjNlZS1jMmYzLTQ5NjYtYTVlNS02M2Y4MGYxNGJhMDkifX0sIm5iZiI6MTY4ODgyODg2MSwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50Omt1YmVybmV0ZXMtZGFzaGJvYXJkOmRhc2hib2FyZC1hZG1pbiJ9.uZEgVhEVDgZJ7jMTiTeUMvkZ0j-TtJ7cx1bwK4f7lLlifTO6rvG3EjCkufsVEbY1oRruC30T3hDZI_xupkv9InTjJwFV1ZSTJyXfijr-xYShELBMCQ4W1c_gGPkvP_OIhr7yfes2pfk066HzZz_gsJB_TakkVtjS1aJPjrWtO7vkzWxOTmF9jQF0Ja3iNh8EYJOcQz5oJBkiwN3TdCc0cf44To0HSmG9Mytn2uy4UJsgxN1LKjrERb8JAn25Xm9ubFNG5U2Zp8yVD5MyoAraWpo0sQOZzTvQaFc6CsXcSUd8EEPkY2eUEdC1gKf2ugpS9T7r398AVlUOSyob7T8kqQ<br><br></code></pre></td></tr></table></figure>
 
 <p>查询pod状态</p>
-<p><img src="https://article.biliimg.com/bfs/article/23f5aebbfbff61d18504aec0426069a152465f7d.png" srcset="/img/loading.gif" lazyload alt="image-20230519155939383"></p>
+<p><img src="/../img/ck8s1.26.1/23f5aebbfbff61d18504aec0426069a152465f7d.png" srcset="/img/loading.gif" lazyload alt="image-20230519155939383"></p>
 <figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs armasm"><span class="hljs-symbol">kubectl</span> <span class="hljs-meta">get</span> pod,<span class="hljs-keyword">svc</span> -o wide -n kubernetes-dashboard<br></code></pre></td></tr></table></figure>
 
 <p>浏览器访问https:&#x2F;&#x2F;所在node的ip:30001<br><a target="_blank" rel="noopener" href="https://192.168.48.101:30001/">https://192.168.48.101:30001</a>    因本pod在node01，请根据实际情况修改。<br>输入token</p>
-<p><img src="https://article.biliimg.com/bfs/article/392cff12471a1bfd15d67213f8e461adc1690a9b.png" srcset="/img/loading.gif" lazyload alt="image-20230519160425152"></p>
+<p><img src="/../img/ck8s1.26.1/392cff12471a1bfd15d67213f8e461adc1690a9b.png" srcset="/img/loading.gif" lazyload alt="image-20230519160425152"></p>
 <h2 id="测试集群"><a href="#测试集群" class="headerlink" title="测试集群"></a>测试集群</h2><p>master</p>
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs routeros">kubectl create deployment nginx <span class="hljs-attribute">--image</span>=nginx<br>kubectl expose deployment nginx <span class="hljs-attribute">--port</span>=80 <span class="hljs-attribute">--type</span>=NodePort<br>kubectl <span class="hljs-built_in">get</span> pod,svc,deployment -o wide<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://article.biliimg.com/bfs/article/b99a6da4e87724539fd69eeacff17a19e35aeb8c.png" srcset="/img/loading.gif" lazyload alt="image-20230519160645944"></p>
+<p><img src="/../img/ck8s1.26.1/b99a6da4e87724539fd69eeacff17a19e35aeb8c.png" srcset="/img/loading.gif" lazyload alt="image-20230519160645944"></p>
 <p>如图可知，pod在node02，所以浏览器访问ip:31971</p>
 <p><a target="_blank" rel="noopener" href="http://192.168.48.102:31971/">http://192.168.48.102:31971</a></p>
-<p><img src="https://article.biliimg.com/bfs/article/1f5a167746606c84af0ea8fe5859cc81a5055d7d.png" srcset="/img/loading.gif" lazyload alt="image-20230519160800617"></p>
+<p><img src="/../img/ck8s1.26.1/1f5a167746606c84af0ea8fe5859cc81a5055d7d.png" srcset="/img/loading.gif" lazyload alt="image-20230519160800617"></p>
 <div class="tbsm" style="margin-top:54px;">
 <div class="tbsm-top"><span><svg t="1674654360507" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="987" data-spm-anchor-id="a313x.7781069.0.i0" width="35" height="35"><path d="M410.49 97.74H155.08a56.74 56.74 0 0 0-56.84 56.73V410a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 467.32 410V154.58a56.83 56.83 0 0 0-56.83-56.84zM410.49 558.74H155.08a56.74 56.74 0 0 0-56.84 56.73V871a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 467.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84zM871.49 558.74H616.08a56.74 56.74 0 0 0-56.84 56.73V871a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 928.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84z" fill="#66EEFF" p-id="988"></path><path d="M410.49 558.74h-4.14A475 475 0 0 0 299.52 859.6a481.16 481.16 0 0 0 4.84 68.22h106.13A56.83 56.83 0 0 0 467.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84zM871.49 558.74H616.08a56.74 56.74 0 0 0-56.84 56.73V871a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 928.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84z" fill="#C2F8FF" p-id="989"></path></svg></span><span style="font-size:30px;"> 特别声明</span></div>
 <div class="tbsm-wz">千屹博客旗下的所有文章，是通过本人课堂学习和课外自学所精心整理的知识巨著<br/>难免会有出错的地方<br/>如果细心的你发现了小失误，可以在下方评论区告诉我，或者私信我！<br />非常感谢大家的热烈支持！</div>
@@ -493,7 +493,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2023年11月4日</div>
+          <div>2023年11月26日</div>
         </div>
       
       
