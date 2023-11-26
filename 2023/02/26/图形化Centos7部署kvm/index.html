@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://blog.qianyios.top/img/%E5%9B%BE%E5%BD%A2%E5%8C%96Centos7%E9%83%A8%E7%BD%B2kvm/50e78eb274dab2e8087cd767315e9bf9c885ead6.png">
 <meta property="article:published_time" content="2023-02-26T10:38:39.000Z">
-<meta property="article:modified_time" content="2023-11-26T15:18:25.939Z">
+<meta property="article:modified_time" content="2023-11-26T16:12:24.814Z">
 <meta property="article:author" content="严千屹">
 <meta property="article:tag" content="Centos 7">
 <meta property="article:tag" content="KVM">
@@ -293,21 +293,21 @@
 <h2 id="配置桥接网卡"><a href="#配置桥接网卡" class="headerlink" title="配置桥接网卡"></a>配置桥接网卡</h2><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs autoit">[root<span class="hljs-symbol">@localhost</span> ~]<span class="hljs-meta"># cd /etc/sysconfig/network-scripts/</span><br>[root<span class="hljs-symbol">@localhost</span> network-scripts]<span class="hljs-meta"># cp ifcfg-ens33 ifcfg-br0</span><br></code></pre></td></tr></table></figure>
 
 <p>ens33删除多余留下4条</p>
-<p><img src="/../img/%E5%9B%BE%E5%BD%A2%E5%8C%96Centos7%E9%83%A8%E7%BD%B2kvm/b624fa4c78ac00d8f6edb8e8f7375e10e8bf0cf8.png" srcset="/img/loading.gif" lazyload alt="image-20230301145758180"></p>
+<p><img src="https://article.biliimg.com/bfs/article/73e7a28e00f379d296c9f79bb5ddbf0b697559838.png" srcset="/img/loading.gif" lazyload alt="image-20230301145758180"></p>
 <p>br0桥接网卡就按顺序加信息，第一行的type改成bridge</p>
-<p><img src="/../img/%E5%9B%BE%E5%BD%A2%E5%8C%96Centos7%E9%83%A8%E7%BD%B2kvm/cb0a8bc610dee78519cd430edd5ce03dd002a19a.png" srcset="/img/loading.gif" lazyload alt="image-20230301145818079"></p>
-<h2 id="安装测试虚拟机"><a href="#安装测试虚拟机" class="headerlink" title="安装测试虚拟机"></a>安装测试虚拟机</h2><h3 id="上传镜像"><a href="#上传镜像" class="headerlink" title="上传镜像"></a>上传镜像</h3><p><img src="/../img/%E5%9B%BE%E5%BD%A2%E5%8C%96Centos7%E9%83%A8%E7%BD%B2kvm/0ae63b3a7759551ff5f038fd6dd9bf955e9c4d6d.png" srcset="/img/loading.gif" lazyload alt="image-20230301153148509"></p>
-<h3 id="创建虚拟机，选择镜像"><a href="#创建虚拟机，选择镜像" class="headerlink" title="创建虚拟机，选择镜像"></a>创建虚拟机，选择镜像</h3><p><img src="/../img/%E5%9B%BE%E5%BD%A2%E5%8C%96Centos7%E9%83%A8%E7%BD%B2kvm/2adf355bccaf343fa218034c52e79f965bd4ab5e.png" srcset="/img/loading.gif" lazyload alt="image-20230301153600273"></p>
-<h3 id="选择运行内存和cpu，磁盘内存"><a href="#选择运行内存和cpu，磁盘内存" class="headerlink" title="选择运行内存和cpu，磁盘内存"></a>选择运行内存和cpu，磁盘内存</h3><img src="../img/图形化Centos7部署kvm/e9eb78b5a5a5bf27f989e354de708a25bbfc5f2e.png" srcset="/img/loading.gif" lazyload alt="image-20230301153642008"  />
+<p><img src="https://article.biliimg.com/bfs/article/a23e03ca2a81732d9ffdc7d855080bb9697559838.png" srcset="/img/loading.gif" lazyload alt="image-20230301145818079"></p>
+<h2 id="安装测试虚拟机"><a href="#安装测试虚拟机" class="headerlink" title="安装测试虚拟机"></a>安装测试虚拟机</h2><h3 id="上传镜像"><a href="#上传镜像" class="headerlink" title="上传镜像"></a>上传镜像</h3><p><img src="https://article.biliimg.com/bfs/article/a6dc3aab27b158e3fc640fda2270bc81697559838.png" srcset="/img/loading.gif" lazyload alt="image-20230301153148509"></p>
+<h3 id="创建虚拟机，选择镜像"><a href="#创建虚拟机，选择镜像" class="headerlink" title="创建虚拟机，选择镜像"></a>创建虚拟机，选择镜像</h3><p><img src="https://article.biliimg.com/bfs/article/edc75b9507cf8813deb27b00b855f9f1697559838.png" srcset="/img/loading.gif" lazyload alt="image-20230301153600273"></p>
+<h3 id="选择运行内存和cpu，磁盘内存"><a href="#选择运行内存和cpu，磁盘内存" class="headerlink" title="选择运行内存和cpu，磁盘内存"></a>选择运行内存和cpu，磁盘内存</h3><img src="https://article.biliimg.com/bfs/article/95bd6367d4c09184576a9ca1fa670e16697559838.png" srcset="/img/loading.gif" lazyload alt="image-20230301153642008"  />
 
 <p>这里只给了8G，我原本的虚拟机只设置了20G，可以根据自己需要把自己原本的虚拟机扩大，这样kvm里的虚拟机也就可以扩大内存了</p>
-<p><img src="/../img/%E5%9B%BE%E5%BD%A2%E5%8C%96Centos7%E9%83%A8%E7%BD%B2kvm/847b09e961ce3b899105142bddeff96b7b4591f3.png" srcset="/img/loading.gif" lazyload alt="image-20230301153801786"></p>
-<h3 id="选择br0网络（桥接网卡）"><a href="#选择br0网络（桥接网卡）" class="headerlink" title="选择br0网络（桥接网卡）"></a>选择br0网络（桥接网卡）</h3><p><img src="/../img/%E5%9B%BE%E5%BD%A2%E5%8C%96Centos7%E9%83%A8%E7%BD%B2kvm/86425102daf8e44330e379ba089d8b780b83a801.png" srcset="/img/loading.gif" lazyload alt="image-20230301153925557"></p>
+<p><img src="https://article.biliimg.com/bfs/article/eb3bd0422b8d5f8b73dcc88d11ea8663697559838.png" srcset="/img/loading.gif" lazyload alt="image-20230301153801786"></p>
+<h3 id="选择br0网络（桥接网卡）"><a href="#选择br0网络（桥接网卡）" class="headerlink" title="选择br0网络（桥接网卡）"></a>选择br0网络（桥接网卡）</h3><p><img src="https://article.biliimg.com/bfs/article/062b8f3edd191af8719b17970b25eeac697559838.png" srcset="/img/loading.gif" lazyload alt="image-20230301153925557"></p>
 <p>点击完成之后就可以开始安装了</p>
-<p><img src="/../img/%E5%9B%BE%E5%BD%A2%E5%8C%96Centos7%E9%83%A8%E7%BD%B2kvm/be8252948161e83885b7dda93120451680975988.png" srcset="/img/loading.gif" lazyload alt="image-20230301154047563"></p>
-<p><img src="/../img/%E5%9B%BE%E5%BD%A2%E5%8C%96Centos7%E9%83%A8%E7%BD%B2kvm/fa9bef9d7a850fd7d2a88b397e8fd1b42a682d8a.png" srcset="/img/loading.gif" lazyload alt="image-20230301154141311"></p>
+<p><img src="https://article.biliimg.com/bfs/article/a2e33a2a43c09e2d3501a2e1eb9f9671697559838.png" srcset="/img/loading.gif" lazyload alt="image-20230301154047563"></p>
+<p><img src="https://article.biliimg.com/bfs/article/0b7e235d1382ac5e5062cc768ed661b0697559838.png" srcset="/img/loading.gif" lazyload alt="image-20230301154141311"></p>
 <p>测试ping百度</p>
-<p><img src="/../img/%E5%9B%BE%E5%BD%A2%E5%8C%96Centos7%E9%83%A8%E7%BD%B2kvm/c35c3d2d17edddb99d4016ef0a8b1d62e9ed4b6b.png" srcset="/img/loading.gif" lazyload alt="image-20230301154617535"></p>
+<p><img src="https://article.biliimg.com/bfs/article/d30911ffd961ef4cf1625ce56943a213697559838.png" srcset="/img/loading.gif" lazyload alt="image-20230301154617535"></p>
 <div class="tbsm" style="margin-top:54px;">
 <div class="tbsm-top"><span><svg t="1674654360507" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="987" data-spm-anchor-id="a313x.7781069.0.i0" width="35" height="35"><path d="M410.49 97.74H155.08a56.74 56.74 0 0 0-56.84 56.73V410a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 467.32 410V154.58a56.83 56.83 0 0 0-56.83-56.84zM410.49 558.74H155.08a56.74 56.74 0 0 0-56.84 56.73V871a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 467.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84zM871.49 558.74H616.08a56.74 56.74 0 0 0-56.84 56.73V871a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 928.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84z" fill="#66EEFF" p-id="988"></path><path d="M410.49 558.74h-4.14A475 475 0 0 0 299.52 859.6a481.16 481.16 0 0 0 4.84 68.22h106.13A56.83 56.83 0 0 0 467.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84zM871.49 558.74H616.08a56.74 56.74 0 0 0-56.84 56.73V871a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 928.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84z" fill="#C2F8FF" p-id="989"></path></svg></span><span style="font-size:30px;"> 特别声明</span></div>
 <div class="tbsm-wz">千屹博客旗下的所有文章，是通过本人课堂学习和课外自学所精心整理的知识巨著<br/>难免会有出错的地方<br/>如果细心的你发现了小失误，可以在下方评论区告诉我，或者私信我！<br />非常感谢大家的热烈支持！</div>
