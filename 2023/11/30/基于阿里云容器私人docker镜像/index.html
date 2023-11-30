@@ -16,27 +16,26 @@
   <meta name="author" content="严千屹">
   <meta name="keywords" content="">
   
-    <meta name="description" content="私人云图床项目">
+    <meta name="description" content="摆脱国外网络环境的限制">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Lsky Pro图床">
-<meta property="og:url" content="https://blog.qianyios.top/2023/11/30/Lsky-por%20/index.html">
+<meta property="og:title" content="基于阿里云容器服务构建私人docker镜像">
+<meta property="og:url" content="https://blog.qianyios.top/2023/11/30/%E5%9F%BA%E4%BA%8E%E9%98%BF%E9%87%8C%E4%BA%91%E5%AE%B9%E5%99%A8%E7%A7%81%E4%BA%BAdocker%E9%95%9C%E5%83%8F/index.html">
 <meta property="og:site_name" content="严千屹博客">
-<meta property="og:description" content="私人云图床项目">
+<meta property="og:description" content="摆脱国外网络环境的限制">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://article.biliimg.com/bfs/article/2acd34916d9318bfca60c1381076a07f697559838.png">
-<meta property="article:published_time" content="2023-11-30T20:43:40.000Z">
-<meta property="article:modified_time" content="2023-11-30T12:58:27.951Z">
+<meta property="og:image" content="https://article.biliimg.com/bfs/article/6be57f68d9613bc3f054935d0b282015697559838.jpg">
+<meta property="article:published_time" content="2023-11-30T22:07:40.000Z">
+<meta property="article:modified_time" content="2023-11-30T14:18:04.538Z">
 <meta property="article:author" content="严千屹">
-<meta property="article:tag" content="Centos 8 stream">
-<meta property="article:tag" content="Lsky Pro">
+<meta property="article:tag" content="Docker">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://article.biliimg.com/bfs/article/2acd34916d9318bfca60c1381076a07f697559838.png">
+<meta name="twitter:image" content="https://article.biliimg.com/bfs/article/6be57f68d9613bc3f054935d0b282015697559838.jpg">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>Lsky Pro图床 - 严千屹博客</title>
+  <title>基于阿里云容器服务构建私人docker镜像 - 严千屹博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -207,7 +206,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Lsky Pro图床"></span>
+            <span id="subtitle" data-typed-text="基于阿里云容器服务构建私人docker镜像"></span>
           
         </div>
 
@@ -218,7 +217,7 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-11-30 20:43" pubdate>
+        <time datetime="2023-11-30 22:07" pubdate>
           2023年11月30日 晚上
         </time>
       </span>
@@ -230,7 +229,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.1k 字
+          797 字
         
       </span>
     
@@ -241,7 +240,7 @@
         
         
         
-          27 分钟
+          7 分钟
         
       </span>
     
@@ -279,82 +278,68 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Lsky Pro图床</h1>
+            <h1 style="display: none">基于阿里云容器服务构建私人docker镜像</h1>
             
             
               <div class="markdown-body">
                 
                 <meta name="referrer" content="no-referrer"/>
 
-<h1 id="Lsky-Pro图床"><a href="#Lsky-Pro图床" class="headerlink" title="Lsky Pro图床"></a>Lsky Pro图床</h1><p>系统：centos 8 stream  ip：192.168.48.11</p>
-<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><ul>
-<li>支持<code>本地</code>等多种第三方云储存 <code>AWS S3</code>、<code>阿里云 OSS</code>、<code>腾讯云 COS</code>、<code>七牛云</code>、<code>又拍云</code>、<code>SFTP</code>、<code>FTP</code>、<code>WebDav</code>、<code>Minio</code></li>
-<li>多种数据库驱动支持，<code>MySQL 5.7+</code>、<code>PostgreSQL 9.6+</code>、<code>SQLite 3.8.8+</code>、<code>SQL Server 2017+</code></li>
-<li>支持配置使用多种缓存驱动，<code>Memcached</code>、<code>Redis</code>、<code>DynamoDB</code>、等其他关系型数据库，默认以文件的方式缓存</li>
-<li>多图上传、拖拽上传、粘贴上传、动态设置策略上传、复制、一键复制链接</li>
-<li>强大的图片管理功能，瀑布流展示，支持鼠标右键、单选多选、重命名等操作</li>
-<li>自由度极高的角色组配置，可以为每个组配置多个储存策略，同时储存策略可以配置多个角色组</li>
-<li>可针对角色组设置上传文件、文件夹路径命名规则、上传频率限制、图片审核等功能</li>
-<li>支持图片水印、文字水印、水印平铺、设置水印位置、X&#x2F;y 轴偏移量设置、旋转角度等</li>
-<li>支持通过接口上传、管理图片、管理相册</li>
-<li>支持在线增量更新、跨版本更新</li>
-<li>图片广场</li>
-</ul>
-<h2 id="要求"><a href="#要求" class="headerlink" title="要求"></a>要求</h2><ul>
-<li>PHP &gt;&#x3D; 8.0.2</li>
-<li>BCMath PHP 扩展</li>
-<li>Ctype PHP 扩展</li>
-<li>DOM PHP 拓展</li>
-<li>Fileinfo PHP 扩展</li>
-<li>JSON PHP 扩展</li>
-<li>Mbstring PHP 扩展</li>
-<li>OpenSSL PHP 扩展</li>
-<li>PDO PHP 扩展</li>
-<li>Tokenizer PHP 扩展</li>
-<li>XML PHP 扩展</li>
-<li>Imagick 拓展</li>
-<li>exec、shell_exec 函数</li>
-<li>readlink、symlink 函数</li>
-<li>putenv、getenv 函数</li>
-<li>chmod、chown、fileperms 函数</li>
-</ul>
-<h2 id="安装Lsky-Pro"><a href="#安装Lsky-Pro" class="headerlink" title="安装Lsky Pro"></a>安装Lsky Pro</h2><h3 id="下载Lsky-Pro项目文件"><a href="#下载Lsky-Pro项目文件" class="headerlink" title="下载Lsky Pro项目文件"></a>下载Lsky Pro项目文件</h3><p>项目地址:<a target="_blank" rel="noopener" href="https://github.com/lsky-org/lsky-pro/releases">Releases · lsky-org&#x2F;lsky-pro (github.com)</a></p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs awk">wget https:<span class="hljs-regexp">//gi</span>thub.com<span class="hljs-regexp">/lsky-org/</span>lsky-pro<span class="hljs-regexp">/releases/</span>download<span class="hljs-regexp">/2.1/</span>lsky-pro-<span class="hljs-number">2.1</span>.zip<br>unzip lsky-pro-<span class="hljs-number">2.1</span>.zip -d <span class="hljs-regexp">/var/</span>www<span class="hljs-regexp">/html/</span>lsky<br>chmod <span class="hljs-number">755</span> -R <span class="hljs-regexp">/var/</span>www<span class="hljs-regexp">/html/</span>lsky<br>chown -R nginx:nginx <span class="hljs-regexp">/var/</span>www<span class="hljs-regexp">/html/</span>lsky<br></code></pre></td></tr></table></figure>
+<h1 id="基于阿里云容器服务构建私人docker镜像"><a href="#基于阿里云容器服务构建私人docker镜像" class="headerlink" title="基于阿里云容器服务构建私人docker镜像"></a>基于阿里云容器服务构建私人docker镜像</h1><h2 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h2><p>你是否被<font color='red'>国外镜像</font>拉取速度<font color='red'>慢</font>的情况所折磨，甚至一个小时都未必能下载好或者下载不到。</p>
+<p>接下来我们通过阿里云容器服务构建这些<font color='red'>海外镜像</font>为<font color='red'>私人镜像</font></p>
+<p><img src="https://article.biliimg.com/bfs/article/7e3bfe20efb9e72dee0d328f9e83e713697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231130213622452"></p>
+<p><font color='red'>使用之前，要有自己的阿里云账户，且要有一定的dockerfile知识</font></p>
+<p>[Docker笔记 - 严千屹博客 (qianyios.top)](<a href="https://blog.qianyios.top/2023/03/26/Docker">https://blog.qianyios.top/2023/03/26/Docker</a> node&#x2F;)</p>
+<p>原理图：</p>
+<p><img src="https://article.biliimg.com/bfs/article/98fdd6563b41642be898022c06057c31697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231130220200466"></p>
+<h2 id="创建海外镜像Dockerfile"><a href="#创建海外镜像Dockerfile" class="headerlink" title="创建海外镜像Dockerfile"></a>创建海外镜像Dockerfile</h2><p><a target="_blank" rel="noopener" href="https://codeup.aliyun.com/">Codeup · 企业级代码管理平台 (aliyun.com)</a></p>
+<p>注册账号过程不解释，自行探索</p>
+<p><img src="https://article.biliimg.com/bfs/article/b4efcd21ee98b50fab30a72e408bf37c697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231130212602525"></p>
+<p>添加文件</p>
+<p><img src="https://article.biliimg.com/bfs/article/f5af50a6d4117d905c749efffbc43419697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231130212529981"></p>
+<p>创建dockerfile</p>
+<p>假设这里是你遇到的海外镜像，拉取很慢的镜像</p>
+<p><img src="https://article.biliimg.com/bfs/article/f202316e8c9a255282551be9add529e5697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231130213751443"></p>
+<p>提交之后我们就可以看见文件了</p>
+<p><img src="https://article.biliimg.com/bfs/article/a96a7a9710a66a9ac86dff9c50d47e01697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231130213811247"></p>
+<p>去个人中心设置里设置你的克隆密码</p>
+<p><img src="https://article.biliimg.com/bfs/article/9c79e9110439aeb39f01af1f29eafe77697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231130214355804"></p>
+<p><img src="https://article.biliimg.com/bfs/article/01e07c61216488052175dc360b3bc547697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231130214422020"></p>
+<p>创建个人访问令牌</p>
+<p><img src="https://article.biliimg.com/bfs/article/c030c178b5bc7909bf1ad7ea2ef74994697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231130214730356"></p>
+<p><img src="https://article.biliimg.com/bfs/article/ee97162a07c246e47799b405862ca9e0697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231130214749060"></p>
+<p>下面构建镜像要用到这个个人访问令牌（<font color='red'>这个只会出现一次，要记下来</font>）</p>
+<h2 id="阿里容器服务构建镜像"><a href="#阿里容器服务构建镜像" class="headerlink" title="阿里容器服务构建镜像"></a>阿里容器服务构建镜像</h2><p><a target="_blank" rel="noopener" href="https://cr.console.aliyun.com/cn-hangzhou/instances">容器镜像服务 (aliyun.com)</a></p>
+<p>同样，注册账号过程不做解释</p>
+<p>创建个人实例，并点击</p>
+<p><img src="https://article.biliimg.com/bfs/article/6a44f983d54cd2092ac1dbeb1c2d6562697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231130213006943"></p>
+<p>创建命名空间</p>
+<p><img src="https://article.biliimg.com/bfs/article/8082a80e2fbe959cec4cfe95cbf6062f697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231130213103002"></p>
+<p>创建镜像仓库（仓库名称&#x3D;docker镜像名称），并点击进去</p>
+<p><img src="https://article.biliimg.com/bfs/article/92153370d653e8ec1192c6049dda4c55697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231130213902477"></p>
+<p>绑定代码源（一定要勾选海外构建镜像）</p>
+<p><img src="https://article.biliimg.com/bfs/article/231eb106dd23ce0a075848d0d919cd4f697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231130214016359"></p>
+<p>用codeup获取的克隆账号</p>
+<p><img src="https://article.biliimg.com/bfs/article/2571dd41f257ac79078b9e21a647bc28697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231130214912189"></p>
+<p><img src="https://article.biliimg.com/bfs/article/d144659b51fa9657ac196cac93845fd5697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231130215146722"></p>
+<p>填写信息</p>
+<p><img src="https://article.biliimg.com/bfs/article/e400b106335d52356866faede6ddadf9697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231130215527348"></p>
+<p>构建镜像，过一会他会自己构建好</p>
+<p><img src="https://article.biliimg.com/bfs/article/d6ecdcca23497ecc4cbb76da4ddac0af697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231130215727359"></p>
+<p>获取镜像地址</p>
+<p><img src="https://article.biliimg.com/bfs/article/ab2f9a24255ce5c676fef58b8711e146697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231130215810561"></p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stylus">registry<span class="hljs-selector-class">.cn-hangzhou</span><span class="hljs-selector-class">.aliyuncs</span>.com/qianyios/<span class="hljs-attribute">pause</span>:<span class="hljs-number">3.1</span><br></code></pre></td></tr></table></figure>
 
-<h3 id="安装nginx"><a href="#安装nginx" class="headerlink" title="安装nginx"></a>安装nginx</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs awk">sudo dnf upgrade --refresh -y<br>sudo dnf install \<br>   https:<span class="hljs-regexp">//</span>dl.fedoraproject.org<span class="hljs-regexp">/pub/</span>epel<span class="hljs-regexp">/8/</span>Everything<span class="hljs-regexp">/x86_64/</span>Packages<span class="hljs-regexp">/e/</span>epel-release-<span class="hljs-number">8</span>-<span class="hljs-number">19</span>.el8.noarch.rpm \<br>   https:<span class="hljs-regexp">//</span>dl.fedoraproject.org<span class="hljs-regexp">/pub/</span>epel<span class="hljs-regexp">/8/</span>Everything<span class="hljs-regexp">/x86_64/</span>Packages<span class="hljs-regexp">/e/</span>epel-<span class="hljs-keyword">next</span>-release-<span class="hljs-number">8</span>-<span class="hljs-number">19</span>.el8.noarch.rpm \<br>   http:<span class="hljs-regexp">//</span>rpms.remirepo.net<span class="hljs-regexp">/enterprise/</span>remi-release-<span class="hljs-number">8.8</span>.rpm \<br>   dnf-utils -y<br>dnf module list | grep php<br><br><span class="hljs-comment"># 删除 PHP</span><br>sudo dnf -y remove php php-fpm<br>   <br><span class="hljs-comment"># 删除相关扩展包</span><br>sudo dnf -y remove php*<br>   <br><span class="hljs-comment"># 重置 PHP 模块列表</span><br>sudo dnf -y module reset php<br><br>启用（安装）PHP <span class="hljs-number">8.0</span><br>sudo dnf -y module enable php:remi-<span class="hljs-number">8.0</span><br><br>sudo dnf -y install php php-fpm<br><br>sudo dnf install php-cli php-fpm php-curl php-mysqlnd php-gd php-opcache php-zip php-intl php-common php-bcmath php-imagick php-xmlrpc php-json php-readline php-memcached php-redis php-mbstring php-apcu php-xml php-dom php-redis php-memcached php-memcache php-devel php-ctype php-fileinfo  php-openssl php-pdo php-tokenizer -y<br><br>sed -i <span class="hljs-string">&#x27;s/user = apache/user = nginx/; s/group = apache/group = nginx/&#x27;</span> <span class="hljs-regexp">/etc/</span>php-fpm.d/www.conf<br><br>dnf install -y http:<span class="hljs-regexp">//</span>nginx.org<span class="hljs-regexp">/packages/</span>rhel<span class="hljs-regexp">/8/</span>x86_64<span class="hljs-regexp">/RPMS/</span>nginx-<span class="hljs-number">1.24</span>.<span class="hljs-number">0</span>-<span class="hljs-number">1</span>.el8.ngx.x86_64.rpm<br>systemctl	enable --now nginx<br>sudo systemctl restart php-fpm.service<br><br></code></pre></td></tr></table></figure>
+<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stylus">docker pull registry<span class="hljs-selector-class">.cn-hangzhou</span><span class="hljs-selector-class">.aliyuncs</span>.com/qianyios/<span class="hljs-attribute">pause</span>:<span class="hljs-number">3.1</span><br></code></pre></td></tr></table></figure>
 
-<h3 id="安装mysql"><a href="#安装mysql" class="headerlink" title="安装mysql"></a>安装mysql</h3><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">sudo dnf install mysql-<span class="hljs-keyword">server</span> mysql -y<br>systemctl <span class="hljs-keyword">enable</span> <span class="hljs-comment">--now mysqld</span><br><span class="hljs-meta">#mysql初始化</span><br>sudo mysql_secure_installation<br>根据自身需要设置<br>mysql -uroot -p<br></code></pre></td></tr></table></figure>
-
-<h3 id="设置兰空页面"><a href="#设置兰空页面" class="headerlink" title="设置兰空页面"></a>设置兰空页面</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs awk">[root@localhost ~]<span class="hljs-comment"># cat /etc/nginx/conf.d/default.conf</span><br>server &#123;<br>    listen       <span class="hljs-number">80</span>;<br>    server_name  localhost;<br>    root          <span class="hljs-regexp">/var/</span>www<span class="hljs-regexp">/html/</span>lsky<span class="hljs-regexp">/public/</span>;<br>    index        index.php;<br>    location / &#123;<br>      try_files <span class="hljs-variable">$uri</span> <span class="hljs-variable">$uri</span><span class="hljs-regexp">/ /i</span>ndex.php?<span class="hljs-variable">$query_string</span>;<br>    &#125;<br>    location ~ \.php$ &#123;<br>      root           <span class="hljs-regexp">/var/</span>www<span class="hljs-regexp">/html/</span>lsky<span class="hljs-regexp">/public/</span>;<br>      fastcgi_pass   unix:<span class="hljs-regexp">/run/</span>php-fpm/www.sock;<br>      fastcgi_index  index.php;<br>      fastcgi_param  SCRIPT_FILENAME <span class="hljs-variable">$document_root</span><span class="hljs-variable">$fastcgi_script_name</span>;<br>      include        fastcgi_params;<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">#重启nginx</span><br>nginx -s reload<br><br><br></code></pre></td></tr></table></figure>
-
-<p>访问页面192.168.48.11</p>
-<p><img src="https://article.biliimg.com/bfs/article/f252fa2a442607f7c0a72a296180da3c697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231130195414702"></p>
-<p><img src="https://article.biliimg.com/bfs/article/ec3b9a06b22f9deacddb3fceb05778b0697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231130195439402"></p>
-<h2 id="利用postman获取token"><a href="#利用postman获取token" class="headerlink" title="利用postman获取token"></a>利用postman获取token</h2><p>官网：<a target="_blank" rel="noopener" href="https://www.postman.com/">Postman API Platform</a></p>
-<p>自己注册一个账号，并且下载桌面版的postman（如果你的项目部署在服务器，可以不用下载，直接从第二步开始）</p>
-<p>软件下载：<a target="_blank" rel="noopener" href="https://www.postman.com/downloads/">Download Postman | Get Started for Free</a></p>
-<h3 id="下载软件并双击运行"><a href="#下载软件并双击运行" class="headerlink" title="下载软件并双击运行"></a>下载软件并双击运行</h3><p><img src="https://article.biliimg.com/bfs/article/f8d4389edc635a775e69c369ad478865697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231130201640225"></p>
-<p><img src="https://article.biliimg.com/bfs/article/707470ea959759ce9a54e70791110601697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231130201704089"></p>
-<h3 id="打开页面"><a href="#打开页面" class="headerlink" title="打开页面"></a>打开页面</h3><p><img src="https://article.biliimg.com/bfs/article/48b537bda93e7bd2db9d70c81e9b7484697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231130201727276"></p>
-<p><img src="https://article.biliimg.com/bfs/article/aa5ce61cfc65af53f2d34b8019b42d6d697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231130202249851"></p>
-<figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs smali">6|0kKPF29VXPv2Kv6lEqu1chyxHjTpjiiEdwwkRE0T<br></code></pre></td></tr></table></figure>
-
-<h2 id="实现typro自动上传"><a href="#实现typro自动上传" class="headerlink" title="实现typro自动上传"></a>实现typro自动上传</h2><p><a target="_blank" rel="noopener" href="https://github.com/ygxbnet/lsky-upload/releases">Releases · ygxbnet&#x2F;lsky-upload (github.com)</a></p>
-<h3 id="下载自动上传项目"><a href="#下载自动上传项目" class="headerlink" title="下载自动上传项目"></a>下载自动上传项目</h3><p><a target="_blank" rel="noopener" href="https://github.com/ygxbnet/lsky-upload/releases/download/0.3.0/lsky-upload_0.3.0_windows_amd64.zip">https://github.com/ygxbnet/lsky-upload/releases/download/0.3.0/lsky-upload_0.3.0_windows_amd64.zip</a></p>
-<p><img src="https://article.biliimg.com/bfs/article/194bdd231c2e0aa1ab3ac23d3d519aa7697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231130194623114"></p>
-<p>打开配置文件可以看见一下信息，更换为前面的获取的token</p>
-<p><img src="https://article.biliimg.com/bfs/article/02355ef13209fd8b702049245782e0d0697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231130203425977"></p>
-<h3 id="验证能否自动上传"><a href="#验证能否自动上传" class="headerlink" title="验证能否自动上传"></a>验证能否自动上传</h3><p>打开typroa</p>
-<p><img src="https://article.biliimg.com/bfs/article/9b3415ddd3d7b48f3cf0a7cc894f2829697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231130203326580"></p>
-<p><img src="https://article.biliimg.com/bfs/article/239bccd024694ae65ff0861479daaa4d697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231130203516988"></p>
-<p>再去看看后台图库</p>
-<p><img src="https://article.biliimg.com/bfs/article/b83eced6894a1f8c291f23a5b6abddf0697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231130203549871"></p>
-<p>至此项目成功</p>
+<p><img src="https://article.biliimg.com/bfs/article/6f56752e9454824c8f4bdf407b2cd1f0697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231130215905914"></p>
+<p><font color='red'>你会发现已经下载好了！还很快！</font></p>
+<p>以下是一个k8s部署实例文件，有时候会因为镜像拉取慢，我们就可以替换为我们自己构建的镜像</p>
+<p><img src="https://article.biliimg.com/bfs/article/39d2fd0819a60a7b72114e8f2c33e32e697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231130220355498"></p>
 <div class="tbsm" style="margin-top:54px;">
 <div class="tbsm-top"><span><svg t="1674654360507" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="987" data-spm-anchor-id="a313x.7781069.0.i0" width="35" height="35"><path d="M410.49 97.74H155.08a56.74 56.74 0 0 0-56.84 56.73V410a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 467.32 410V154.58a56.83 56.83 0 0 0-56.83-56.84zM410.49 558.74H155.08a56.74 56.74 0 0 0-56.84 56.73V871a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 467.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84zM871.49 558.74H616.08a56.74 56.74 0 0 0-56.84 56.73V871a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 928.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84z" fill="#66EEFF" p-id="988"></path><path d="M410.49 558.74h-4.14A475 475 0 0 0 299.52 859.6a481.16 481.16 0 0 0 4.84 68.22h106.13A56.83 56.83 0 0 0 467.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84zM871.49 558.74H616.08a56.74 56.74 0 0 0-56.84 56.73V871a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 928.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84z" fill="#C2F8FF" p-id="989"></path></svg></span><span style="font-size:30px;"> 特别声明</span></div>
 <div class="tbsm-wz">千屹博客旗下的所有文章，是通过本人课堂学习和课外自学所精心整理的知识巨著<br/>难免会有出错的地方<br/>如果细心的你发现了小失误，可以在下方评论区告诉我，或者私信我！<br />非常感谢大家的热烈支持！</div>
 </div>
-
                 
               </div>
             
@@ -366,9 +351,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/Centos-8-stream/">#Centos 8 stream</a>
-      
-        <a href="/tags/Lsky-Pro/">#Lsky Pro</a>
+        <a href="/tags/Docker/">#Docker</a>
       
     </div>
   
@@ -380,8 +363,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Lsky Pro图床</div>
-      <div>https://blog.qianyios.top/2023/11/30/Lsky-por /</div>
+      <div>基于阿里云容器服务构建私人docker镜像</div>
+      <div>https://blog.qianyios.top/2023/11/30/基于阿里云容器私人docker镜像/</div>
     </div>
     <div class="license-meta">
       
@@ -442,18 +425,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/11/30/%E5%9F%BA%E4%BA%8E%E9%98%BF%E9%87%8C%E4%BA%91%E5%AE%B9%E5%99%A8%E7%A7%81%E4%BA%BAdocker%E9%95%9C%E5%83%8F/" title="基于阿里云容器服务构建私人docker镜像">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">基于阿里云容器服务构建私人docker镜像</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/11/19/rook%E9%83%A8%E7%BD%B2ceph/" title="基于K8S1.28.2实验rook部署ceph">
-                        <span class="hidden-mobile">基于K8S1.28.2实验rook部署ceph</span>
+                      <a href="/2023/11/30/Lsky-por%20/" title="Lsky Pro图床">
+                        <span class="hidden-mobile">Lsky Pro图床</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
