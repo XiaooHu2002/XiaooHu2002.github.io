@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://blog.qianyios.top/img/Docker%20node/53832a4dc28d9a9bab39ca9965583eb5a487b946.png">
 <meta property="article:published_time" content="2023-03-26T13:16:39.000Z">
-<meta property="article:modified_time" content="2023-12-01T17:04:56.235Z">
+<meta property="article:modified_time" content="2023-12-02T16:22:25.892Z">
 <meta property="article:author" content="严千屹">
 <meta property="article:tag" content="Docker">
 <meta name="twitter:card" content="summary_large_image">
@@ -229,7 +229,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          19k 字
+          18k 字
         
       </span>
     
@@ -240,7 +240,7 @@
         
         
         
-          155 分钟
+          154 分钟
         
       </span>
     
@@ -361,7 +361,7 @@
 <li>3、#表示注释</li>
 <li>4、每一个指令都会创建提交一个新的镜像层，并提交</li>
 </ul>
-<img src="../img/Docker node/2009e0e056c3fe3dbff4bae26643fd5eb7e965c6.png" srcset="/img/loading.gif" lazyload alt="image-20230325152651663" style="zoom: 50%;" />
+<img src="https://article.biliimg.com/bfs/article/0018a4582c336ea0bbf32fc2402cba2a697559838.png" srcset="/img/loading.gif" lazyload alt="image-20230325152651663" style="zoom: 50%;" />
 
 <h3 id="DockerFile命令"><a href="#DockerFile命令" class="headerlink" title="DockerFile命令"></a>DockerFile命令</h3><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs dockerfile"><span class="hljs-keyword">FROM</span>          <span class="hljs-comment"># 基础镜镜像,—切从这里开始构建</span><br><span class="hljs-keyword">MAINTAINER</span>    <span class="hljs-comment"># 镜像的作者,姓名&lt;邮箱&gt;</span><br><span class="hljs-keyword">RUN</span><span class="language-bash">           <span class="hljs-comment"># 镜像构建的时候需要运行的命令</span></span><br><span class="hljs-keyword">ADD</span><span class="language-bash">           <span class="hljs-comment"># 添加内容，添加压缩包会自动解压</span></span><br><span class="hljs-keyword">WORKDIR</span><span class="language-bash">		 <span class="hljs-comment"># 镜像的工作目录</span></span><br><span class="hljs-keyword">VOLUME</span><span class="language-bash">        <span class="hljs-comment"># 挂载的目录</span></span><br><span class="hljs-keyword">EXPOSE</span>        <span class="hljs-comment"># 保留端口配置</span><br><span class="hljs-keyword">CMD</span><span class="language-bash">			<span class="hljs-comment"># 指定这个容器启动的时候要运行的命令,只有最后一个会生效，可被替代</span></span><br><span class="hljs-keyword">ENTRYPOINT</span><span class="language-bash">    <span class="hljs-comment"># 指定这个容器启动的时候要运行的命令,可以追加命令</span></span><br><span class="hljs-keyword">ONBUILD</span>		 <span class="hljs-comment"># 当构建一个被继承DockerFile这个时候就会运行ONBUILD 的指令。触发指令。</span><br><span class="hljs-keyword">COPY</span><span class="language-bash">          <span class="hljs-comment"># 类似ADD ，将我们文件拷贝到镜像中</span></span><br><span class="hljs-keyword">ENV</span>           <span class="hljs-comment"># 构建的时候设置环境变量!</span><br></code></pre></td></tr></table></figure>
 
@@ -465,7 +465,7 @@
 
 
 
-<h2 id="Docker学习总结"><a href="#Docker学习总结" class="headerlink" title="Docker学习总结"></a>Docker学习总结</h2><p>![1](..&#x2F;img&#x2F;Docker node&#x2F;f8242ed25c3cc4a0f16a604d1d53b5f885684b49.png)</p>
+<h2 id="Docker学习总结"><a href="#Docker学习总结" class="headerlink" title="Docker学习总结"></a>Docker学习总结</h2><p><img src="https://article.biliimg.com/bfs/article/351a7237c27817b0d196294d2e5d17c2697559838.png" srcset="/img/loading.gif" lazyload alt="1"></p>
 <h2 id="docker-run-参数解析"><a href="#docker-run-参数解析" class="headerlink" title="docker run 参数解析"></a>docker run 参数解析</h2><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs stylus">-d: 后台运行容器，并返回容器ID；<br><br>-<span class="hljs-selector-tag">i</span>: 以交互模式运行容器，通常与 -t 同时使用；<br><br>-P: 随机端口映射，容器内部端口随机映射到主机的端口<br><br>-<span class="hljs-selector-tag">p</span>: 指定端口映射，格式为：主机(宿主)端口:容器端口<br><br>-t: 为容器重新分配一个伪输入终端，通常与 -<span class="hljs-selector-tag">i</span> 同时使用；<br><br><span class="hljs-attr">--name</span>=<span class="hljs-string">&quot;nginx-lb&quot;</span>: 为容器指定一个名称；<br><br><span class="hljs-attr">--dns</span> <span class="hljs-number">8.8</span>.<span class="hljs-number">8.8</span>: 指定容器使用的DNS服务器，默认和宿主一致；<br><br><span class="hljs-attr">--dns-search</span> example<span class="hljs-selector-class">.com</span>: 指定容器DNS搜索域名，默认和宿主一致；<br><br>-h <span class="hljs-string">&quot;mars&quot;</span>: 指定容器的hostname；<br><br>-e username=<span class="hljs-string">&quot;ritchie&quot;</span>: 设置环境变量；<br><br><span class="hljs-attr">--env-file</span>=<span class="hljs-selector-attr">[]</span>: 从指定文件读入环境变量；<br><br><span class="hljs-attr">--cpuset</span>=<span class="hljs-string">&quot;0-2&quot;</span> or <span class="hljs-attr">--cpuset</span>=<span class="hljs-string">&quot;0,1,2&quot;</span>: 绑定容器到指定CPU运行；<br><br>-m :设置容器使用内存最大值；<br><br><span class="hljs-attr">--net</span>=<span class="hljs-string">&quot;bridge&quot;</span>: 指定容器的网络连接类型，支持 bridge/host/<span class="hljs-attribute">none</span>/container: 四种类型；<br><br><span class="hljs-attr">--link</span>=<span class="hljs-selector-attr">[]</span>: 添加链接到另一个容器；<br><br><span class="hljs-attr">--expose</span>=<span class="hljs-selector-attr">[]</span>: 开放一个端口或一组端口；<br><br><span class="hljs-attr">--volume</span> , -v: 绑定一个卷<br></code></pre></td></tr></table></figure>
 
 
@@ -517,7 +517,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2023年12月1日</div>
+          <div>2023年12月2日</div>
         </div>
       
       

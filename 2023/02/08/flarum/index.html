@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://blog.qianyios.top/img/flarum/35f557166224a1556d9ddac0216321ac8ca1c4d6.png">
 <meta property="article:published_time" content="2023-02-08T16:45:39.000Z">
-<meta property="article:modified_time" content="2023-12-01T17:04:56.242Z">
+<meta property="article:modified_time" content="2023-12-02T16:22:25.899Z">
 <meta property="article:author" content="严千屹">
 <meta property="article:tag" content="Centos 7">
 <meta property="article:tag" content="Lnmp">
@@ -288,7 +288,7 @@
                 <meta name="referrer" content="no-referrer"/>
 
 <h1 id="搭建Flarum社区论坛"><a href="#搭建Flarum社区论坛" class="headerlink" title="搭建Flarum社区论坛"></a>搭建Flarum社区论坛</h1><h2 id="关于Flarum"><a href="#关于Flarum" class="headerlink" title="关于Flarum"></a>关于<a target="_blank" rel="noopener" href="https://flarum.org/"><span style="color:green">Flarum</span></a></h2><p>Flarum 是一款非常简洁的开源论坛程序。它响应快速、简便易用，拥有打造高质量社区的一切功能。同时，Flarum 高度可扩展，你可以对它进行深度定制。</p>
-<p><img src="/../img/flarum/4789350102abb48ae2e6c9583fbb320232748d55.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://article.biliimg.com/bfs/article/becab967e25f7bb2700bd29e198ef947697559838.png" srcset="/img/loading.gif" lazyload></p>
 <p>Flarum 的前身是 <a target="_blank" rel="noopener" href="https://github.com/esotalk/esoTalk">esoTalk</a> 和 <a target="_blank" rel="noopener" href="https://fluxbb.org/">FluxBB</a>。它生来被设计如此：</p>
 <ul>
 <li><strong>快速、简单。</strong>不杂乱不臃肿，没有庞杂的依赖关系。Flarum 基于 PHP 语言编写，部署方便。采用 <a target="_blank" rel="noopener" href="https://mithril.js.org/">Mithril</a> 界面框架，小巧而性能高。</li>
@@ -334,14 +334,14 @@
 <h4 id="赋予权限"><a href="#赋予权限" class="headerlink" title="赋予权限"></a>赋予权限</h4><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs autoit">[root<span class="hljs-symbol">@localhost</span> ~]<span class="hljs-meta"># chmod 775 -R /flarum</span><br>[root<span class="hljs-symbol">@localhost</span> ~]<span class="hljs-meta"># chown -R apache:apache /flarum</span><br>以下权限确保在selinux开启的状态下运行<br>[root<span class="hljs-symbol">@localhost</span> ~]<span class="hljs-meta"># getenforce</span><br>Enforcing<br>[root<span class="hljs-symbol">@localhost</span> ~]<span class="hljs-meta"># chcon -R -t httpd_sys_rw_content_t /flarum</span><br>[root<span class="hljs-symbol">@localhost</span> ~]<span class="hljs-meta"># nginx -s reload</span><br></code></pre></td></tr></table></figure>
 
 <h3 id="访问网页"><a href="#访问网页" class="headerlink" title="访问网页"></a>访问网页</h3><p>去浏览器访问你的ip即刻</p>
-<p><img src="/../img/flarum/7fe81939650343fa628053ad69ade49ef551569b.png" srcset="/img/loading.gif" lazyload alt="image-20230208161549333"></p>
-<p><img src="/../img/flarum/f775d97bf895b9c34061a39d9bdc7a859ab992fc.png" srcset="/img/loading.gif" lazyload alt="image-20230208161651938"></p>
+<p><img src="https://article.biliimg.com/bfs/article/7ed785ccd0aa80d7f7a8034720c99108697559838.png" srcset="/img/loading.gif" lazyload alt="image-20230208161549333"></p>
+<p><img src="https://article.biliimg.com/bfs/article/4881cf22cf80eba3283d8db261775df0697559838.png" srcset="/img/loading.gif" lazyload alt="image-20230208161651938"></p>
 <h2 id="更改中文语言"><a href="#更改中文语言" class="headerlink" title="更改中文语言"></a>更改中文语言</h2><h3 id="安装中文汉化包"><a href="#安装中文汉化包" class="headerlink" title="安装中文汉化包"></a>安装中文汉化包</h3><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs autoit">[root<span class="hljs-symbol">@localhost</span> flarum]<span class="hljs-meta"># composer require flarum-lang/chinese-simplified</span><br>[root<span class="hljs-symbol">@localhost</span> flarum]<span class="hljs-meta"># php flarum cache:clear</span><br></code></pre></td></tr></table></figure>
 
 
 
-<p><img src="/../img/flarum/93333810bb1eb7e23af05dd2ca7e390d06298b4a.png" srcset="/img/loading.gif" lazyload alt="image-20230208161723663"></p>
-<p><img src="/../img/flarum/ac7eee7ff5552d45114ccd3d7f25a77672360843.png" srcset="/img/loading.gif" lazyload alt="image-20230208162107235"></p>
+<p><img src="https://article.biliimg.com/bfs/article/ea60d9b67a2e6724f6f24d8be2b8b784697559838.png" srcset="/img/loading.gif" lazyload alt="image-20230208161723663"></p>
+<p><img src="https://article.biliimg.com/bfs/article/7d2dc7fc47358c8b1122987b77c22719697559838.png" srcset="/img/loading.gif" lazyload alt="image-20230208162107235"></p>
 <div class="tbsm" style="margin-top:54px;">
 <div class="tbsm-top"><span><svg t="1674654360507" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="987" data-spm-anchor-id="a313x.7781069.0.i0" width="35" height="35"><path d="M410.49 97.74H155.08a56.74 56.74 0 0 0-56.84 56.73V410a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 467.32 410V154.58a56.83 56.83 0 0 0-56.83-56.84zM410.49 558.74H155.08a56.74 56.74 0 0 0-56.84 56.73V871a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 467.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84zM871.49 558.74H616.08a56.74 56.74 0 0 0-56.84 56.73V871a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 928.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84z" fill="#66EEFF" p-id="988"></path><path d="M410.49 558.74h-4.14A475 475 0 0 0 299.52 859.6a481.16 481.16 0 0 0 4.84 68.22h106.13A56.83 56.83 0 0 0 467.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84zM871.49 558.74H616.08a56.74 56.74 0 0 0-56.84 56.73V871a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 928.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84z" fill="#C2F8FF" p-id="989"></path></svg></span><span style="font-size:30px;"> 特别声明</span></div>
 <div class="tbsm-wz">千屹博客旗下的所有文章，是通过本人课堂学习和课外自学所精心整理的知识巨著<br/>难免会有出错的地方<br/>如果细心的你发现了小失误，可以在下方评论区告诉我，或者私信我！<br />非常感谢大家的热烈支持！</div>
@@ -392,7 +392,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2023年12月1日</div>
+          <div>2023年12月2日</div>
         </div>
       
       
