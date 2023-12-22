@@ -1,0 +1,947 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#9ce8f452">
+  <meta name="author" content="严千屹">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="可用于对接K8s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ceph集群分布式集群">
+<meta property="og:url" content="https://blog.qianyios.top/2023/12/22/Ceph%E9%9B%86%E7%BE%A4%E5%88%86%E5%B8%83%E5%BC%8F%E9%9B%86%E7%BE%A4/index.html">
+<meta property="og:site_name" content="严千屹博客">
+<meta property="og:description" content="可用于对接K8s">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://article.biliimg.com/bfs/new_dyn/98234d8c4790983d8c2433bbc14e3756697559838.png">
+<meta property="article:published_time" content="2023-12-22T14:24:40.000Z">
+<meta property="article:modified_time" content="2023-12-22T06:32:49.234Z">
+<meta property="article:author" content="严千屹">
+<meta property="article:tag" content="Centos 9 stream">
+<meta property="article:tag" content="Ceph">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://article.biliimg.com/bfs/new_dyn/98234d8c4790983d8c2433bbc14e3756697559838.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Ceph集群分布式集群 - 严千屹博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/mycss.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.qianyios.top","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":true,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  <meta name="referrer" content="no-referrer"/>
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>严 千 屹</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/null') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Ceph集群分布式集群"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-12-22 14:24" pubdate>
+          2023年12月22日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          14k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          120 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Ceph集群分布式集群</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <meta name="referrer" content="no-referrer"/>
+
+<h1 id="Ceph集群分布式集群"><a href="#Ceph集群分布式集群" class="headerlink" title="Ceph集群分布式集群"></a>Ceph集群分布式集群</h1><p>本篇教程针对<font color='red'>外部</font>ceph集群介绍教程，如果是给予K8S<font color='red'>内部</font>ceph请前往<a href="https://blog.qianyios.top/2023/11/19/rook%E9%83%A8%E7%BD%B2ceph/">基于K8S1.28.2实验rook部署ceph - 严千屹博客 (qianyios.top)</a></p>
+<h2 id="机器拓扑"><a href="#机器拓扑" class="headerlink" title="机器拓扑"></a>机器拓扑</h2><table>
+<thead>
+<tr>
+<th>主机名</th>
+<th>ip</th>
+<th>硬盘1</th>
+<th>硬盘2</th>
+<th>内存</th>
+<th>cpu</th>
+<th>软件</th>
+<th>OS</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ceph1</td>
+<td>192.168.48.101</td>
+<td>100G</td>
+<td>100G</td>
+<td>2G</td>
+<td>1v</td>
+<td>Docker 24.0.7<br />epel最新版本<br />ceph（reef、18.2.0）</td>
+<td>Centos stream 9</td>
+</tr>
+<tr>
+<td>ceph2</td>
+<td>192.168.48.102</td>
+<td>100G</td>
+<td>100G</td>
+<td>2G</td>
+<td>1v</td>
+<td>Docker 24.0.7<br />epel最新版本<br />ceph（reef、18.2.0）</td>
+<td>Centos stream 9</td>
+</tr>
+<tr>
+<td>ceph3</td>
+<td>192.168.48.103</td>
+<td>100G</td>
+<td>100G</td>
+<td>2G</td>
+<td>1v</td>
+<td>Docker 24.0.7<br />epel最新版本<br />ceph（reef、18.2.0）</td>
+<td>Centos stream 9</td>
+</tr>
+</tbody></table>
+<p>已经<font color='red'>测试过</font>了，<font color='red'>最小配置</font>，可以满足<font color='red'>毕设</font>需求，后面可自行根据需要调整</p>
+<p><img src="https://article.biliimg.com/bfs/new_dyn/5e29cd5082e22c6a843f074a046a25c5697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231222141636094"></p>
+<h2 id="基础配置"><a href="#基础配置" class="headerlink" title="基础配置"></a>基础配置</h2><h3 id="系统基础配置"><a href="#系统基础配置" class="headerlink" title="系统基础配置"></a>系统基础配置</h3><p>配置主机名</p>
+<p>ceph1</p>
+<figure class="highlight dsconfig"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dsconfig"><span class="hljs-string">hostnamectl</span> <span class="hljs-built_in">set-hostname</span> <span class="hljs-string">ceph1</span> &amp;&amp; <span class="hljs-string">bash</span><br></code></pre></td></tr></table></figure>
+
+<p>ceph2</p>
+<figure class="highlight dsconfig"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dsconfig"><span class="hljs-string">hostnamectl</span> <span class="hljs-built_in">set-hostname</span> <span class="hljs-string">ceph2</span> &amp;&amp; <span class="hljs-string">bash</span><br></code></pre></td></tr></table></figure>
+
+<p>ceph3</p>
+<figure class="highlight dsconfig"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dsconfig"><span class="hljs-string">hostnamectl</span> <span class="hljs-built_in">set-hostname</span> <span class="hljs-string">ceph3</span> &amp;&amp; <span class="hljs-string">bash</span><br></code></pre></td></tr></table></figure>
+
+<p><font color='red'>操作节点[所有节点]</font></p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment">#关闭防火墙和selinux</span><br>sed -i <span class="hljs-string">&quot;s#SELINUX=enforcing#SELINUX=disabled#g&quot;</span> <span class="hljs-regexp">/etc/</span>selinux/config<br>setenforce <span class="hljs-number">0</span><br>systemctl disable --now firewalld<br><br><span class="hljs-comment">#设置时间同步</span><br>yum install chrony -y<br>systemctl start chronyd<br>systemctl enable chronyd<br>chronyc sources<br>chronyc sources<br><br><span class="hljs-comment">#配置hosts</span><br>cat &lt;&lt; EOF &gt; <span class="hljs-regexp">/etc/</span>hosts<br><span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span>   localhost localhost.localdomain localhost4 localhost4.localdomain4<br>::<span class="hljs-number">1</span>         localhost localhost.localdomain localhost6 localhost6.localdomain6<br><span class="hljs-number">192.168</span>.<span class="hljs-number">48.101</span> ceph1<br><span class="hljs-number">192.168</span>.<span class="hljs-number">48.102</span> ceph2<br><span class="hljs-number">192.168</span>.<span class="hljs-number">48.103</span> ceph3<br>EOF<br><br><span class="hljs-comment">#配置yum</span><br>mkdir repo.bak<br>mv <span class="hljs-regexp">/etc/yum</span>.repos.d<span class="hljs-regexp">/* repo.bak/</span><br>cat &gt; <span class="hljs-regexp">/etc/yum</span>.repos.d/centos9.repo&lt;&lt; <span class="hljs-string">&quot;EOF&quot;</span><br>[BaseOS]<br>name=Baseos<br>baseurl=https:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/centos-stream/</span><span class="hljs-number">9</span>-stream<span class="hljs-regexp">/BaseOS/</span>x86_64/os<br>gpgcheck=<span class="hljs-number">0</span><br>enabled=<span class="hljs-number">1</span><br><br>[AppStream]<br>name=AppStream<br>baseurl=https:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/centos-stream/</span><span class="hljs-number">9</span>-stream<span class="hljs-regexp">/AppStream/</span>x86_64<span class="hljs-regexp">/os/</span><br>gpgcheck=<span class="hljs-number">0</span><br>enabled=<span class="hljs-number">1</span><br><br>[extras-common]<br>name=extras-common<br>baseurl=https:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/centos-stream/</span>SIGs<span class="hljs-regexp">/9-stream/</span>extras<span class="hljs-regexp">/x86_64/</span>extras-common/<br>gpgcheck=<span class="hljs-number">0</span><br>enabled=<span class="hljs-number">0</span><br><br>[ceph-reef]<br>name=ceph-reef<br>baseurl=https:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/ceph/</span>rpm-reef<span class="hljs-regexp">/el9/</span>x86_64/<br>gpgcheck=<span class="hljs-number">0</span><br>enabled=<span class="hljs-number">1</span><br><br>[epel]<br>name=epel<br>baseurl=https:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/epel/</span><span class="hljs-number">9</span><span class="hljs-regexp">/Everything/</span>x86_64/<br>gpgcheck=<span class="hljs-number">0</span><br>enabled=<span class="hljs-number">1</span><br><br>[ceph-reef-noarch]<br>name=ceph-reef-noarch<br>baseurl=https:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/ceph/</span>rpm-reef<span class="hljs-regexp">/el9/</span>noarch/<br>gpgcheck=<span class="hljs-number">0</span><br>enabled=<span class="hljs-number">1</span><br><br>EOF<br><br><span class="hljs-comment"># 内核参数设置：开启IP转发，允许iptables对bridge的数据进行处理 </span><br>cat &lt;&lt; EOF &gt; <span class="hljs-regexp">/etc/</span>sysctl.conf <br>net.ipv4.ip_nonlocal_bind = <span class="hljs-number">1</span><br>net.ipv4.ip_forward = <span class="hljs-number">1</span><br>EOF<br><br>cat &lt;&lt; EOF &gt; <span class="hljs-regexp">/etc/</span>sysctl.d/ceph.conf <br>kernel.pid_max = <span class="hljs-number">4194303</span> <br>vm.swappiness = <span class="hljs-number">0</span> <br>EOF<br><br>sysctl -p<br><br><span class="hljs-comment">#更新yum源</span><br>dnf clean all &amp;&amp; dnf makecache<br><br><span class="hljs-comment">#安装软件</span><br>dnf install vim net-tools wget lsof python3 yum-utils device-mapper-persistent-data lvm2 -y<br></code></pre></td></tr></table></figure>
+
+<h3 id="配置ssh免密"><a href="#配置ssh免密" class="headerlink" title="配置ssh免密"></a>配置ssh免密</h3><p><font color='red'>操作节点[ceph1]</font></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">yum</span> <span class="hljs-string">install</span> <span class="hljs-string">-y</span> <span class="hljs-string">sshpass</span> <br><span class="hljs-string">cat</span> <span class="hljs-string">&gt;</span> <span class="hljs-string">sshmianmi.sh</span> <span class="hljs-string">&lt;&lt;</span> <span class="hljs-string">&quot;EOF&quot;</span><br><span class="hljs-comment">#!/bin/bash</span><br><span class="hljs-comment"># 目标主机列表</span><br><span class="hljs-string">hosts=(&quot;ceph1&quot;</span> <span class="hljs-string">&quot;ceph2&quot;</span> <span class="hljs-string">&quot;ceph3&quot;</span><span class="hljs-string">)</span>  <span class="hljs-comment">#就改这个</span><br><span class="hljs-comment"># 主机密码</span><br><span class="hljs-string">password=&quot;123456&quot;</span>                    <span class="hljs-comment">#就改这个</span><br><span class="hljs-comment"># 生成 SSH 密钥对</span><br><span class="hljs-string">ssh-keygen</span> <span class="hljs-string">-t</span> <span class="hljs-string">rsa</span> <span class="hljs-string">-N</span> <span class="hljs-string">&quot;&quot;</span> <span class="hljs-string">-f</span> <span class="hljs-string">~/.ssh/id_rsa</span><br><br><span class="hljs-comment"># 循环遍历目标主机</span><br><span class="hljs-string">for</span> <span class="hljs-string">host</span> <span class="hljs-string">in</span> <span class="hljs-string">&quot;$&#123;hosts[@]&#125;&quot;</span><br><span class="hljs-string">do</span><br>    <span class="hljs-comment"># 复制公钥到目标主机</span><br>    <span class="hljs-string">sshpass</span> <span class="hljs-string">-p</span> <span class="hljs-string">&quot;$password&quot;</span> <span class="hljs-string">ssh-copy-id</span> <span class="hljs-string">-o</span> <span class="hljs-string">StrictHostKeyChecking=no</span> <span class="hljs-string">&quot;$host&quot;</span><br>    <br>    <span class="hljs-comment"># 验证免密登录</span><br>    <span class="hljs-string">sshpass</span> <span class="hljs-string">-p</span> <span class="hljs-string">&quot;$password&quot;</span> <span class="hljs-string">ssh</span> <span class="hljs-string">-o</span> <span class="hljs-string">StrictHostKeyChecking=no</span> <span class="hljs-string">&quot;$host&quot;</span> <span class="hljs-string">&quot;echo &#x27;免密登录成功&#x27;&quot;</span><br><span class="hljs-string">done</span><br><span class="hljs-string">EOF</span><br><br><span class="hljs-string">sh</span> <span class="hljs-string">sshmianmi.sh</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="安装docker"><a href="#安装docker" class="headerlink" title="安装docker"></a>安装docker</h2><p><font color='red'>操作节点[所有节点]</font></p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs awk">yum-config-manager --add-repo https:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/docker-ce/</span>linux<span class="hljs-regexp">/centos/</span>docker-ce.repo<br>dnf install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin<br>systemctl enable --now docker<br>mkdir -p <span class="hljs-regexp">/etc/</span>docker<br>tee <span class="hljs-regexp">/etc/</span>docker/daemon.json &lt;&lt;-<span class="hljs-string">&#x27;EOF&#x27;</span><br>&#123;<br>  <span class="hljs-string">&quot;registry-mirrors&quot;</span>: [<span class="hljs-string">&quot;https://pw860av8.mirror.aliyuncs.com&quot;</span>]<br>&#125;<br>EOF<br>systemctl daemon-reload<br>systemctl restart docker<br>docker info<br></code></pre></td></tr></table></figure>
+
+<h2 id="安装cephadm"><a href="#安装cephadm" class="headerlink" title="安装cephadm"></a>安装cephadm</h2><p><font color='red'>操作节点[所有节点]</font></p>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs ada">dnf install <span class="hljs-comment">--assumeyes cephadm</span><br>which cephadm<br></code></pre></td></tr></table></figure>
+
+<h2 id="安装ceph集群"><a href="#安装ceph集群" class="headerlink" title="安装ceph集群"></a>安装ceph集群</h2><h3 id="启动一个集群"><a href="#启动一个集群" class="headerlink" title="启动一个集群"></a>启动一个集群</h3><p><font color='red'>操作节点[ceph1]</font></p>
+<p>在 ceph1 上启动 cephadm bootstrap</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">cephadm</span> bootstrap --mon-ip <span class="hljs-number">192.168.48.101</span><br></code></pre></td></tr></table></figure>
+
+<p>上述指令会为我们完成以下工作：</p>
+<ul>
+<li>创建mon</li>
+<li>创建ssh key并且添加到 &#x2F;root&#x2F;.ssh&#x2F;authorized_keys 文件</li>
+<li>将集群间通信的最小配置写入&#x2F;etc&#x2F;ceph&#x2F;ceph.conf</li>
+<li>将client.admin管理secret密钥的副本写入&#x2F;etc&#x2F;ceph&#x2F;ceph.client.admin.keyring。</li>
+<li>将公用密钥的副本写入&#x2F;etc&#x2F;ceph&#x2F;ceph.pub</li>
+</ul>
+<p>执行结果如下：</p>
+<p>框框中的是ceph页面的账号密码</p>
+<p><img src="https://article.biliimg.com/bfs/new_dyn/75082093937caa49a00576f24b28177f697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231222140050214"></p>
+<p><font color='red'>访问页面并用上面的账号密码登入，就会提示你修改密码，修改成你自己的密码</font></p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">https:<span class="hljs-regexp">//</span><span class="hljs-number">192.168</span>.<span class="hljs-number">48.101</span>:<span class="hljs-number">8443</span>/<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://article.biliimg.com/bfs/new_dyn/54a9285e8dea5d84e58c55b19e85d816697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231222140150112"></p>
+<p>运行ceph查看集群健康状态</p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs autoit">[root<span class="hljs-symbol">@ceph1</span> ~]<span class="hljs-meta"># ceph -s</span><br>bash: ceph: command <span class="hljs-literal">not</span> found<br></code></pre></td></tr></table></figure>
+
+<p>这里会显示<font color='red'>报错</font>，我们要在<font color='red'>所有节点</font>需要安装ceph-common</p>
+<p><font color='red'>操作节点[所有节点]</font></p>
+<figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs smali">cephadm<span class="hljs-built_in"> add-repo </span>--release reef<br>dnf install -y liburing<br><span class="hljs-comment"># 安装ceph-common包</span><br>dnf install -y librbd1 ceph-common<br><span class="hljs-comment"># 查看ceph-common是否正常安装</span><br>ceph -v<br></code></pre></td></tr></table></figure>
+
+<p>再次在<font color='red'>ceph1</font>查看集群健康状况</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">ceph -s</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://article.biliimg.com/bfs/new_dyn/0c2799e5a38532c18393ab85840838cd697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231222140331471"></p>
+<p>这里有报错提示<font color='red'>HEALTH_WARN</font>暂时不用管</p>
+<h3 id="添加ceph节点"><a href="#添加ceph节点" class="headerlink" title="添加ceph节点"></a>添加ceph节点</h3><p><font color='red'>操作节点[ceph1]</font></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#拷贝ceph1的Ceph 集群的公钥至其他节点，以便加入集群</span><br>ssh-copy-id -f -i /etc/ceph/ceph.pub root@ceph2<br>ssh-copy-id -f -i /etc/ceph/ceph.pub root@ceph3<br><span class="hljs-comment"># 添加ceph节点</span><br>ceph orch host add ceph2 192.168.48.102<br>ceph orch host add ceph3 192.168.48.103<br><br>删除可以用<br>ceph orch host <span class="hljs-built_in">rm</span> ceph3<br><span class="hljs-comment"># 查看现在的节点情况</span><br>ceph orch host <span class="hljs-built_in">ls</span><br><span class="hljs-comment"># 添加label后可以允许该节点运行ceph cli（比如cephadm shell命令）</span><br>ceph orch host label add ceph2 _admin<br>ceph orch host label add ceph3 _admin<br><span class="hljs-comment"># 设置 mon 节点</span><br>ceph orch apply mon 3<br>ceph orch apply mon ceph1,ceph2,ceph3<br><span class="hljs-comment"># 查看 mon 详情</span><br>[root@ceph1 ~]<span class="hljs-comment">#  ceph mon dump</span><br>epoch 3<br>fsid 233c64c8-9e76-11ee-86fc-000c2965f5d0<br>last_changed 2023-12-19T14:13:02.000188+0000<br>created 2023-12-19T13:56:10.829244+0000<br>min_mon_release 18 (reef)<br>election_strategy: 1<br>0: [v2:192.168.48.101:3300/0,v1:192.168.48.101:6789/0] mon.ceph1<br>1: [v2:192.168.48.103:3300/0,v1:192.168.48.103:6789/0] mon.ceph3<br>2: [v2:192.168.48.102:3300/0,v1:192.168.48.102:6789/0] mon.ceph2<br>dumped monmap epoch 3<br><br><span class="hljs-comment"># 设置 mgr 节点</span><br>ceph orch apply mgr 3<br>ceph orch apply mgr ceph1,ceph2,ceph3<br>[root@ceph1 ~]<span class="hljs-comment">#  ceph -s</span><br>  cluster:<br>    <span class="hljs-built_in">id</span>:     233c64c8-9e76-11ee-86fc-000c2965f5d0<br>    health: HEALTH_WARN<br>            OSD count 0 &lt; osd_pool_default_size 3<br><br>  services:<br>    mon: 3 daemons, quorum ceph1,ceph3,ceph2 (age 7m)<br>    mgr: ceph1.gtejkn(active, since 18m), standbys: ceph2.rvzimn, ceph3.pbajtu<br>    osd: 0 osds: 0 up, 0 <span class="hljs-keyword">in</span><br><br>  data:<br>    pools:   0 pools, 0 pgs<br>    objects: 0 objects, 0 B<br>    usage:   0 B used, 0 B / 0 B avail<br>    pgs:<br><br></code></pre></td></tr></table></figure>
+
+<h3 id="添加OSD"><a href="#添加OSD" class="headerlink" title="添加OSD"></a>添加OSD</h3><p><font color='red'>操作节点[ceph1]</font></p>
+<p><img src="https://article.biliimg.com/bfs/new_dyn/37c58c6c95dc3b0111cc56a814b25f75697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231222141243608"></p>
+<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs arcade">ceph orch daemon add osd ceph1:<span class="hljs-regexp">/dev/</span>nvme0n2<br>ceph orch daemon add osd ceph2:<span class="hljs-regexp">/dev/</span>nvme0n2<br>ceph orch daemon add osd ceph3:<span class="hljs-regexp">/dev/</span>nvme0n2<br></code></pre></td></tr></table></figure>
+
+<p>查看状态</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@ceph1 ~]<span class="hljs-comment"># ceph -s</span><br>  cluster:<br>    <span class="hljs-built_in">id</span>:     233c64c8-9e76-11ee-86fc-000c2965f5d0<br>    health: HEALTH_OK<br><br>  services:<br>    mon: 3 daemons, quorum ceph1,ceph3,ceph2 (age 25m)<br>    mgr: ceph1.gtejkn(active, since 36m), standbys: ceph2.rvzimn, ceph3.pbajtu<br>    osd: 3 osds: 3 up (since 20s), 3 <span class="hljs-keyword">in</span> (since 33s)<br><br>  data:<br>    pools:   1 pools, 1 pgs<br>    objects: 2 objects, 449 KiB<br>    usage:   81 MiB used, 300 GiB / 300 GiB avail<br>    pgs:     1 active+clean<br><br>[root@ceph1 ~]<span class="hljs-comment">#</span><br></code></pre></td></tr></table></figure>
+
+<p><font color='green'>至此ceph集群部署成果</font></p>
+<h2 id="ceph存储的使用"><a href="#ceph存储的使用" class="headerlink" title="ceph存储的使用"></a>ceph存储的使用</h2><table>
+<thead>
+<tr>
+<th align="left">存储类型</th>
+<th align="left">特征</th>
+<th align="left">应用场景</th>
+<th align="left">典型设备</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">块存储（RBD）</td>
+<td align="left">存储速度较快 不支持共享存储 [<strong>ReadWriteOnce</strong>]</td>
+<td align="left">虚拟机硬盘</td>
+<td align="left">硬盘 Raid</td>
+</tr>
+<tr>
+<td align="left">文件存储（CephFS）</td>
+<td align="left">存储速度慢（需经操作系统处理再转为块存储） 支持共享存储 [<strong>ReadWriteMany</strong>]</td>
+<td align="left">文件共享</td>
+<td align="left">FTP NFS</td>
+</tr>
+<tr>
+<td align="left">对象存储（Object）</td>
+<td align="left">具备块存储的读写性能和文件存储的共享特性 操作系统不能直接访问，只能通过应用程序级别的API访问</td>
+<td align="left">图片存储 视频存储</td>
+<td align="left">OSS</td>
+</tr>
+</tbody></table>
+<h3 id="块存储-RBD"><a href="#块存储-RBD" class="headerlink" title="块存储(RBD)"></a>块存储(RBD)</h3><h4 id="配置rbd"><a href="#配置rbd" class="headerlink" title="配置rbd"></a>配置rbd</h4><p><font color='red'>操作节点[ceph1]</font></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><code class="hljs bash">------------------------------------------------------<br><span class="hljs-comment">#创建名为qianyios-rbd的存储池pool</span><br>ceph osd pool create qianyios-rbd 128 128 <br><br>[root@ceph1 ~]<span class="hljs-comment"># ceph osd pool create qianyios-rbd 128 128</span><br>pool <span class="hljs-string">&#x27;qianyios-rbd&#x27;</span> created<br><br><br><span class="hljs-comment">#删除pool用这个</span><br>ceph osd pool delete qianyios-rbd qianyios-rbd --yes-i-really-really-mean-it<br>------------------------------------------------------<br><span class="hljs-comment">#查看列表</span><br>ceph osd pool <span class="hljs-built_in">ls</span><br><br>[root@ceph1 ~]<span class="hljs-comment"># ceph osd pool ls</span><br>.mgr<br>qianyios-rbd<br>------------------------------------------------------<br><span class="hljs-comment">#将类型为存储池的pool（qianyios-rbd）转换为rbd类型</span><br>ceph osd pool application <span class="hljs-built_in">enable</span> qianyios-rbd rbd<br><br>[root@ceph1 ~]<span class="hljs-comment"># ceph osd pool application enable qianyios-rbd rbd</span><br>enabled application <span class="hljs-string">&#x27;rbd&#x27;</span> on pool <span class="hljs-string">&#x27;qianyios-rbd&#x27;</span><br><br>------------------------------------------------------<br><span class="hljs-comment">#初始化qianyios-rbd存储池</span><br>rbd pool init qianyios-rbd<br>------------------------------------------------------<br><span class="hljs-comment">#创建一个名为 &quot;qy-rbd-img&quot; 的 RBD 镜像，存储在 &quot;qianyios-rbd&quot; 存储池中，镜像的大小为 10GB。</span><br>rbg create -p qianyios-rbd --image qy-rbd-img --size 10G<br>或者（二选一）<br>rbd create --size 10G qianyios-rbd/qy-rbd-img<br><span class="hljs-comment">#删除镜像用这个</span><br>rbd <span class="hljs-built_in">rm</span> qianyios-rbd/qy-rbd-img<br><br>------------------------------------------------------<br><span class="hljs-comment">#查看创建状态</span><br>rbd <span class="hljs-built_in">ls</span> qianyios-rbd<br><br>rbd info qianyios-rbd/qy-rbd-img<br><br>[root@ceph1 ~]<span class="hljs-comment"># rbd ls qianyios-rbd</span><br>qy-rbd-img<br>[root@ceph1 ~]<span class="hljs-comment"># rbd info qianyios-rbd/qy-rbd-img</span><br>rbd image <span class="hljs-string">&#x27;qy-rbd-img&#x27;</span>:<br>        size 10 GiB <span class="hljs-keyword">in</span> 2560 objects<br>        order 22 (4 MiB objects)<br>        snapshot_count: 0<br>        <span class="hljs-built_in">id</span>: 8589e2720f1f<br>        block_name_prefix: rbd_data.8589e2720f1f<br>        format: 2<br>        features: layering, exclusive-lock, object-map, fast-diff, deep-flatten<br>        op_features:<br>        flags:<br>        create_timestamp: Thu Dec 21 23:09:33 2023<br>        access_timestamp: Thu Dec 21 23:09:33 2023<br>        modify_timestamp: Thu Dec 21 23:09:33 2023<br><br>------------------------------------------------------<br><span class="hljs-comment"># 创建rbd 用户key（验证文件）</span><br><span class="hljs-comment">#创建一个名为 &quot;qianyios-user&quot; 的客户端，并为其授予读写qianyios-rbd存储池的权限</span><br>ceph auth get-or-create client.qianyios-user mon <span class="hljs-string">&#x27;profile rbd&#x27;</span> osd <span class="hljs-string">&#x27;profile rbd pool=qianyios-rbd&#x27;</span> mgr <span class="hljs-string">&#x27;profile rbd pool=qianyios-rbd&#x27;</span><br><span class="hljs-comment"># output会输出以下内容</span><br>[client.qianyios-user]<br>        key = AQDKVYRl1nZ8ARAAvhXZojmroyy+YIb9dnTGSw==<br><br>ceph auth get client.qianyios-user -o /root/ceph.client.qianyios-user.keyring<br><br>[root@ceph1 ~]<span class="hljs-comment"># cat /root/ceph.client.qianyios-user.keyring</span><br>[client.qianyios-user]<br>        key = AQDKVYRl1nZ8ARAAvhXZojmroyy+YIb9dnTGSw==<br>        caps mgr = <span class="hljs-string">&quot;profile rbd pool=qianyios-rbd&quot;</span><br>        caps mon = <span class="hljs-string">&quot;profile rbd&quot;</span><br>        caps osd = <span class="hljs-string">&quot;profile rbd pool=qianyios-rbd&quot;</span><br>------------------------------------------------------<br></code></pre></td></tr></table></figure>
+
+<p><font color='red'>!讲解一下这个创建用户key（验证文件）</font></p>
+<ol>
+<li><p>讲解：通过这个命令，会创建一个用户，并分别指定这个用户对mon、osd、mgr的权限。如果不加pool&#x3D;xxx，则这个用户能管理整个守护进程。</p>
+</li>
+<li><p>mon的权限必须是mon ‘profile rbd’，因为Mon服务本身就是只读的，你再限制一个只读权限，脱裤子放屁。 </p>
+</li>
+<li><p>假设你写了 osd ‘profile rbd’，则用户能管理所有pool的osd设备。</p>
+</li>
+<li><p>假设你写了osd ‘profile rbd pool&#x3D;xxx’，则这个用户可以读写名叫xxx的pool的osd设备。</p>
+</li>
+<li><p>假设你写了osd ‘profile rbd-read-only pool&#x3D;xxx’，则这个用户只能读取名叫xxx的pool中的osd数据，不能写入。</p>
+</li>
+<li><p>mgr同理，但是最好不要写mgr ‘profile rbd’，否则A池的管理员能够关闭B池的librados接口，那就糟糕了。</p>
+</li>
+</ol>
+<p><font color='red'>举例：</font></p>
+<ol>
+<li>创建一个volumes用户，该用户对volumes池拥有读写权限</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">ceph auth get-or-create client.volumes mon <span class="hljs-string">&#x27;profile rbd&#x27;</span> osd <span class="hljs-string">&#x27;profile rbd pool=volumes&#x27;</span> mgr <span class="hljs-string">&#x27;profile rbd pool=volumes&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>创建一个volumes用户，该用户对volumes池拥有只读权限。</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">ceph auth get-or-create client.volumes mon <span class="hljs-string">&#x27;profile rbd&#x27;</span> osd <span class="hljs-string">&#x27;profile rbd-read-only pool=volumes&#x27;</span> mgr <span class="hljs-string">&#x27;profile rbd pool=volumes&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="客户端挂载"><a href="#客户端挂载" class="headerlink" title="客户端挂载"></a>客户端挂载</h4><p>这里新开一台客户机centos stream 9，这个客户端可以是你的任何一台机要挂载的机子</p>
+<h5 id="添加yum"><a href="#添加yum" class="headerlink" title="添加yum"></a>添加yum</h5><p><font color='red'>操作节点[test]测试机</font></p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs awk">mkdir repo.bak<br>mv <span class="hljs-regexp">/etc/yum</span>.repos.d<span class="hljs-regexp">/* repo.bak/</span><br>cat &gt; <span class="hljs-regexp">/etc/yum</span>.repos.d/centos9.repo&lt;&lt; <span class="hljs-string">&quot;EOF&quot;</span><br>[BaseOS]<br>name=Baseos<br>baseurl=https:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/centos-stream/</span><span class="hljs-number">9</span>-stream<span class="hljs-regexp">/BaseOS/</span>x86_64/os<br>gpgcheck=<span class="hljs-number">0</span><br>enabled=<span class="hljs-number">1</span><br><br>[AppStream]<br>name=AppStream<br>baseurl=https:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/centos-stream/</span><span class="hljs-number">9</span>-stream<span class="hljs-regexp">/AppStream/</span>x86_64<span class="hljs-regexp">/os/</span><br>gpgcheck=<span class="hljs-number">0</span><br>enabled=<span class="hljs-number">1</span><br><br>[extras-common]<br>name=extras-common<br>baseurl=https:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/centos-stream/</span>SIGs<span class="hljs-regexp">/9-stream/</span>extras<span class="hljs-regexp">/x86_64/</span>extras-common/<br>gpgcheck=<span class="hljs-number">0</span><br>enabled=<span class="hljs-number">0</span><br><br>[ceph-reef]<br>name=ceph-reef<br>baseurl=https:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/ceph/</span>rpm-reef<span class="hljs-regexp">/el9/</span>x86_64/<br>gpgcheck=<span class="hljs-number">0</span><br>enabled=<span class="hljs-number">1</span><br><br>[epel]<br>name=epel<br>baseurl=https:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/epel/</span><span class="hljs-number">9</span><span class="hljs-regexp">/Everything/</span>x86_64/<br>gpgcheck=<span class="hljs-number">0</span><br>enabled=<span class="hljs-number">1</span><br><br>[ceph-reef-noarch]<br>name=ceph-reef-noarch<br>baseurl=https:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/ceph/</span>rpm-reef<span class="hljs-regexp">/el9/</span>noarch/<br>gpgcheck=<span class="hljs-number">0</span><br>enabled=<span class="hljs-number">1</span><br><br>EOF<br>dnf clean all &amp;&amp; dnf makecache<br></code></pre></td></tr></table></figure>
+
+<h5 id="客户端安装cephadm和ceph-common"><a href="#客户端安装cephadm和ceph-common" class="headerlink" title="客户端安装cephadm和ceph-common"></a>客户端安装cephadm和ceph-common</h5><p><font color='red'>操作节点[test]测试机</font></p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs armasm"><span class="hljs-symbol">dnf</span> install -y cephadm ceph-<span class="hljs-meta">common</span><br></code></pre></td></tr></table></figure>
+
+<h5 id="拷贝ceph1的证书至客户端"><a href="#拷贝ceph1的证书至客户端" class="headerlink" title="拷贝ceph1的证书至客户端"></a>拷贝ceph1的证书至客户端</h5><p>把ceph1创建的<code>ceph.client.qianyios-user.keyring </code>和<code>ceph.conf</code>复制到客户端（192.168.48.128）</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">scp <span class="hljs-regexp">/root/</span>ceph.client.qianyios-user.keyring <span class="hljs-regexp">/etc/</span>ceph<span class="hljs-regexp">/ceph.conf 192.168.48.128:/</span>etc<span class="hljs-regexp">/ceph/</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://article.biliimg.com/bfs/new_dyn/324d2bb8b9f2f985637e99b036fab1d8697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231221234526458"></p>
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs tap">[root@test ~]<span class="hljs-comment"># ll /etc/ceph/</span><br>total 12<br>-rw-r--r--<span class="hljs-number"> 1 </span>root root<span class="hljs-number"> 185 </span>Dec<span class="hljs-number"> 21 </span>23:45 ceph.client.qianyios-user.keyring<br>-rw-r--r--<span class="hljs-number"> 1 </span>root root<span class="hljs-number"> 283 </span>Dec<span class="hljs-number"> 21 </span>23:45 ceph.conf<br>-rw-r--r--<span class="hljs-number"> 1 </span>root root <span class="hljs-number"> 92 </span>Dec<span class="hljs-number"> 12 </span>08:01 rbdmap<br>[root@test ~]<span class="hljs-comment">#</span><br><br></code></pre></td></tr></table></figure>
+
+<h5 id="开始挂载"><a href="#开始挂载" class="headerlink" title="开始挂载"></a>开始挂载</h5><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">lsblk</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://article.biliimg.com/bfs/new_dyn/4d8b54003166548e3fe578e5cb139593697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231221234732781"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#挂载块存储</span><br>rbd map qianyios-rbd/qy-rbd-img --keyring /etc/ceph/ceph.client.qianyios-user.keyring --<span class="hljs-built_in">id</span> qianyios-user<br>-----<br>/dev/rbd0<br>-----<br>lsblk<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://article.biliimg.com/bfs/new_dyn/ffc0d954e35352f9d47f0759b336a6d6697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231221235206886"></p>
+<p>此时的&#x2F;dev&#x2F;rbd0并不能使用，我们需要格式化，并且挂载到本机</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment">#格式化</span><br>mkfs.xfs <span class="hljs-regexp">/dev/</span>rbd0<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://article.biliimg.com/bfs/new_dyn/cf149e862bc27c4549754bcdc94eed49697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231221235300388"></p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment">#创建挂载点</span><br>mkdir <span class="hljs-regexp">/opt/</span>qianyios-rbd<br>mount <span class="hljs-regexp">/dev/</span>rbd0 <span class="hljs-regexp">/opt/</span>qianyios-rbd<br>echo <span class="hljs-string">&quot;qianyios-rbd&quot;</span> &gt; <span class="hljs-regexp">/opt/</span>qianyios-rbd.txt<br>cat <span class="hljs-regexp">/opt/</span>qianyios-rbd.txt<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://article.biliimg.com/bfs/new_dyn/c7b4fa5c292c0a8c7634ba245dcd10b1697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231221235710235"></p>
+<h5 id="取消挂载"><a href="#取消挂载" class="headerlink" title="取消挂载"></a>取消挂载</h5><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs awk">umount <span class="hljs-regexp">/opt/</span>qianyios-rbd<br>rbd unmap qianyios-rbd/qy-rbd-img<br>lsblk<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://article.biliimg.com/bfs/new_dyn/dbcf67f5a3339d06da97560bcde8002c697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231221235845353"></p>
+<h3 id="文件存储-CephFS"><a href="#文件存储-CephFS" class="headerlink" title="文件存储(CephFS)"></a>文件存储(CephFS)</h3><h4 id="创建cephfs"><a href="#创建cephfs" class="headerlink" title="创建cephfs"></a>创建cephfs</h4><p>部署元数据服务器，创建一个CephFS(文件系统), 名字为qianyios-fs</p>
+<figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs dos">ceph <span class="hljs-built_in">fs</span> volume create qianyios-<span class="hljs-built_in">fs</span> --placement=&quot;<span class="hljs-number">3</span> ceph1 ceph2 ceph3&quot;<br># 查看状态<br>ceph <span class="hljs-built_in">fs</span> volume ls<br>ceph orch ps --daemon-<span class="hljs-built_in">type</span> mds<br>ceph <span class="hljs-built_in">fs</span> status qianyios-<span class="hljs-built_in">fs</span><br>ceph mds stat<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://article.biliimg.com/bfs/new_dyn/393643ace37e68a7391162a007a4b268697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231222130830482"></p>
+<h4 id="设置nfs高可用"><a href="#设置nfs高可用" class="headerlink" title="设置nfs高可用"></a>设置nfs高可用</h4><p>先生成nfs和nfs_ingress配置文件。其中nfs_ingress是为了nfs高可用配置的。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">cat</span> <span class="hljs-string">&lt;&lt;EOF</span> <span class="hljs-string">&gt;</span> <span class="hljs-string">nfs.yaml</span><br><span class="hljs-attr">service_type:</span> <span class="hljs-string">nfs</span><br><span class="hljs-attr">service_id:</span> <span class="hljs-string">nkonfs</span><br><span class="hljs-attr">placement:</span><br>  <span class="hljs-attr">hosts:</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">ceph1</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">ceph2</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">ceph3</span><br><span class="hljs-attr">spec:</span><br>  <span class="hljs-attr">port:</span> <span class="hljs-number">2048</span><br><span class="hljs-string">EOF</span><br><br><span class="hljs-string">cat</span> <span class="hljs-string">&lt;&lt;EOF</span> <span class="hljs-string">&gt;nfs_ingress.yaml</span><br><span class="hljs-attr">service_type:</span> <span class="hljs-string">ingress</span><br><span class="hljs-attr">service_id:</span> <span class="hljs-string">nfs.nkonfs</span><br><span class="hljs-attr">placement:</span><br>  <span class="hljs-attr">count:</span> <span class="hljs-number">3</span><br><span class="hljs-attr">spec:</span><br>  <span class="hljs-attr">backend_service:</span> <span class="hljs-string">nfs.nkonfs</span><br>  <span class="hljs-attr">frontend_port:</span> <span class="hljs-number">2049</span><br>  <span class="hljs-attr">monitor_port:</span> <span class="hljs-number">9001</span><br>  <span class="hljs-attr">virtual_ip:</span> <span class="hljs-number">192.168</span><span class="hljs-number">.48</span><span class="hljs-number">.200</span><span class="hljs-string">/24#高可用vip</span><br><span class="hljs-string">EOF</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs stylus">ceph orch apply -<span class="hljs-selector-tag">i</span> nfs<span class="hljs-selector-class">.yaml</span><br>ceph orch apply -<span class="hljs-selector-tag">i</span> nfs_ingress<span class="hljs-selector-class">.yaml</span><br><br>ceph orch ls <span class="hljs-attr">--service_name</span>=nfs<span class="hljs-selector-class">.nkonfs</span><br>ceph orch ls <span class="hljs-attr">--service_name</span>=ingress<span class="hljs-selector-class">.nfs</span><span class="hljs-selector-class">.nkonfs</span><br>ceph nfs cluster ls<br>ceph nfs cluster info nkonfs<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://article.biliimg.com/bfs/new_dyn/ac33aae51625b0fdeeff4baf4b11f034697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231222131458220"></p>
+<h4 id="导出nfs"><a href="#导出nfs" class="headerlink" title="导出nfs"></a>导出nfs</h4><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs routeros">ceph nfs <span class="hljs-built_in">export</span> create cephfs --cluster-id nkonfs --pseudo-path /qy-fs --fsname qianyios-fs<br><span class="hljs-comment"># 查看详情</span><br>ceph nfs <span class="hljs-built_in">export</span> <span class="hljs-built_in">info</span> nkonfs /qy-fs<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://article.biliimg.com/bfs/new_dyn/675c9fbdd805e5233525cb4df77b0143697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231222131516871"></p>
+<h4 id="客户端挂载NFS"><a href="#客户端挂载NFS" class="headerlink" title="客户端挂载NFS"></a>客户端挂载NFS</h4><p>注意：只支持 NFS v4.0+ 的协议。<br>由于showmount 不支持 NFS v4，纯 NFSv4又不提供其他获取导出列表的方法，只能期望挂载的时候命令不要输错了。<br>在客户端执行以下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">dnf install -y nfs-utils<br><span class="hljs-built_in">mkdir</span> /qy-fs-data<br>mount -t nfs -o nfsvers=4.1,proto=tcp 192.168.48.200:/qy-fs /qy-fs-data<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://article.biliimg.com/bfs/new_dyn/d297c3256c5f43a82f84dc1c6a277a22697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231222131709705"></p>
+<h4 id="测试文件写入"><a href="#测试文件写入" class="headerlink" title="测试文件写入"></a>测试文件写入</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs bash">tar zcf etc.tar.gz /etc<br> <br><span class="hljs-comment">#测试文件写入</span><br><span class="hljs-built_in">cp</span> etc.tar.gz /qy-fs-data/<br>ll /qy-fs-data/<br> <br><span class="hljs-comment">#生成500M大文件写入</span><br><span class="hljs-built_in">dd</span> <span class="hljs-keyword">if</span>=/dev/zero of=/qy-fs-data/testfile bs=1M count=500<br><br><span class="hljs-comment">#查看分区使用</span><br><span class="hljs-built_in">df</span> -h /fsdata<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://article.biliimg.com/bfs/new_dyn/ace4a6f27a45732181456326483908a6697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231222132148957"></p>
+<h3 id="对象存储-RGW"><a href="#对象存储-RGW" class="headerlink" title="对象存储(RGW)"></a>对象存储(RGW)</h3><p><code>RGW（RADOS Gateway）</code>是Ceph存储系统的一部分，它提供了一个<code>对象存储服务</code></p>
+<p><code>RGW</code>可以作为一个<code>独立的服务运行</code>，<code>也可以与Ceph集群的其他组件（如OSD和MON）一起部署</code>。</p>
+<p><code>区域（zone）</code>: 一个ceph集群可以包含多个区域，一个区域只属于一个集群，一个区域可以有多个RGW</p>
+<p><code>区域组（zonegroup）</code>：由一个或多个区域组成，包含一个主区域（master zone），其他区域称为Secondary Zone，区域组内的所有区域之间同步数据</p>
+<p><code>域（realm）</code>: 同一个或多个区域组组成，包含一个主区域组，其他都次区域组。域中的所有rados网关都从位于主区域组和主区域中的rados网关拉取配置</p>
+<h4 id="设置radosgw区域和用户"><a href="#设置radosgw区域和用户" class="headerlink" title="设置radosgw区域和用户"></a>设置radosgw区域和用户</h4><p><img src="https://article.biliimg.com/bfs/new_dyn/d63962a8dd805ba54e1d65e2269cd309697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231220233812600"></p>
+<p>在<font color='red'>所有节点</font>部署qianyios领域和qianyios-shenzhen 区域的rgw守护程序：</p>
+<p><font color='red'>操作节点[所有节点]</font></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs bash">1.<span class="hljs-comment"># 如果尚未创建 realm（领域），请首先创建一个名字为qianyios的 realm（领域） ：</span><br>radosgw-admin realm create --rgw-realm=qianyios<br>radosgw-admin realm list<br><br>2.<span class="hljs-comment"># 接下来创建一个新的 zonegroup（区域组）：</span><br>radosgw-admin zonegroup create --rgw-zonegroup=qianyios-shenzhen  --master<br>radosgw-admin zonegroup list<br><br>3.<span class="hljs-comment">#接下来创建一个 zone：</span><br>radosgw-admin zone create --rgw-zonegroup=qianyios-shenzhen --rgw-zone=qianyios-shenzhen-zone1 --master<br><span class="hljs-comment">#这个命令用于创建一个名为 qianyios-shenzhen-zone1 的 RadosGW 区域（Zone），并将它归属于 qianyios-shenzhen 的区域组（Zone Group）。</span><br>radosgw-admin zone list<br><br>4.<span class="hljs-comment">#这个命令用于更新指定的 RadosGW 域（Realm）的周期（Period）。--rgw-realm=qianyios 参数指定要更新的 RadosGW 域的名称为 qianyios</span><br>radosgw-admin period update --rgw-realm=qianyios --commit<br><br><br>5.<span class="hljs-comment">#在 Ceph 集群中部署一个名为 qianyios-rgw 的 RadosGW 实例，并将其关联到指定的域（Realm）、区域组（Zone Group）和区域（Zone），并指定了存储位置。</span><br>ceph orch apply rgw qianyios-rgw --realm=qianyios --zonegroup=qianyios-shenzhen --zone=qianyios-shenzhen-zone1 --placement=<span class="hljs-string">&quot;3 ceph1 ceph2 ceph3&quot;</span> --port=8080<br><br><span class="hljs-comment">#删除实例用这个</span><br>ceph orch <span class="hljs-built_in">rm</span> rgw.qianyios-rgw<br><br>6.<span class="hljs-comment"># 查看各节点 rgw 是否启动</span><br>ceph orch ps --daemon-type rgw<br><br>7.<span class="hljs-comment"># 创建创建 radosgw 用户名为admin，显示名称为admin user</span><br>radosgw-admin user create --uid=<span class="hljs-string">&quot;admin&quot;</span> --display-name=<span class="hljs-string">&quot;admin user&quot;</span><br><br>8.<span class="hljs-comment"># 创建完成之后需要把access_key和secret_key保存下来，也可以使用下面的命令来查看</span><br>radosgw-admin user info --uid=admin<br><br><span class="hljs-string">&quot;keys&quot;</span>: [<br>        &#123;<br>            <span class="hljs-string">&quot;user&quot;</span>: <span class="hljs-string">&quot;admin&quot;</span>,<br>            <span class="hljs-string">&quot;access_key&quot;</span>: <span class="hljs-string">&quot;LAI14X0RJVJG3QGR16FP&quot;</span>,<br>            <span class="hljs-string">&quot;secret_key&quot;</span>: <span class="hljs-string">&quot;t11PVzqYtEvb22ajctD0U5tCN5d0CaDPkZENiqTb&quot;</span><br>        &#125;<br>    ],<br></code></pre></td></tr></table></figure>
+
+<p>使用<a target="_blank" rel="noopener" href="https://s3browser.com/">s3 browser点击这里访问官网下载软件</a>，将以上access_key,secret_key填上，可以正常连接，但是没有桶，手动创建一个桶，并上传文件，正常。</p>
+<p><img src="https://article.biliimg.com/bfs/new_dyn/05a6e26f5e515b625c12522176dd4ad2697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231221001128450"></p>
+<p>此时什么都没有，创建一个桶</p>
+<p><img src="https://article.biliimg.com/bfs/new_dyn/ee26ba74a4e748716fa1153e15fd9a92697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231221001200312"></p>
+<p><img src="https://article.biliimg.com/bfs/new_dyn/ed4930f01338b668723db4b6e45c6bc4697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231221001228678"></p>
+<p>在桌面创建一个test文件移进去</p>
+<p><img src="https://article.biliimg.com/bfs/new_dyn/66e5e18183190f759b0ec20ea6f9506e697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231221001351913"></p>
+<div class="tbsm" style="margin-top:54px;">
+<div class="tbsm-top"><span><svg t="1674654360507" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="987" data-spm-anchor-id="a313x.7781069.0.i0" width="35" height="35"><path d="M410.49 97.74H155.08a56.74 56.74 0 0 0-56.84 56.73V410a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 467.32 410V154.58a56.83 56.83 0 0 0-56.83-56.84zM410.49 558.74H155.08a56.74 56.74 0 0 0-56.84 56.73V871a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 467.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84zM871.49 558.74H616.08a56.74 56.74 0 0 0-56.84 56.73V871a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 928.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84z" fill="#66EEFF" p-id="988"></path><path d="M410.49 558.74h-4.14A475 475 0 0 0 299.52 859.6a481.16 481.16 0 0 0 4.84 68.22h106.13A56.83 56.83 0 0 0 467.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84zM871.49 558.74H616.08a56.74 56.74 0 0 0-56.84 56.73V871a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 928.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84z" fill="#C2F8FF" p-id="989"></path></svg></span><span style="font-size:30px;"> 特别声明</span></div>
+<div class="tbsm-wz">千屹博客旗下的所有文章，是通过本人课堂学习和课外自学所精心整理的知识巨著<br/>难免会有出错的地方<br/>如果细心的你发现了小失误，可以在下方评论区告诉我，或者私信我！<br />非常感谢大家的热烈支持！</div>
+</div>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Centos-9-stream/">#Centos 9 stream</a>
+      
+        <a href="/tags/Ceph/">#Ceph</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Ceph集群分布式集群</div>
+      <div>https://blog.qianyios.top/2023/12/22/Ceph集群分布式集群/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>严千屹</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年12月22日</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>更新于</div>
+          <div>2023年12月22日</div>
+        </div>
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - 非商业性使用">
+                    <i class="iconfont icon-nc"></i>
+                  </span>
+                </a>
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="ND - 禁止演绎">
+                    <i class="iconfont icon-nd"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/12/02/K8S%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%EF%BC%88%E5%86%85%E9%83%A8etcd%EF%BC%89%20-%20%E5%89%AF%E6%9C%AC/" title="K8S高可用集群（内部etcd）">
+                        <span class="hidden-mobile">K8S高可用集群（内部etcd）</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"geJAvpyCyYwmp1wI8u2CCkV5-gzGzoHsz","appKey":"WnNukDH4RUTtMsUwJvNG4vyR","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":true},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <div class="zsqk"> <p>(￣▽￣)" 赞赏！</p> <div class="zstb"> <a  class="qr-trigger" target="_self"> <i class="iconfont icon-wechat-fill" aria-hidden="true"></i> <img class="qr-img animate__animated animate__bounc animate__fadeInDown" src="https://blog.qianyios.top/img/zansang/wxzf.png" srcset="/img/loading.gif" lazyload alt="qrcode" /> </a> <a  class="qr-trigger" target="_self"> <i class="iconfont icon-alipay-fill" aria-hidden="true"></i> <img class="qr-img animate__animated animate__bounc animate__fadeInDown" src="https://blog.qianyios.top/img/zansang/zfb.png" srcset="/img/loading.gif" lazyload alt="qrcode" /> </a>
+</div>
+<p class="zsyy animate__animated animate__bounce animate__flash animate__infinite	infinite animate__slow">如果对你有帮助，就请我喝一杯吧！！</p> </div> <br /> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
