@@ -18,25 +18,25 @@
   
     <meta name="description" content="可用于对接K8s">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Ceph集群分布式存储集群">
+<meta property="og:title" content="Ceph集群分布式集群">
 <meta property="og:url" content="https://blog.qianyios.top/2023/12/22/Ceph%E9%9B%86%E7%BE%A4%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8%E9%9B%86%E7%BE%A4/index.html">
 <meta property="og:site_name" content="严千屹博客">
 <meta property="og:description" content="可用于对接K8s">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://article.biliimg.com/bfs/new_dyn/0d5e822d171f16a9284eda7108beb1a1697559838.png">
+<meta property="og:image" content="https://blog.qianyios.top/img/Ceph%E9%9B%86%E7%BE%A4%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8%E9%9B%86%E7%BE%A4/98234d8c4790983d8c2433bbc14e3756697559838.png">
 <meta property="article:published_time" content="2023-12-22T14:24:40.000Z">
-<meta property="article:modified_time" content="2023-12-22T14:12:15.428Z">
+<meta property="article:modified_time" content="2023-12-22T15:14:52.495Z">
 <meta property="article:author" content="严千屹">
 <meta property="article:tag" content="Centos 9 stream">
 <meta property="article:tag" content="Ceph">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://article.biliimg.com/bfs/new_dyn/0d5e822d171f16a9284eda7108beb1a1697559838.png">
+<meta name="twitter:image" content="https://blog.qianyios.top/img/Ceph%E9%9B%86%E7%BE%A4%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8%E9%9B%86%E7%BE%A4/98234d8c4790983d8c2433bbc14e3756697559838.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>Ceph集群分布式存储集群 - 严千屹博客</title>
+  <title>Ceph集群分布式集群 - 严千屹博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -207,7 +207,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Ceph集群分布式存储集群"></span>
+            <span id="subtitle" data-typed-text="Ceph集群分布式集群"></span>
           
         </div>
 
@@ -279,14 +279,14 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Ceph集群分布式存储集群</h1>
+            <h1 style="display: none">Ceph集群分布式集群</h1>
             
             
               <div class="markdown-body">
                 
                 <meta name="referrer" content="no-referrer"/>
 
-<h1 id="Ceph集群分布式存储集群"><a href="#Ceph集群分布式存储集群" class="headerlink" title="Ceph集群分布式存储集群"></a>Ceph集群分布式存储集群</h1><p>本篇教程针对<font color='red'>外部</font>ceph集群介绍教程，如果是给予K8S<font color='red'>内部</font>ceph请前往<a href="https://blog.qianyios.top/2023/11/19/rook%E9%83%A8%E7%BD%B2ceph/">基于K8S1.28.2实验rook部署ceph - 严千屹博客 (qianyios.top)</a></p>
+<h1 id="Ceph集群分布式集群"><a href="#Ceph集群分布式集群" class="headerlink" title="Ceph集群分布式集群"></a>Ceph集群分布式集群</h1><p>本篇教程针对<font color='red'>外部</font>ceph集群介绍教程，如果是给予K8S<font color='red'>内部</font>ceph请前往<a href="https://blog.qianyios.top/2023/11/19/rook%E9%83%A8%E7%BD%B2ceph/">基于K8S1.28.2实验rook部署ceph - 严千屹博客 (qianyios.top)</a></p>
 <h2 id="机器拓扑"><a href="#机器拓扑" class="headerlink" title="机器拓扑"></a>机器拓扑</h2><table>
 <thead>
 <tr>
@@ -332,7 +332,7 @@
 </tr>
 </tbody></table>
 <p>已经<font color='red'>测试过</font>了，<font color='red'>最小配置</font>，可以满足<font color='red'>毕设</font>需求，后面可自行根据需要调整</p>
-<p><img src="https://article.biliimg.com/bfs/new_dyn/d584b42b3467e3be7d61e506c9a57daa697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231222141636094"></p>
+<p><img src="/../img/Ceph%E9%9B%86%E7%BE%A4%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8%E9%9B%86%E7%BE%A4/ee4eca61c8df08d1a105e1140609e13f697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231222141636094"></p>
 <h2 id="基础配置"><a href="#基础配置" class="headerlink" title="基础配置"></a>基础配置</h2><h3 id="系统基础配置"><a href="#系统基础配置" class="headerlink" title="系统基础配置"></a>系统基础配置</h3><p>配置主机名</p>
 <p>ceph1</p>
 <figure class="highlight dsconfig"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dsconfig"><span class="hljs-string">hostnamectl</span> <span class="hljs-built_in">set-hostname</span> <span class="hljs-string">ceph1</span> &amp;&amp; <span class="hljs-string">bash</span><br></code></pre></td></tr></table></figure>
@@ -369,11 +369,11 @@
 </ul>
 <p>执行结果如下：</p>
 <p>框框中的是ceph页面的账号密码</p>
-<p><img src="https://article.biliimg.com/bfs/new_dyn/1dfabb4de862c1cc4f5ea828514d4e12697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231222140050214"></p>
+<p><img src="/../img/Ceph%E9%9B%86%E7%BE%A4%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8%E9%9B%86%E7%BE%A4/452e9a762119d38b6bf2d09c4cf5871f697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231222140050214"></p>
 <p><font color='red'>访问页面并用上面的账号密码登入，就会提示你修改密码，修改成你自己的密码</font></p>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">https:<span class="hljs-regexp">//</span><span class="hljs-number">192.168</span>.<span class="hljs-number">48.101</span>:<span class="hljs-number">8443</span>/<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://article.biliimg.com/bfs/new_dyn/24b62e647c3d424d67c63d45d669cff0697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231222140150112"></p>
+<p><img src="/../img/Ceph%E9%9B%86%E7%BE%A4%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8%E9%9B%86%E7%BE%A4/06d8cf6ce8eee0d48374ed664e384c67697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231222140150112"></p>
 <p>运行ceph查看集群健康状态</p>
 <figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs autoit">[root<span class="hljs-symbol">@ceph1</span> ~]<span class="hljs-meta"># ceph -s</span><br>bash: ceph: command <span class="hljs-literal">not</span> found<br></code></pre></td></tr></table></figure>
 
@@ -384,13 +384,13 @@
 <p>再次在<font color='red'>ceph1</font>查看集群健康状况</p>
 <figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">ceph -s</span><br></code></pre></td></tr></table></figure>
 
-<p><img src="https://article.biliimg.com/bfs/new_dyn/da67da8b6ed12d58385df6bab729e449697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231222140331471"></p>
+<p><img src="/../img/Ceph%E9%9B%86%E7%BE%A4%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8%E9%9B%86%E7%BE%A4/1b57598993c2effa3fb0f3c7f30edb34697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231222140331471"></p>
 <p>这里有报错提示<font color='red'>HEALTH_WARN</font>暂时不用管</p>
 <h3 id="添加ceph节点"><a href="#添加ceph节点" class="headerlink" title="添加ceph节点"></a>添加ceph节点</h3><p><font color='red'>操作节点[ceph1]</font></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#拷贝ceph1的Ceph 集群的公钥至其他节点，以便加入集群</span><br>ssh-copy-id -f -i /etc/ceph/ceph.pub root@ceph2<br>ssh-copy-id -f -i /etc/ceph/ceph.pub root@ceph3<br><span class="hljs-comment"># 添加ceph节点</span><br>ceph orch host add ceph2 192.168.48.102<br>ceph orch host add ceph3 192.168.48.103<br><br>删除可以用<br>ceph orch host <span class="hljs-built_in">rm</span> ceph3<br><span class="hljs-comment"># 查看现在的节点情况</span><br>ceph orch host <span class="hljs-built_in">ls</span><br><span class="hljs-comment"># 添加label后可以允许该节点运行ceph cli（比如cephadm shell命令）</span><br>ceph orch host label add ceph2 _admin<br>ceph orch host label add ceph3 _admin<br><span class="hljs-comment"># 设置 mon 节点</span><br>ceph orch apply mon 3<br>ceph orch apply mon ceph1,ceph2,ceph3<br><span class="hljs-comment"># 查看 mon 详情</span><br>[root@ceph1 ~]<span class="hljs-comment">#  ceph mon dump</span><br>epoch 3<br>fsid 233c64c8-9e76-11ee-86fc-000c2965f5d0<br>last_changed 2023-12-19T14:13:02.000188+0000<br>created 2023-12-19T13:56:10.829244+0000<br>min_mon_release 18 (reef)<br>election_strategy: 1<br>0: [v2:192.168.48.101:3300/0,v1:192.168.48.101:6789/0] mon.ceph1<br>1: [v2:192.168.48.103:3300/0,v1:192.168.48.103:6789/0] mon.ceph3<br>2: [v2:192.168.48.102:3300/0,v1:192.168.48.102:6789/0] mon.ceph2<br>dumped monmap epoch 3<br><br><span class="hljs-comment"># 设置 mgr 节点</span><br>ceph orch apply mgr 3<br>ceph orch apply mgr ceph1,ceph2,ceph3<br>[root@ceph1 ~]<span class="hljs-comment">#  ceph -s</span><br>  cluster:<br>    <span class="hljs-built_in">id</span>:     233c64c8-9e76-11ee-86fc-000c2965f5d0<br>    health: HEALTH_WARN<br>            OSD count 0 &lt; osd_pool_default_size 3<br><br>  services:<br>    mon: 3 daemons, quorum ceph1,ceph3,ceph2 (age 7m)<br>    mgr: ceph1.gtejkn(active, since 18m), standbys: ceph2.rvzimn, ceph3.pbajtu<br>    osd: 0 osds: 0 up, 0 <span class="hljs-keyword">in</span><br><br>  data:<br>    pools:   0 pools, 0 pgs<br>    objects: 0 objects, 0 B<br>    usage:   0 B used, 0 B / 0 B avail<br>    pgs:<br><br></code></pre></td></tr></table></figure>
 
 <h3 id="添加OSD"><a href="#添加OSD" class="headerlink" title="添加OSD"></a>添加OSD</h3><p><font color='red'>操作节点[ceph1]</font></p>
-<p><img src="https://article.biliimg.com/bfs/new_dyn/48a0505bfcdd2daaae82a1243962cb34697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231222141243608"></p>
+<p><img src="/../img/Ceph%E9%9B%86%E7%BE%A4%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8%E9%9B%86%E7%BE%A4/4b77a3a2f519ba8c01195299653efa24697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231222141243608"></p>
 <figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs arcade">ceph orch daemon add osd ceph1:<span class="hljs-regexp">/dev/</span>nvme0n2<br>ceph orch daemon add osd ceph2:<span class="hljs-regexp">/dev/</span>nvme0n2<br>ceph orch daemon add osd ceph3:<span class="hljs-regexp">/dev/</span>nvme0n2<br></code></pre></td></tr></table></figure>
 
 <p>查看状态</p>
@@ -464,62 +464,62 @@
 <h5 id="拷贝ceph1的证书至客户端"><a href="#拷贝ceph1的证书至客户端" class="headerlink" title="拷贝ceph1的证书至客户端"></a>拷贝ceph1的证书至客户端</h5><p>把ceph1创建的<code>ceph.client.qianyios-user.keyring </code>和<code>ceph.conf</code>复制到客户端（192.168.48.128）</p>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">scp <span class="hljs-regexp">/root/</span>ceph.client.qianyios-user.keyring <span class="hljs-regexp">/etc/</span>ceph<span class="hljs-regexp">/ceph.conf 192.168.48.128:/</span>etc<span class="hljs-regexp">/ceph/</span><br></code></pre></td></tr></table></figure>
 
-<p><img src="https://article.biliimg.com/bfs/new_dyn/216cf0516c4c21b2343ced573a04af9c697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231221234526458"></p>
+<p><img src="/../img/Ceph%E9%9B%86%E7%BE%A4%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8%E9%9B%86%E7%BE%A4/8dfd15373ce9782a78fce4cd6c6fab04697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231221234526458"></p>
 <figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs tap">[root@test ~]<span class="hljs-comment"># ll /etc/ceph/</span><br>total 12<br>-rw-r--r--<span class="hljs-number"> 1 </span>root root<span class="hljs-number"> 185 </span>Dec<span class="hljs-number"> 21 </span>23:45 ceph.client.qianyios-user.keyring<br>-rw-r--r--<span class="hljs-number"> 1 </span>root root<span class="hljs-number"> 283 </span>Dec<span class="hljs-number"> 21 </span>23:45 ceph.conf<br>-rw-r--r--<span class="hljs-number"> 1 </span>root root <span class="hljs-number"> 92 </span>Dec<span class="hljs-number"> 12 </span>08:01 rbdmap<br>[root@test ~]<span class="hljs-comment">#</span><br><br></code></pre></td></tr></table></figure>
 
 <h5 id="开始挂载"><a href="#开始挂载" class="headerlink" title="开始挂载"></a>开始挂载</h5><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">lsblk</span><br></code></pre></td></tr></table></figure>
 
-<p><img src="https://article.biliimg.com/bfs/new_dyn/cbda112b8bf2a471e0459ddd444a3403697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231221234732781"></p>
+<p><img src="/../img/Ceph%E9%9B%86%E7%BE%A4%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8%E9%9B%86%E7%BE%A4/7b9e98b0b89aaee9ebe74e3b00e327c9697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231221234732781"></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#挂载块存储</span><br>rbd map qianyios-rbd/qy-rbd-img --keyring /etc/ceph/ceph.client.qianyios-user.keyring --<span class="hljs-built_in">id</span> qianyios-user<br>-----<br>/dev/rbd0<br>-----<br>lsblk<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://article.biliimg.com/bfs/new_dyn/6de533fe780919b4624a1780cf0658d5697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231221235206886"></p>
+<p><img src="/../img/Ceph%E9%9B%86%E7%BE%A4%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8%E9%9B%86%E7%BE%A4/beeceb41666f2a645bae6ef99ea31e79697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231221235206886"></p>
 <p>此时的&#x2F;dev&#x2F;rbd0并不能使用，我们需要格式化，并且挂载到本机</p>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment">#格式化</span><br>mkfs.xfs <span class="hljs-regexp">/dev/</span>rbd0<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://article.biliimg.com/bfs/new_dyn/f8e2c2f618cc721d4ad140b7a5510e52697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231221235300388"></p>
+<p><img src="/../img/Ceph%E9%9B%86%E7%BE%A4%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8%E9%9B%86%E7%BE%A4/2895454912e2a32aef8bd9a44bc84524697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231221235300388"></p>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment">#创建挂载点</span><br>mkdir <span class="hljs-regexp">/opt/</span>qianyios-rbd<br>mount <span class="hljs-regexp">/dev/</span>rbd0 <span class="hljs-regexp">/opt/</span>qianyios-rbd<br>echo <span class="hljs-string">&quot;qianyios-rbd&quot;</span> &gt; <span class="hljs-regexp">/opt/</span>qianyios-rbd.txt<br>cat <span class="hljs-regexp">/opt/</span>qianyios-rbd.txt<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://article.biliimg.com/bfs/new_dyn/4c3b95930e2e91fd2cf4bb5a325bdd06697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231221235710235"></p>
+<p><img src="/../img/Ceph%E9%9B%86%E7%BE%A4%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8%E9%9B%86%E7%BE%A4/e5aeda5d2c58e59c16208e2424cacc38697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231221235710235"></p>
 <h5 id="取消挂载"><a href="#取消挂载" class="headerlink" title="取消挂载"></a>取消挂载</h5><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs awk">umount <span class="hljs-regexp">/opt/</span>qianyios-rbd<br>rbd unmap qianyios-rbd/qy-rbd-img<br>lsblk<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://article.biliimg.com/bfs/new_dyn/83bc003f6504de450edf3cd33f243e35697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231221235845353"></p>
+<p><img src="/../img/Ceph%E9%9B%86%E7%BE%A4%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8%E9%9B%86%E7%BE%A4/6c15b24a872dc2c10e18c919d93f4be6697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231221235845353"></p>
 <h3 id="文件存储-CephFS"><a href="#文件存储-CephFS" class="headerlink" title="文件存储(CephFS)"></a>文件存储(CephFS)</h3><h4 id="创建cephfs"><a href="#创建cephfs" class="headerlink" title="创建cephfs"></a>创建cephfs</h4><p>部署元数据服务器，创建一个CephFS(文件系统), 名字为qianyios-fs</p>
 <figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs dos">ceph <span class="hljs-built_in">fs</span> volume create qianyios-<span class="hljs-built_in">fs</span> --placement=&quot;<span class="hljs-number">3</span> ceph1 ceph2 ceph3&quot;<br># 查看状态<br>ceph <span class="hljs-built_in">fs</span> volume ls<br>ceph orch ps --daemon-<span class="hljs-built_in">type</span> mds<br>ceph <span class="hljs-built_in">fs</span> status qianyios-<span class="hljs-built_in">fs</span><br>ceph mds stat<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://article.biliimg.com/bfs/new_dyn/1b22e4859b8a1b2eb57e1064385604cc697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231222130830482"></p>
+<p><img src="/../img/Ceph%E9%9B%86%E7%BE%A4%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8%E9%9B%86%E7%BE%A4/f7d4c00cc9aa778e7644ec48f9295b50697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231222130830482"></p>
 <h4 id="设置nfs高可用"><a href="#设置nfs高可用" class="headerlink" title="设置nfs高可用"></a>设置nfs高可用</h4><p>先生成nfs和nfs_ingress配置文件。其中nfs_ingress是为了nfs高可用配置的。</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">cat</span> <span class="hljs-string">&lt;&lt;EOF</span> <span class="hljs-string">&gt;</span> <span class="hljs-string">nfs.yaml</span><br><span class="hljs-attr">service_type:</span> <span class="hljs-string">nfs</span><br><span class="hljs-attr">service_id:</span> <span class="hljs-string">nkonfs</span><br><span class="hljs-attr">placement:</span><br>  <span class="hljs-attr">hosts:</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">ceph1</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">ceph2</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">ceph3</span><br><span class="hljs-attr">spec:</span><br>  <span class="hljs-attr">port:</span> <span class="hljs-number">2048</span><br><span class="hljs-string">EOF</span><br><br><span class="hljs-string">cat</span> <span class="hljs-string">&lt;&lt;EOF</span> <span class="hljs-string">&gt;nfs_ingress.yaml</span><br><span class="hljs-attr">service_type:</span> <span class="hljs-string">ingress</span><br><span class="hljs-attr">service_id:</span> <span class="hljs-string">nfs.nkonfs</span><br><span class="hljs-attr">placement:</span><br>  <span class="hljs-attr">count:</span> <span class="hljs-number">3</span><br><span class="hljs-attr">spec:</span><br>  <span class="hljs-attr">backend_service:</span> <span class="hljs-string">nfs.nkonfs</span><br>  <span class="hljs-attr">frontend_port:</span> <span class="hljs-number">2049</span><br>  <span class="hljs-attr">monitor_port:</span> <span class="hljs-number">9001</span><br>  <span class="hljs-attr">virtual_ip:</span> <span class="hljs-number">192.168</span><span class="hljs-number">.48</span><span class="hljs-number">.200</span><span class="hljs-string">/24#高可用vip</span><br><span class="hljs-string">EOF</span><br></code></pre></td></tr></table></figure>
 
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs stylus">ceph orch apply -<span class="hljs-selector-tag">i</span> nfs<span class="hljs-selector-class">.yaml</span><br>ceph orch apply -<span class="hljs-selector-tag">i</span> nfs_ingress<span class="hljs-selector-class">.yaml</span><br><br>ceph orch ls <span class="hljs-attr">--service_name</span>=nfs<span class="hljs-selector-class">.nkonfs</span><br>ceph orch ls <span class="hljs-attr">--service_name</span>=ingress<span class="hljs-selector-class">.nfs</span><span class="hljs-selector-class">.nkonfs</span><br>ceph nfs cluster ls<br>ceph nfs cluster info nkonfs<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://article.biliimg.com/bfs/new_dyn/eec50fc05df42d037f77fc2dc8dd00f3697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231222131458220"></p>
+<p><img src="/../img/Ceph%E9%9B%86%E7%BE%A4%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8%E9%9B%86%E7%BE%A4/0c06c480d86468cb6fbd5af2477d7993697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231222131458220"></p>
 <h4 id="导出nfs"><a href="#导出nfs" class="headerlink" title="导出nfs"></a>导出nfs</h4><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs routeros">ceph nfs <span class="hljs-built_in">export</span> create cephfs --cluster-id nkonfs --pseudo-path /qy-fs --fsname qianyios-fs<br><span class="hljs-comment"># 查看详情</span><br>ceph nfs <span class="hljs-built_in">export</span> <span class="hljs-built_in">info</span> nkonfs /qy-fs<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://article.biliimg.com/bfs/new_dyn/d0583d90a3dad5539eb92c86322406c2697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231222131516871"></p>
+<p><img src="/../img/Ceph%E9%9B%86%E7%BE%A4%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8%E9%9B%86%E7%BE%A4/714155b3d6f26119cc937353e4d58155697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231222131516871"></p>
 <h4 id="客户端挂载NFS"><a href="#客户端挂载NFS" class="headerlink" title="客户端挂载NFS"></a>客户端挂载NFS</h4><p>注意：只支持 NFS v4.0+ 的协议。<br>由于showmount 不支持 NFS v4，纯 NFSv4又不提供其他获取导出列表的方法，只能期望挂载的时候命令不要输错了。<br>在客户端执行以下命令：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">dnf install -y nfs-utils<br><span class="hljs-built_in">mkdir</span> /qy-fs-data<br>mount -t nfs -o nfsvers=4.1,proto=tcp 192.168.48.200:/qy-fs /qy-fs-data<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://article.biliimg.com/bfs/new_dyn/b8209473cf578b1441ac1150112fde1b697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231222131709705"></p>
+<p><img src="/../img/Ceph%E9%9B%86%E7%BE%A4%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8%E9%9B%86%E7%BE%A4/128567c29eeefce480d478ec756a75b2697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231222131709705"></p>
 <h4 id="测试文件写入"><a href="#测试文件写入" class="headerlink" title="测试文件写入"></a>测试文件写入</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs bash">tar zcf etc.tar.gz /etc<br> <br><span class="hljs-comment">#测试文件写入</span><br><span class="hljs-built_in">cp</span> etc.tar.gz /qy-fs-data/<br>ll /qy-fs-data/<br> <br><span class="hljs-comment">#生成500M大文件写入</span><br><span class="hljs-built_in">dd</span> <span class="hljs-keyword">if</span>=/dev/zero of=/qy-fs-data/testfile bs=1M count=500<br><br><span class="hljs-comment">#查看分区使用</span><br><span class="hljs-built_in">df</span> -h /fsdata<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://article.biliimg.com/bfs/new_dyn/052976e6d4412664c1fec8633ec4a390697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231222132148957"></p>
+<p><img src="/../img/Ceph%E9%9B%86%E7%BE%A4%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8%E9%9B%86%E7%BE%A4/c892100f0204746bde00a42e9659133c697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231222132148957"></p>
 <h3 id="对象存储-RGW"><a href="#对象存储-RGW" class="headerlink" title="对象存储(RGW)"></a>对象存储(RGW)</h3><p><code>RGW（RADOS Gateway）</code>是Ceph存储系统的一部分，它提供了一个<code>对象存储服务</code></p>
 <p><code>RGW</code>可以作为一个<code>独立的服务运行</code>，<code>也可以与Ceph集群的其他组件（如OSD和MON）一起部署</code>。</p>
 <p><code>区域（zone）</code>: 一个ceph集群可以包含多个区域，一个区域只属于一个集群，一个区域可以有多个RGW</p>
 <p><code>区域组（zonegroup）</code>：由一个或多个区域组成，包含一个主区域（master zone），其他区域称为Secondary Zone，区域组内的所有区域之间同步数据</p>
 <p><code>域（realm）</code>: 同一个或多个区域组组成，包含一个主区域组，其他都次区域组。域中的所有rados网关都从位于主区域组和主区域中的rados网关拉取配置</p>
-<h4 id="设置radosgw区域和用户"><a href="#设置radosgw区域和用户" class="headerlink" title="设置radosgw区域和用户"></a>设置radosgw区域和用户</h4><p><img src="https://article.biliimg.com/bfs/new_dyn/2dc40bf2fa850d8a8d3d13afbfbaee27697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231220233812600"></p>
+<h4 id="设置radosgw区域和用户"><a href="#设置radosgw区域和用户" class="headerlink" title="设置radosgw区域和用户"></a>设置radosgw区域和用户</h4><p><img src="/../img/Ceph%E9%9B%86%E7%BE%A4%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8%E9%9B%86%E7%BE%A4/4c29c4111ef003546990e4512d6019df697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231220233812600"></p>
 <p>在<font color='red'>所有节点</font>部署qianyios领域和qianyios-shenzhen 区域的rgw守护程序：</p>
 <p><font color='red'>操作节点[所有节点]</font></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs bash">1.<span class="hljs-comment"># 如果尚未创建 realm（领域），请首先创建一个名字为qianyios的 realm（领域） ：</span><br>radosgw-admin realm create --rgw-realm=qianyios<br>radosgw-admin realm list<br><br>2.<span class="hljs-comment"># 接下来创建一个新的 zonegroup（区域组）：</span><br>radosgw-admin zonegroup create --rgw-zonegroup=qianyios-shenzhen  --master<br>radosgw-admin zonegroup list<br><br>3.<span class="hljs-comment">#接下来创建一个 zone：</span><br>radosgw-admin zone create --rgw-zonegroup=qianyios-shenzhen --rgw-zone=qianyios-shenzhen-zone1 --master<br><span class="hljs-comment">#这个命令用于创建一个名为 qianyios-shenzhen-zone1 的 RadosGW 区域（Zone），并将它归属于 qianyios-shenzhen 的区域组（Zone Group）。</span><br>radosgw-admin zone list<br><br>4.<span class="hljs-comment">#这个命令用于更新指定的 RadosGW 域（Realm）的周期（Period）。--rgw-realm=qianyios 参数指定要更新的 RadosGW 域的名称为 qianyios</span><br>radosgw-admin period update --rgw-realm=qianyios --commit<br><br><br>5.<span class="hljs-comment">#在 Ceph 集群中部署一个名为 qianyios-rgw 的 RadosGW 实例，并将其关联到指定的域（Realm）、区域组（Zone Group）和区域（Zone），并指定了存储位置。</span><br>ceph orch apply rgw qianyios-rgw --realm=qianyios --zonegroup=qianyios-shenzhen --zone=qianyios-shenzhen-zone1 --placement=<span class="hljs-string">&quot;3 ceph1 ceph2 ceph3&quot;</span> --port=8080<br><br><span class="hljs-comment">#删除实例用这个</span><br>ceph orch <span class="hljs-built_in">rm</span> rgw.qianyios-rgw<br><br>6.<span class="hljs-comment"># 查看各节点 rgw 是否启动</span><br>ceph orch ps --daemon-type rgw<br><br>7.<span class="hljs-comment"># 创建创建 radosgw 用户名为admin，显示名称为admin user</span><br>radosgw-admin user create --uid=<span class="hljs-string">&quot;admin&quot;</span> --display-name=<span class="hljs-string">&quot;admin user&quot;</span><br><br>8.<span class="hljs-comment"># 创建完成之后需要把access_key和secret_key保存下来，也可以使用下面的命令来查看</span><br>radosgw-admin user info --uid=admin<br><br><span class="hljs-string">&quot;keys&quot;</span>: [<br>        &#123;<br>            <span class="hljs-string">&quot;user&quot;</span>: <span class="hljs-string">&quot;admin&quot;</span>,<br>            <span class="hljs-string">&quot;access_key&quot;</span>: <span class="hljs-string">&quot;LAI14X0RJVJG3QGR16FP&quot;</span>,<br>            <span class="hljs-string">&quot;secret_key&quot;</span>: <span class="hljs-string">&quot;t11PVzqYtEvb22ajctD0U5tCN5d0CaDPkZENiqTb&quot;</span><br>        &#125;<br>    ],<br></code></pre></td></tr></table></figure>
 
 <p>使用<a target="_blank" rel="noopener" href="https://s3browser.com/">s3 browser点击这里访问官网下载软件</a>，将以上access_key,secret_key填上，可以正常连接，但是没有桶，手动创建一个桶，并上传文件，正常。</p>
-<p><img src="https://article.biliimg.com/bfs/new_dyn/20c4c91b34cd85c16c95fd70711f4b22697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231221001128450"></p>
+<p><img src="/../img/Ceph%E9%9B%86%E7%BE%A4%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8%E9%9B%86%E7%BE%A4/76a3ec58bebf509d1f3d142a7199d1cb697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231221001128450"></p>
 <p>此时什么都没有，创建一个桶</p>
-<p><img src="https://article.biliimg.com/bfs/new_dyn/86b0e2c743918de62dba852f29dcc92f697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231221001200312"></p>
-<p><img src="https://article.biliimg.com/bfs/new_dyn/6325d9dfc46f39b48abac16b63975b3f697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231221001228678"></p>
+<p><img src="/../img/Ceph%E9%9B%86%E7%BE%A4%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8%E9%9B%86%E7%BE%A4/3fd0f612edc0de586159ff4b9515acfe697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231221001200312"></p>
+<p><img src="/../img/Ceph%E9%9B%86%E7%BE%A4%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8%E9%9B%86%E7%BE%A4/8d6133baba34facea5a5023c32e0b8e5697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231221001228678"></p>
 <p>在桌面创建一个test文件移进去</p>
-<p><img src="https://article.biliimg.com/bfs/new_dyn/9445dac8834d600cec5c8135d4f72e60697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231221001351913"></p>
+<p><img src="/../img/Ceph%E9%9B%86%E7%BE%A4%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8%E9%9B%86%E7%BE%A4/99676066de089ffb0795d766a676149f697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231221001351913"></p>
 <div class="tbsm" style="margin-top:54px;">
 <div class="tbsm-top"><span><svg t="1674654360507" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="987" data-spm-anchor-id="a313x.7781069.0.i0" width="35" height="35"><path d="M410.49 97.74H155.08a56.74 56.74 0 0 0-56.84 56.73V410a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 467.32 410V154.58a56.83 56.83 0 0 0-56.83-56.84zM410.49 558.74H155.08a56.74 56.74 0 0 0-56.84 56.73V871a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 467.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84zM871.49 558.74H616.08a56.74 56.74 0 0 0-56.84 56.73V871a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 928.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84z" fill="#66EEFF" p-id="988"></path><path d="M410.49 558.74h-4.14A475 475 0 0 0 299.52 859.6a481.16 481.16 0 0 0 4.84 68.22h106.13A56.83 56.83 0 0 0 467.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84zM871.49 558.74H616.08a56.74 56.74 0 0 0-56.84 56.73V871a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 928.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84z" fill="#C2F8FF" p-id="989"></path></svg></span><span style="font-size:30px;"> 特别声明</span></div>
 <div class="tbsm-wz">千屹博客旗下的所有文章，是通过本人课堂学习和课外自学所精心整理的知识巨著<br/>难免会有出错的地方<br/>如果细心的你发现了小失误，可以在下方评论区告诉我，或者私信我！<br />非常感谢大家的热烈支持！</div>
@@ -550,7 +550,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Ceph集群分布式存储集群</div>
+      <div>Ceph集群分布式集群</div>
       <div>https://blog.qianyios.top/2023/12/22/Ceph集群分布式存储集群/</div>
     </div>
     <div class="license-meta">
