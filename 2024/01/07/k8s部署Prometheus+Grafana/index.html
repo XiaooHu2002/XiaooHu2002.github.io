@@ -1,0 +1,901 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#9ce8f452">
+  <meta name="author" content="严千屹">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="k8s部署Prometheus+Grafana监控服务">
+<meta property="og:type" content="article">
+<meta property="og:title" content="k8s部署Prometheus+Grafana">
+<meta property="og:url" content="https://blog.qianyios.top/2024/01/07/k8s%E9%83%A8%E7%BD%B2Prometheus+Grafana/index.html">
+<meta property="og:site_name" content="严千屹博客">
+<meta property="og:description" content="k8s部署Prometheus+Grafana监控服务">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.qianyios.top/img/k8s%E9%83%A8%E7%BD%B2Prometheus+Grafana.assets/1.jpg">
+<meta property="article:published_time" content="2024-01-07T00:57:00.000Z">
+<meta property="article:modified_time" content="2024-01-06T17:04:58.665Z">
+<meta property="article:author" content="严千屹">
+<meta property="article:tag" content="Centos 7">
+<meta property="article:tag" content="K8s">
+<meta property="article:tag" content="Prometheus">
+<meta property="article:tag" content="Grafana">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.qianyios.top/img/k8s%E9%83%A8%E7%BD%B2Prometheus+Grafana.assets/1.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>k8s部署Prometheus+Grafana - 严千屹博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/mycss.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.qianyios.top","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":true,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  <meta name="referrer" content="no-referrer"/>
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>严 千 屹</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/null') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="k8s部署Prometheus+Grafana"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-01-07 00:57" pubdate>
+          2024年1月7日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          75 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">k8s部署Prometheus+Grafana</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <meta name="referrer" content="no-referrer"/>
+
+<h1 id="k8s部署Prometheus-Grafana"><a href="#k8s部署Prometheus-Grafana" class="headerlink" title="k8s部署Prometheus+Grafana"></a>k8s部署Prometheus+Grafana</h1><p><img src="/../img/k8s%E9%83%A8%E7%BD%B2Prometheus+Grafana.assets/99194bb5049ba5669d662e158dabf24c697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240107005039292"></p>
+<table>
+<thead>
+<tr>
+<th>主机名</th>
+<th>ip1（NAT）</th>
+<th>系统</th>
+<th>磁盘</th>
+<th>内存</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>master1</td>
+<td>192.168.48.101</td>
+<td>Centos7.9</td>
+<td>100G</td>
+<td>4G</td>
+</tr>
+<tr>
+<td>master2</td>
+<td>192.168.48.102</td>
+<td>Centos7.9</td>
+<td>100G</td>
+<td>4G</td>
+</tr>
+<tr>
+<td>master3</td>
+<td>192.168.48.103</td>
+<td>Centos7.9</td>
+<td>100G</td>
+<td>4G</td>
+</tr>
+<tr>
+<td>node01</td>
+<td>192.168.48.104</td>
+<td>Centos7.9</td>
+<td>100G</td>
+<td>6G</td>
+</tr>
+<tr>
+<td>node02</td>
+<td>192.168.48.105</td>
+<td>Centos7.9</td>
+<td>100G</td>
+<td>6G</td>
+</tr>
+</tbody></table>
+<p><font color='red'>做这个之前你要拥有一个k8s集群，参考以下教程</font></p>
+<p>[K8S高可用集群（内部etcd） - 严千屹博客 (qianyios.top)](<a href="https://blog.qianyios.top/2023/12/02/K8S%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%EF%BC%88%E5%86%85%E9%83%A8etcd%EF%BC%89">https://blog.qianyios.top/2023/12/02/K8S高可用集群（内部etcd）</a> - 副本&#x2F;)</p>
+<p>[K8S高可用集群（外部etcd） - 严千屹博客 (qianyios.top)](<a href="https://blog.qianyios.top/2023/12/02/K8S%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%EF%BC%88%E5%A4%96%E9%83%A8etcd%EF%BC%89">https://blog.qianyios.top/2023/12/02/K8S高可用集群（外部etcd）</a> - 副本&#x2F;)</p>
+<h2 id="部署Prometheus"><a href="#部署Prometheus" class="headerlink" title="部署Prometheus"></a>部署Prometheus</h2><p>创建命名空间</p>
+<p><font color='red'>操作节点[master1]</font></p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql">kubectl <span class="hljs-keyword">create</span> <span class="hljs-keyword">namespace</span> prometheus-<span class="hljs-keyword">work</span><br></code></pre></td></tr></table></figure>
+
+<p>部署Prometheus deploy</p>
+<p><font color='red'>操作节点[master1]</font></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">cat</span> <span class="hljs-string">&gt;prome_deploy.yml&lt;&lt;</span> <span class="hljs-string">&quot;EOF&quot;</span><br><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">apps/v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">Deployment</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">prometheus</span><br>  <span class="hljs-attr">namespace:</span> <span class="hljs-string">prometheus-work</span><br>  <span class="hljs-attr">labels:</span><br>    <span class="hljs-attr">app:</span> <span class="hljs-string">prometheus</span><br><span class="hljs-attr">spec:</span><br>  <span class="hljs-attr">selector:</span><br>    <span class="hljs-attr">matchLabels:</span><br>      <span class="hljs-attr">app:</span> <span class="hljs-string">prometheus</span><br>  <span class="hljs-attr">template:</span><br>    <span class="hljs-attr">metadata:</span><br>      <span class="hljs-attr">labels:</span><br>        <span class="hljs-attr">app:</span> <span class="hljs-string">prometheus</span><br>    <span class="hljs-attr">spec:</span><br>      <span class="hljs-attr">securityContext:</span>                                   <span class="hljs-comment">#指定运行的用户为root</span><br>        <span class="hljs-attr">runAsUser:</span> <span class="hljs-number">0</span><br>      <span class="hljs-attr">serviceAccountName:</span> <span class="hljs-string">prometheus</span><br>      <span class="hljs-attr">containers:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-attr">image:</span> <span class="hljs-string">prom/prometheus:v2.30.2</span><br>        <span class="hljs-attr">name:</span> <span class="hljs-string">prometheus</span><br>        <span class="hljs-attr">args:</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;--config.file=/etc/prometheus/prometheus.yml&quot;</span> <span class="hljs-comment">#通过volume挂载prometheus.yml</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;--storage.tsdb.path=/prometheus&quot;</span>              <span class="hljs-comment">#通过vlolume挂载目录/prometheus</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;--storage.tsdb.retention.time=24h&quot;</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;--web.enable-admin-api&quot;</span>                       <span class="hljs-comment">#控制对admin HTTP API的访问</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;--web.enable-lifecycle&quot;</span>                       <span class="hljs-comment">#支持热更新，直接执行localhost:9090/-/reload立即生效</span><br>        <span class="hljs-attr">ports:</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-attr">containerPort:</span> <span class="hljs-number">9090</span><br>          <span class="hljs-attr">name:</span> <span class="hljs-string">http</span><br>        <span class="hljs-attr">volumeMounts:</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-attr">mountPath:</span> <span class="hljs-string">&quot;/etc/prometheus&quot;</span><br>          <span class="hljs-attr">name:</span> <span class="hljs-string">config-volume</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-attr">mountPath:</span> <span class="hljs-string">&quot;/prometheus&quot;</span><br>          <span class="hljs-attr">name:</span> <span class="hljs-string">data</span><br>        <span class="hljs-attr">resources:</span><br>          <span class="hljs-attr">requests:</span><br>            <span class="hljs-attr">cpu:</span> <span class="hljs-string">100m</span><br>            <span class="hljs-attr">memory:</span> <span class="hljs-string">512Mi</span><br>          <span class="hljs-attr">limits:</span><br>            <span class="hljs-attr">cpu:</span> <span class="hljs-string">100m</span><br>            <span class="hljs-attr">memory:</span> <span class="hljs-string">512Mi</span><br>      <span class="hljs-attr">volumes:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">data</span><br>        <span class="hljs-attr">persistentVolumeClaim:</span><br>          <span class="hljs-attr">claimName:</span> <span class="hljs-string">prometheus-data</span>  <span class="hljs-comment">#本地存储</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">config-volume</span><br>        <span class="hljs-attr">configMap:</span><br>          <span class="hljs-attr">name:</span> <span class="hljs-string">prometheus-config</span>     <span class="hljs-comment">#定义的prometeus.yaml</span><br><br><span class="hljs-string">EOF</span><br><span class="hljs-string">kubectl</span> <span class="hljs-string">apply</span> <span class="hljs-string">-f</span> <span class="hljs-string">prome_deploy.yml</span><br><br></code></pre></td></tr></table></figure>
+
+<p>部署Prometheus service</p>
+<p><font color='red'>操作节点[master1]</font></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">cat&gt;</span> <span class="hljs-string">prome_svc.yml&lt;&lt;</span> <span class="hljs-string">&quot;EOF&quot;</span><br><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">Service</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">prometheus</span><br>  <span class="hljs-attr">namespace:</span> <span class="hljs-string">prometheus-work</span><br>  <span class="hljs-attr">labels:</span><br>    <span class="hljs-attr">app:</span> <span class="hljs-string">prometheus</span><br><span class="hljs-attr">spec:</span><br>  <span class="hljs-attr">selector:</span><br>    <span class="hljs-attr">app:</span> <span class="hljs-string">prometheus</span><br>  <span class="hljs-attr">type:</span> <span class="hljs-string">NodePort</span><br>  <span class="hljs-attr">ports:</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">web</span><br>      <span class="hljs-attr">port:</span> <span class="hljs-number">9090</span><br>      <span class="hljs-attr">targetPort:</span> <span class="hljs-string">http</span><br><span class="hljs-string">EOF</span><br><span class="hljs-string">kubectl</span> <span class="hljs-string">apply</span> <span class="hljs-string">-f</span> <span class="hljs-string">prome_svc.yml</span><br><br></code></pre></td></tr></table></figure>
+
+<p>部署configmap</p>
+<p><font color='red'>操作节点[master1]</font></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">cat</span> <span class="hljs-string">&gt;</span> <span class="hljs-string">prome_cfg.yml</span> <span class="hljs-string">&lt;&lt;</span> <span class="hljs-string">&quot;EOF&quot;</span><br><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">ConfigMap</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">prometheus-config</span><br>  <span class="hljs-attr">namespace:</span> <span class="hljs-string">prometheus-work</span><br><span class="hljs-attr">data:</span><br>  <span class="hljs-attr">prometheus.yml:</span> <span class="hljs-string">|</span><br><span class="hljs-string">    global:</span><br><span class="hljs-string">      scrape_interval: 15s</span><br><span class="hljs-string">      scrape_timeout: 15s</span><br><span class="hljs-string">    scrape_configs:</span><br><span class="hljs-string">    - job_name: &#x27;prometheus&#x27;</span><br><span class="hljs-string">      static_configs:</span><br><span class="hljs-string">      - targets: [&#x27;localhost:9090&#x27;]</span><br><span class="hljs-string"></span><br><span class="hljs-string">EOF</span><br> <span class="hljs-string">kubectl</span> <span class="hljs-string">apply</span> <span class="hljs-string">-f</span> <span class="hljs-string">prome_cfg.yml</span><br><br></code></pre></td></tr></table></figure>
+
+<p>部署PV，PVC</p>
+<p><font color='red'>操作节点[node01]</font></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#在node01节点上执行</span><br><span class="hljs-built_in">mkdir</span> /data/k8s/prometheus -p<br></code></pre></td></tr></table></figure>
+
+<p><font color='red'>操作节点[master1]</font></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">cat</span> <span class="hljs-string">&gt;</span> <span class="hljs-string">prome_pvc.yml</span> <span class="hljs-string">&lt;&lt;</span> <span class="hljs-string">&quot;EOF&quot;</span><br><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">PersistentVolume</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">prometheus-local</span><br>  <span class="hljs-attr">labels:</span><br>    <span class="hljs-attr">app:</span> <span class="hljs-string">prometheus</span><br><span class="hljs-attr">spec:</span><br>  <span class="hljs-attr">accessModes:</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">ReadWriteOnce</span><br>  <span class="hljs-attr">capacity:</span><br>    <span class="hljs-attr">storage:</span> <span class="hljs-string">5Gi</span><br>  <span class="hljs-attr">storageClassName:</span> <span class="hljs-string">local-storage</span><br>  <span class="hljs-attr">local:</span><br>    <span class="hljs-attr">path:</span> <span class="hljs-string">/data/k8s/prometheus</span>  <span class="hljs-comment">#在node01节点创建此目录</span><br>  <span class="hljs-attr">nodeAffinity:</span><br>    <span class="hljs-attr">required:</span><br>      <span class="hljs-attr">nodeSelectorTerms:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-attr">matchExpressions:</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-attr">key:</span> <span class="hljs-string">kubernetes.io/hostname</span><br>          <span class="hljs-attr">operator:</span> <span class="hljs-string">In</span><br>          <span class="hljs-attr">values:</span><br>          <span class="hljs-bullet">-</span> <span class="hljs-string">node01</span>   <span class="hljs-comment">#指定运行在node节点</span><br>  <span class="hljs-attr">persistentVolumeReclaimPolicy:</span> <span class="hljs-string">Retain</span><br><span class="hljs-meta">---</span><br><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">PersistentVolumeClaim</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">prometheus-data</span><br>  <span class="hljs-attr">namespace:</span> <span class="hljs-string">prometheus-work</span><br><span class="hljs-attr">spec:</span><br>  <span class="hljs-attr">selector:</span><br>    <span class="hljs-attr">matchLabels:</span><br>      <span class="hljs-attr">app:</span> <span class="hljs-string">prometheus</span><br>  <span class="hljs-attr">accessModes:</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">ReadWriteOnce</span><br>  <span class="hljs-attr">resources:</span><br>    <span class="hljs-attr">requests:</span><br>      <span class="hljs-attr">storage:</span> <span class="hljs-string">5Gi</span><br>  <span class="hljs-attr">storageClassName:</span> <span class="hljs-string">local-storage</span><br><br><span class="hljs-string">EOF</span><br><span class="hljs-string">kubectl</span> <span class="hljs-string">apply</span> <span class="hljs-string">-f</span> <span class="hljs-string">prome_pvc.yml</span><br><br></code></pre></td></tr></table></figure>
+
+<p>配置rabc</p>
+<p><font color='red'>操作节点[master1]</font></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">cat</span> <span class="hljs-string">&gt;</span> <span class="hljs-string">prome_rabc.yml</span> <span class="hljs-string">&lt;&lt;</span> <span class="hljs-string">&quot;EOF&quot;</span><br><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">ServiceAccount</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">prometheus</span><br>  <span class="hljs-attr">namespace:</span> <span class="hljs-string">prometheus-work</span><br><span class="hljs-meta">---</span><br><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">rbac.authorization.k8s.io/v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">ClusterRole</span>        <span class="hljs-comment">#创建一个clusterrole</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">prometheus</span><br><span class="hljs-attr">rules:</span><br><span class="hljs-bullet">-</span> <span class="hljs-attr">apiGroups:</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;&quot;</span><br>  <span class="hljs-attr">resources:</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">nodes</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">services</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">endpoints</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">pods</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">nodes/proxy</span><br>  <span class="hljs-attr">verbs:</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">get</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">list</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">watch</span><br><span class="hljs-bullet">-</span> <span class="hljs-attr">apiGroups:</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;extensions&quot;</span><br>  <span class="hljs-attr">resources:</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">ingresses</span><br>  <span class="hljs-attr">verbs:</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">get</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">list</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">watch</span><br><span class="hljs-bullet">-</span> <span class="hljs-attr">apiGroups:</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;&quot;</span><br>  <span class="hljs-attr">resources:</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">configmaps</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">nodes/metrics</span><br>  <span class="hljs-attr">verbs:</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">get</span><br><span class="hljs-bullet">-</span> <span class="hljs-attr">nonResourceURLs:</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">/metrics</span><br>  <span class="hljs-attr">verbs:</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">get</span><br><span class="hljs-meta">---</span><br><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">rbac.authorization.k8s.io/v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">ClusterRoleBinding</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">prometheus</span><br><span class="hljs-attr">roleRef:</span><br>  <span class="hljs-attr">apiGroup:</span> <span class="hljs-string">rbac.authorization.k8s.io</span><br>  <span class="hljs-attr">kind:</span> <span class="hljs-string">ClusterRole</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">prometheus</span><br><span class="hljs-attr">subjects:</span><br><span class="hljs-bullet">-</span> <span class="hljs-attr">kind:</span> <span class="hljs-string">ServiceAccount</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">prometheus</span><br>  <span class="hljs-attr">namespace:</span> <span class="hljs-string">prometheus-work</span><br><br><span class="hljs-string">EOF</span><br><span class="hljs-string">kubectl</span> <span class="hljs-string">apply</span> <span class="hljs-string">-f</span> <span class="hljs-string">prome_rabc.yml</span><br><br></code></pre></td></tr></table></figure>
+
+<p>查看部署的Prometheus服务</p>
+<p><font color='red'>操作节点[master1]</font></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs bash">[root@master1 ~]<span class="hljs-comment"># kubectl get pod,svc,configmap,sa -n prometheus-work</span><br>NAME                             READY   STATUS    RESTARTS   AGE<br>pod/prometheus-db4b5c549-6gb7d   1/1     Running   0          4m39s<br><br>NAME                 TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE<br>service/prometheus   NodePort   10.103.99.200   &lt;none&gt;        9090:30512/TCP   15m    <span class="hljs-comment">#注意这个30512是后面要访问的端口</span><br><br>NAME                          DATA   AGE<br>configmap/kube-root-ca.crt    1      17m<br>configmap/prometheus-config   1      14m<br><br>NAME                        SECRETS   AGE<br>serviceaccount/default      0         17m<br>serviceaccount/prometheus   0         12m<br><br></code></pre></td></tr></table></figure>
+
+<p>在浏览器访问Prometheus<br>访问地址是node节点IP加上service的nodeport端口</p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs accesslog"><span class="hljs-number">192.168.48.104:30512</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/../img/k8s%E9%83%A8%E7%BD%B2Prometheus+Grafana.assets/ff121d0cea6b3d700c126869c1ec57a6697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240103162100215"></p>
+<h2 id="部署grafana"><a href="#部署grafana" class="headerlink" title="部署grafana"></a>部署grafana</h2><p>部署deployment</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">cat</span> <span class="hljs-string">&gt;grafana.yml</span> <span class="hljs-string">&lt;&lt;&quot;EOF&quot;</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">Deployment</span><br><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">apps/v1</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">labels:</span><br>    <span class="hljs-attr">app:</span> <span class="hljs-string">grafana</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">grafana</span><br>  <span class="hljs-attr">namespace:</span> <span class="hljs-string">prometheus-work</span><br><span class="hljs-attr">spec:</span><br>  <span class="hljs-attr">replicas:</span> <span class="hljs-number">1</span><br>  <span class="hljs-attr">revisionHistoryLimit:</span> <span class="hljs-number">10</span><br>  <span class="hljs-attr">selector:</span><br>    <span class="hljs-attr">matchLabels:</span><br>      <span class="hljs-attr">app:</span> <span class="hljs-string">grafana</span><br>  <span class="hljs-attr">template:</span><br>    <span class="hljs-attr">metadata:</span><br>      <span class="hljs-attr">labels:</span><br>        <span class="hljs-attr">app:</span> <span class="hljs-string">grafana</span><br>    <span class="hljs-attr">spec:</span><br>      <span class="hljs-attr">securityContext:</span><br>        <span class="hljs-attr">runAsNonRoot:</span> <span class="hljs-literal">true</span><br>        <span class="hljs-attr">runAsUser:</span> <span class="hljs-number">10555</span><br>        <span class="hljs-attr">fsGroup:</span> <span class="hljs-number">10555</span><br>      <span class="hljs-attr">containers:</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">grafana</span><br>          <span class="hljs-attr">image:</span> <span class="hljs-string">grafana/grafana:8.4.4</span><br>          <span class="hljs-attr">imagePullPolicy:</span> <span class="hljs-string">IfNotPresent</span><br>          <span class="hljs-attr">env:</span><br>            <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">GF_AUTH_BASIC_ENABLED</span><br>              <span class="hljs-attr">value:</span> <span class="hljs-string">&quot;true&quot;</span><br>            <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">GF_AUTH_ANONYMOUS_ENABLED</span><br>              <span class="hljs-attr">value:</span> <span class="hljs-string">&quot;false&quot;</span><br>          <span class="hljs-attr">readinessProbe:</span><br>            <span class="hljs-attr">httpGet:</span><br>              <span class="hljs-attr">path:</span> <span class="hljs-string">/login</span><br>              <span class="hljs-attr">port:</span> <span class="hljs-number">3000</span><br>          <span class="hljs-attr">volumeMounts:</span><br>            <span class="hljs-bullet">-</span> <span class="hljs-attr">mountPath:</span> <span class="hljs-string">/var/lib/grafana</span><br>              <span class="hljs-attr">name:</span> <span class="hljs-string">grafana-data-volume</span><br>          <span class="hljs-attr">ports:</span><br>            <span class="hljs-bullet">-</span> <span class="hljs-attr">containerPort:</span> <span class="hljs-number">3000</span><br>              <span class="hljs-attr">protocol:</span> <span class="hljs-string">TCP</span><br>      <span class="hljs-attr">volumes:</span><br>        <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">grafana-data-volume</span><br>          <span class="hljs-attr">emptyDir:</span> &#123;&#125;<br><br><span class="hljs-string">EOF</span><br><span class="hljs-string">kubectl</span> <span class="hljs-string">apply</span> <span class="hljs-string">-f</span> <span class="hljs-string">grafana.yml</span><br></code></pre></td></tr></table></figure>
+
+<p>部署svc</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">cat</span> <span class="hljs-string">&gt;grafana_svc.yml&lt;&lt;&quot;EOF&quot;</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">Service</span><br><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">v1</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">labels:</span><br>    <span class="hljs-attr">app:</span> <span class="hljs-string">grafana</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">grafana-service</span><br>  <span class="hljs-attr">namespace:</span> <span class="hljs-string">prometheus-work</span><br><span class="hljs-attr">spec:</span><br>  <span class="hljs-attr">ports:</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-attr">port:</span> <span class="hljs-number">3000</span><br>      <span class="hljs-attr">targetPort:</span> <span class="hljs-number">3000</span><br>  <span class="hljs-attr">selector:</span><br>    <span class="hljs-attr">app:</span> <span class="hljs-string">grafana</span><br>  <span class="hljs-attr">type:</span> <span class="hljs-string">NodePort</span><br><br><span class="hljs-string">EOF</span><br><span class="hljs-string">kubectl</span> <span class="hljs-string">apply</span> <span class="hljs-string">-f</span> <span class="hljs-string">grafana_svc.yml</span><br><br></code></pre></td></tr></table></figure>
+
+<p>查看服务</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs awk">[root@master1 ~]<span class="hljs-comment"># kubectl get pod,svc -n prometheus-work |grep grafana</span><br>pod<span class="hljs-regexp">/grafana-5d475d9d7-ctb2t      1/</span><span class="hljs-number">1</span>     Running   <span class="hljs-number">0</span>          <span class="hljs-number">5</span>m18s<br>service<span class="hljs-regexp">/grafana-service   NodePort   10.99.157.212   &lt;none&gt;        3000:31163/</span>TCP   <span class="hljs-number">5</span>m12s<br><span class="hljs-comment">#查看grafana的pod在哪个节点</span><br>[root@master1 <span class="hljs-number">1</span>]<span class="hljs-comment"># kubectl describe pod -n prometheus-work grafana-5d475d9d7-ctb2t | grep Node:</span><br>Node:             node02/<span class="hljs-number">192.168</span>.<span class="hljs-number">48.105</span><br>[root@master1 <span class="hljs-number">1</span>]<span class="hljs-comment">#</span><br></code></pre></td></tr></table></figure>
+
+<p>访问页面<a target="_blank" rel="noopener" href="http://192.168.48.105:31163/">http://192.168.48.105:31163</a></p>
+<p>首次登录grafana，<font color='red'>用户名和密码都是admin</font>，登陆之后会要求修改admin的密码，也可以不修改</p>
+<p><img src="/../img/k8s%E9%83%A8%E7%BD%B2Prometheus+Grafana.assets/a7a86e95b368d4e4d5877738b9a0741f697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240103163411877"></p>
+<p><img src="/../img/k8s%E9%83%A8%E7%BD%B2Prometheus+Grafana.assets/6fa04500240fafe21391975276fc8e6f697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240103164006642"></p>
+<p><img src="/../img/k8s%E9%83%A8%E7%BD%B2Prometheus+Grafana.assets/164a86ddf205de933273884be556f56c697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240103164054258"></p>
+<p><img src="/../img/k8s%E9%83%A8%E7%BD%B2Prometheus+Grafana.assets/9c15d8da3655b36cfbf47d5f8e5c0f5a697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240103164130946"></p>
+<h2 id="监控开始"><a href="#监控开始" class="headerlink" title="监控开始"></a>监控开始</h2><p>以下测试均已监控node01来做测试</p>
+<p><img src="/../img/k8s%E9%83%A8%E7%BD%B2Prometheus+Grafana.assets/3c8cba195ef369929b216e63061be620697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240107005309863"></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/prometheus/node_exporter">GitHub - prometheus&#x2F;node_exporter: Exporter for machine metrics</a></p>
+<h3 id="监控linux服务器"><a href="#监控linux服务器" class="headerlink" title="监控linux服务器"></a><strong>监控linux服务器</strong></h3><p>主要监控指标：</p>
+<ul>
+<li>CPU</li>
+<li>内存</li>
+<li>硬盘</li>
+<li>网络流量</li>
+<li>系统负载</li>
+<li>系统服务</li>
+</ul>
+<h4 id="安装采集器"><a href="#安装采集器" class="headerlink" title="安装采集器"></a>安装采集器</h4><p>从上图得知监控linux需要使用<font color='red'>Node exporter</font>采集器</p>
+<p>下载Node exporter采集器</p>
+<p><img src="/../img/k8s%E9%83%A8%E7%BD%B2Prometheus+Grafana.assets/adadb2a4fdae2245309f74f48c037a2d697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240103164627575"></p>
+<p>操作节点[node01]</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs gradle">wget -P <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/ https:/</span><span class="hljs-regexp">/github.com/</span>prometheus<span class="hljs-regexp">/node_exporter/</span>releases<span class="hljs-regexp">/download/</span>v1.<span class="hljs-number">7.0</span>/node_exporter-<span class="hljs-number">1.7</span>.<span class="hljs-number">0</span>.linux-amd64.tar.gz<br>#也可以自己先下载上传到<span class="hljs-regexp">/usr/</span>local/ 下<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> /usr/local/<br>tar -xvf node_exporter-1.7.0.linux-amd64.tar.gz<br><span class="hljs-built_in">mv</span> node_exporter-1.7.0.linux-amd64 node_exporter<br><span class="hljs-built_in">cd</span> /usr/local/node_exporter<br>./node_exporter<br></code></pre></td></tr></table></figure>
+
+<p>出现以下没关系</p>
+<p><img src="/../img/k8s%E9%83%A8%E7%BD%B2Prometheus+Grafana.assets/78c7408333844d4be10795b9faaeb494697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240103165243667"></p>
+<p>访问采集器</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">http:<span class="hljs-regexp">//</span><span class="hljs-number">192.168</span>.<span class="hljs-number">48.104</span>:<span class="hljs-number">9100</span>/<br></code></pre></td></tr></table></figure>
+
+<p><img src="/../img/k8s%E9%83%A8%E7%BD%B2Prometheus+Grafana.assets/c2700241ef8440f353b2e2d68e84e832697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240103165201596"></p>
+<h4 id="设置采集器开机自启动"><a href="#设置采集器开机自启动" class="headerlink" title="设置采集器开机自启动"></a>设置采集器开机自启动</h4><p><strong>加入systemd管理</strong></p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs gradle">cat &gt; <span class="hljs-regexp">/usr/</span>lib<span class="hljs-regexp">/systemd/</span>system/node_exporter.service &lt;&lt; <span class="hljs-string">&quot;EOF&quot;</span><br>[Unit]<br><span class="hljs-keyword">Description</span>=node_exporter<br>[Service]<br>#ExecStart=<span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/node_exporter/</span>node_exporter --web.config=<span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/node_exporter/</span>config.yml<br>ExecStart=<span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/node_exporter/</span>node_exporter<br>ExecReload=<span class="hljs-regexp">/bin/</span>kill -HUP $MAINPID<br>KillMode=process<br>Restart=on-failure<br>[Install]<br>WantedBy=multi-user.target<br>EOF<br># 重新加载<br>systemctl daemon-reload<br># 启动<br>systemctl start node_exporter<br># 加入开机自启<br>systemctl enable node_exporter<br></code></pre></td></tr></table></figure>
+
+<h4 id="Prometheus配置"><a href="#Prometheus配置" class="headerlink" title="Prometheus配置"></a>Prometheus配置</h4><p><strong>配置文件修改</strong></p>
+<p><font color='red'>操作节点[master1]</font></p>
+<figure class="highlight nestedtext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs nestedtext"><span class="hljs-attribute">在Prometheus配置文件添加被监控端</span><br><span class="hljs-attribute">cat &gt; prome_cfg.yml &lt;&lt; &quot;EOF&quot;</span><br><span class="hljs-attribute">apiVersion</span><span class="hljs-punctuation">:</span> <span class="hljs-string">v1</span><br><span class="hljs-attribute">kind</span><span class="hljs-punctuation">:</span> <span class="hljs-string">ConfigMap</span><br><span class="hljs-attribute">metadata</span><span class="hljs-punctuation">:</span><br>  <span class="hljs-attribute">name</span><span class="hljs-punctuation">:</span> <span class="hljs-string">prometheus-config</span><br>  <span class="hljs-attribute">namespace</span><span class="hljs-punctuation">:</span> <span class="hljs-string">prometheus-work</span><br><span class="hljs-attribute">data</span><span class="hljs-punctuation">:</span><br>  <span class="hljs-attribute">prometheus.yml</span><span class="hljs-punctuation">:</span> <span class="hljs-string">|</span><br>    <span class="hljs-attribute">global</span><span class="hljs-punctuation">:</span><br>      <span class="hljs-attribute">scrape_interval</span><span class="hljs-punctuation">:</span> <span class="hljs-string">15s</span><br>      <span class="hljs-attribute">scrape_timeout</span><span class="hljs-punctuation">:</span> <span class="hljs-string">15s</span><br>    <span class="hljs-attribute">scrape_configs</span><span class="hljs-punctuation">:</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">job_name: &#x27;prometheus&#x27;</span><br>      <span class="hljs-attribute">static_configs</span><span class="hljs-punctuation">:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">targets: [&#x27;localhost:9090&#x27;]</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">job_name: &#x27;test&#x27;</span><br>      <span class="hljs-attribute">static_configs</span><span class="hljs-punctuation">:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">targets: [&#x27;192.168.48.104:9100&#x27;]</span><br><br>EOF<br>kubectl apply -f prome_cfg.yml<br></code></pre></td></tr></table></figure>
+
+<p>热加载更新</p>
+<p><font color='red'>操作节点[node01]</font>加的是哪个节点就在哪个节点进行热加载</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment">#实现Prometheus热更新</span><br>curl -X POST http:<span class="hljs-regexp">//</span><span class="hljs-number">192.168</span>.<span class="hljs-number">48.104</span>:<span class="hljs-number">30512</span><span class="hljs-regexp">/-/</span>reload<br></code></pre></td></tr></table></figure>
+
+<p>访问prometheus页面查看<a target="_blank" rel="noopener" href="http://192.168.48.104:30512/">http://192.168.48.104:30512</a></p>
+<p><img src="/../img/k8s%E9%83%A8%E7%BD%B2Prometheus+Grafana.assets/0bc9c1e585fc8faa1024148d386db551697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240103192048627"></p>
+<p>可以看到有记录了</p>
+<h4 id="Grafana展示"><a href="#Grafana展示" class="headerlink" title="Grafana展示"></a>Grafana展示</h4><p>展示数据需要配置仪表盘，仪表盘可以自己制作导入，也可以从官方下载使用。</p>
+<p>进入grafana  <a target="_blank" rel="noopener" href="http://192.168.48.105:31163/">http://192.168.48.105:31163</a></p>
+<p><img src="/../img/k8s%E9%83%A8%E7%BD%B2Prometheus+Grafana.assets/68ce702e3a54fc010b5eed8a2f8a9445697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240103192229794"></p>
+<p>这里直接输入9276仪表盘id，然后点击load</p>
+<p><img src="/../img/k8s%E9%83%A8%E7%BD%B2Prometheus+Grafana.assets/bc89d64827561e2d817129c323b6135c697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240103192353726"></p>
+<p><img src="/../img/k8s%E9%83%A8%E7%BD%B2Prometheus+Grafana.assets/7e68cce07a77c185791f1a78e4d020de697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240103192457219"></p>
+<p><img src="/../img/k8s%E9%83%A8%E7%BD%B2Prometheus+Grafana.assets/e8173f303cf08d29d0c2cf67148a372c697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240103192553778"></p>
+<p>默认情况下网络这部分是没有数据的</p>
+<p><img src="/../img/k8s%E9%83%A8%E7%BD%B2Prometheus+Grafana.assets/6fb716206070e90ad7dbddb15fe7a439697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240103192648040"></p>
+<p><img src="/../img/k8s%E9%83%A8%E7%BD%B2Prometheus+Grafana.assets/f7a3d89ddccd5d543b1cc85c8c096b9f697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240103192728841"></p>
+<p><img src="/../img/k8s%E9%83%A8%E7%BD%B2Prometheus+Grafana.assets/7253c84bd73260228ace9c4eceeec130697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240103192904616"></p>
+<p>点击右上角的save保存</p>
+<p><img src="/../img/k8s%E9%83%A8%E7%BD%B2Prometheus+Grafana.assets/9a9b29f404b4e471832b80c35bea3094697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240103193009248"></p>
+<p><img src="/../img/k8s%E9%83%A8%E7%BD%B2Prometheus+Grafana.assets/3fe3b746ea84bb1e57106ed40bb8db6e697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240103193028376"></p>
+<p><img src="/../img/k8s%E9%83%A8%E7%BD%B2Prometheus+Grafana.assets/065c6e6e0252f22fe4190059064d58a9697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240103193049630"></p>
+<h3 id="监控多台linux"><a href="#监控多台linux" class="headerlink" title="监控多台linux"></a>监控多台linux</h3><ul>
+<li><strong>复制安装文件</strong></li>
+</ul>
+<p>远程复制到新增的机器</p>
+<p><font color='red'>假设我还要监控node02</font></p>
+<p><font color='red'>操作节点[node01]</font></p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs awk">scp -r <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/node_exporter root@192.168.48.105:/u</span>sr<span class="hljs-regexp">/local/</span><br>scp <span class="hljs-regexp">/usr/</span>lib<span class="hljs-regexp">/systemd/</span>system<span class="hljs-regexp">/node_exporter.service root@192.168.48.105:/u</span>sr<span class="hljs-regexp">/lib/</span>systemd<span class="hljs-regexp">/system/</span><br></code></pre></td></tr></table></figure>
+
+<p><font color='red'>操作节点[node02]</font></p>
+<figure class="highlight nsis"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs nsis"><span class="hljs-comment"># 重新加载</span><br><span class="hljs-params">system</span>ctl daemon-reload<br><span class="hljs-comment"># 启动</span><br><span class="hljs-params">system</span>ctl start node_exporter<br><span class="hljs-comment"># 加入开机自启</span><br><span class="hljs-params">system</span>ctl enable node_exporter<br></code></pre></td></tr></table></figure>
+
+<p>添加采集器信息</p>
+<p><font color='red'>操作节点[master1]</font></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">在Prometheus配置文件添加被监控端</span><br><span class="hljs-string">cat</span> <span class="hljs-string">&gt;</span> <span class="hljs-string">prome_cfg.yml</span> <span class="hljs-string">&lt;&lt;</span> <span class="hljs-string">&quot;EOF&quot;</span><br><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">v1</span><br><span class="hljs-attr">kind:</span> <span class="hljs-string">ConfigMap</span><br><span class="hljs-attr">metadata:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">prometheus-config</span><br>  <span class="hljs-attr">namespace:</span> <span class="hljs-string">prometheus-work</span><br><span class="hljs-attr">data:</span><br>  <span class="hljs-attr">prometheus.yml:</span> <span class="hljs-string">|</span><br><span class="hljs-string">    global:</span><br><span class="hljs-string">      scrape_interval: 15s</span><br><span class="hljs-string">      scrape_timeout: 15s</span><br><span class="hljs-string">    scrape_configs:</span><br><span class="hljs-string">    - job_name: &#x27;prometheus&#x27;</span><br><span class="hljs-string">      static_configs:</span><br><span class="hljs-string">      - targets: [&#x27;localhost:9090&#x27;]</span><br><span class="hljs-string">    - job_name: &#x27;test&#x27;</span><br><span class="hljs-string">      static_configs:</span><br><span class="hljs-string">      - targets: [&#x27;192.168.48.104:9100&#x27;,&#x27;192.168.48.105:9100&#x27;]</span><br><span class="hljs-string"></span><span class="hljs-comment">#以逗号分割添加新的node02地址的采集器</span><br><span class="hljs-string">EOF</span><br><span class="hljs-string">kubectl</span> <span class="hljs-string">apply</span> <span class="hljs-string">-f</span> <span class="hljs-string">prome_cfg.yml</span><br></code></pre></td></tr></table></figure>
+
+<p>热加载更新</p>
+<p><font color='red'>操作节点[node02]</font></p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment">#实现Prometheus热更新</span><br>curl -X POST http:<span class="hljs-regexp">//</span><span class="hljs-number">192.168</span>.<span class="hljs-number">48.104</span>:<span class="hljs-number">30512</span><span class="hljs-regexp">/-/</span>reload<br></code></pre></td></tr></table></figure>
+
+<p><img src="/../img/k8s%E9%83%A8%E7%BD%B2Prometheus+Grafana.assets/e128ae8ca854893d5824a025b0458b5d697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240103195032856"></p>
+<p><img src="/../img/k8s%E9%83%A8%E7%BD%B2Prometheus+Grafana.assets/e76669ac7347997d5111c26e452a98e9697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240103195105169"></p>
+<div class="tbsm" style="margin-top:54px;">
+<div class="tbsm-top"><span><svg t="1674654360507" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="987" data-spm-anchor-id="a313x.7781069.0.i0" width="35" height="35"><path d="M410.49 97.74H155.08a56.74 56.74 0 0 0-56.84 56.73V410a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 467.32 410V154.58a56.83 56.83 0 0 0-56.83-56.84zM410.49 558.74H155.08a56.74 56.74 0 0 0-56.84 56.73V871a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 467.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84zM871.49 558.74H616.08a56.74 56.74 0 0 0-56.84 56.73V871a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 928.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84z" fill="#66EEFF" p-id="988"></path><path d="M410.49 558.74h-4.14A475 475 0 0 0 299.52 859.6a481.16 481.16 0 0 0 4.84 68.22h106.13A56.83 56.83 0 0 0 467.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84zM871.49 558.74H616.08a56.74 56.74 0 0 0-56.84 56.73V871a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 928.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84z" fill="#C2F8FF" p-id="989"></path></svg></span><span style="font-size:30px;"> 特别声明</span></div>
+<div class="tbsm-wz">千屹博客旗下的所有文章，是通过本人课堂学习和课外自学所精心整理的知识巨著<br/>难免会有出错的地方<br/>如果细心的你发现了小失误，可以在下方评论区告诉我，或者私信我！<br />非常感谢大家的热烈支持！</div>
+</div>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Centos-7/">#Centos 7</a>
+      
+        <a href="/tags/K8s/">#K8s</a>
+      
+        <a href="/tags/Prometheus/">#Prometheus</a>
+      
+        <a href="/tags/Grafana/">#Grafana</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>k8s部署Prometheus+Grafana</div>
+      <div>https://blog.qianyios.top/2024/01/07/k8s部署Prometheus+Grafana/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>严千屹</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年1月7日</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>更新于</div>
+          <div>2024年1月6日</div>
+        </div>
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - 非商业性使用">
+                    <i class="iconfont icon-nc"></i>
+                  </span>
+                </a>
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="ND - 禁止演绎">
+                    <i class="iconfont icon-nd"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/01/07/OpenStack-Train-%E4%B8%89%E8%8A%82%E7%82%B9%E9%83%A8%E7%BD%B2/" title="OpenStack-Train-三节点部署">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">OpenStack-Train-三节点部署</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/12/30/%E4%B8%80%E9%94%AE%E9%83%A8%E7%BD%B2%E5%8D%95%E8%8A%82%E7%82%B9openstack-Yoga/" title="基于CentOS Stream 8一键安装OpenStack Yoga版本">
+                        <span class="hidden-mobile">基于CentOS Stream 8一键安装OpenStack Yoga版本</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"geJAvpyCyYwmp1wI8u2CCkV5-gzGzoHsz","appKey":"WnNukDH4RUTtMsUwJvNG4vyR","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":true},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <div class="zsqk"> <p>(￣▽￣)" 赞赏！</p> <div class="zstb"> <a  class="qr-trigger" target="_self"> <i class="iconfont icon-wechat-fill" aria-hidden="true"></i> <img class="qr-img animate__animated animate__bounc animate__fadeInDown" src="https://blog.qianyios.top/img/zansang/wxzf.png" srcset="/img/loading.gif" lazyload alt="qrcode" /> </a> <a  class="qr-trigger" target="_self"> <i class="iconfont icon-alipay-fill" aria-hidden="true"></i> <img class="qr-img animate__animated animate__bounc animate__fadeInDown" src="https://blog.qianyios.top/img/zansang/zfb.png" srcset="/img/loading.gif" lazyload alt="qrcode" /> </a>
+</div>
+<p class="zsyy animate__animated animate__bounce animate__flash animate__infinite	infinite animate__slow">如果对你有帮助，就请我喝一杯吧！！</p> </div> <br /> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

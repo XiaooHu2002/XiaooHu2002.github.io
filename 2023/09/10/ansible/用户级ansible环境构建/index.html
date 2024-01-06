@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://blog.qianyios.top/img/%E7%94%A8%E6%88%B7%E7%BA%A7ansible%E7%8E%AF%E5%A2%83%E6%9E%84%E5%BB%BA/46fbac8951ec0d9935c0a017c3f17e3fa62a11dc.png">
 <meta property="article:published_time" content="2023-09-10T00:02:40.000Z">
-<meta property="article:modified_time" content="2023-12-02T16:22:26.061Z">
+<meta property="article:modified_time" content="2024-01-06T17:04:58.496Z">
 <meta property="article:author" content="严千屹">
 <meta property="article:tag" content="Centos 7">
 <meta property="article:tag" content="Ansible">
@@ -331,7 +331,7 @@
 <p>如果不想输入密码，那需要修改配置文件：</p>
 <figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs gradle">vi <span class="hljs-regexp">/home/</span>student<span class="hljs-regexp">/ansible/</span>ansible.cfg<br>······<br>ask_pass=<span class="hljs-keyword">False</span><br></code></pre></td></tr></table></figure>
 
-<p><img src="https://article.biliimg.com/bfs/article/73c8e13c2cd51d2bd7163daad223c064697559838.png" srcset="/img/loading.gif" lazyload alt="image-20230912224807001"></p>
+<p><img src="/../../img/%E7%94%A8%E6%88%B7%E7%BA%A7ansible%E7%8E%AF%E5%A2%83%E6%9E%84%E5%BB%BA/e1d902512d1ed9c395ad0dc927a3211e04e28fba.png" srcset="/img/loading.gif" lazyload alt="image-20230912224807001"></p>
 <figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs crystal">[student<span class="hljs-variable">@controller</span> ansible]<span class="hljs-variable">$ </span>ansible all --list<br>  hosts (<span class="hljs-number">2</span>):<br>    <span class="hljs-number">192.168</span>.<span class="hljs-number">48.101</span><br>    <span class="hljs-number">192.168</span>.<span class="hljs-number">48.102</span><br>[student<span class="hljs-variable">@controller</span> ansible]<span class="hljs-variable">$</span><br><span class="hljs-variable"></span><span class="hljs-comment">#无输入密码选项</span><br></code></pre></td></tr></table></figure>
 
 <h2 id="实例（指定student）"><a href="#实例（指定student）" class="headerlink" title="实例（指定student）"></a>实例（指定student）</h2><p><font color='red'>远程用户指定为普通用户（student）</font></p>
@@ -340,40 +340,40 @@
 <p>这时候执行ping会报错</p>
 <figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ada">ansible <span class="hljs-keyword">all</span> -m ping<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://article.biliimg.com/bfs/article/549c26df7bb333d9276b5e050ea298c3697559838.png" srcset="/img/loading.gif" lazyload alt="image-20230912225310702"></p>
-<p><img src="https://article.biliimg.com/bfs/article/197b215dc822cd897cbdf1ab418289fa697559838.png" srcset="/img/loading.gif" lazyload alt="image-20230912225331509"></p>
+<p><img src="/../../img/%E7%94%A8%E6%88%B7%E7%BA%A7ansible%E7%8E%AF%E5%A2%83%E6%9E%84%E5%BB%BA/36030bdebb9cbe2cb9cf85a57f527991fc70eba3.png" srcset="/img/loading.gif" lazyload alt="image-20230912225310702"></p>
+<p><img src="/../../img/%E7%94%A8%E6%88%B7%E7%BA%A7ansible%E7%8E%AF%E5%A2%83%E6%9E%84%E5%BB%BA/093cb2bedadf9dacdf83186c216de62efbbea1bb.png" srcset="/img/loading.gif" lazyload alt="image-20230912225331509"></p>
 <p>这时候我们要配置免密登入（这里的密钥是student用户的，和root不一样，不会覆盖root用户的，这是在student用户下执行的命令）</p>
 <figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs crystal">[student<span class="hljs-variable">@controller</span> ansible]<span class="hljs-variable">$ </span>ssh-keygen<br><span class="hljs-comment">#回车三次</span><br>[student<span class="hljs-variable">@controller</span> ansible]<span class="hljs-variable">$ </span>ssh-copy-id student<span class="hljs-variable">@192</span>.<span class="hljs-number">168.48</span>.<span class="hljs-number">101</span><br><span class="hljs-comment">#输入yes和node1的root密码</span><br><br>[student<span class="hljs-variable">@controller</span> ansible]<span class="hljs-variable">$ </span>ssh-copy-id student<span class="hljs-variable">@192</span>.<span class="hljs-number">168.48</span>.<span class="hljs-number">102</span><br><span class="hljs-comment">#输入yes和node2的root密码</span><br></code></pre></td></tr></table></figure>
 
 <p>这是执行ping命令</p>
 <figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ada">ansible <span class="hljs-keyword">all</span> -m ping<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://article.biliimg.com/bfs/article/2d0041eb775f2d7c095ec56e2b196fe1697559838.png" srcset="/img/loading.gif" lazyload alt="image-20230912230245638"></p>
+<p><img src="/../../img/%E7%94%A8%E6%88%B7%E7%BA%A7ansible%E7%8E%AF%E5%A2%83%E6%9E%84%E5%BB%BA/fbfb0421bf54c003e1a9cc2e28ffd60fea8755cf.png" srcset="/img/loading.gif" lazyload alt="image-20230912230245638"></p>
 <h2 id="测试提取文件"><a href="#测试提取文件" class="headerlink" title="测试提取文件"></a>测试提取文件</h2><p>这个普通用户（student）并不能执行所有的操作，比如ansible以student身份登录，执行（ls &#x2F;root）发普通用户没有权限，</p>
 <figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs livecodeserver">ansible all -m <span class="hljs-built_in">shell</span> -<span class="hljs-keyword">a</span> <span class="hljs-string">&quot;ls /root&quot;</span><br></code></pre></td></tr></table></figure>
 
-<p><img src="https://article.biliimg.com/bfs/article/8adbb11f27a880bda9c685cd7518c6d1697559838.png" srcset="/img/loading.gif" lazyload alt="image-20230912230504092"></p>
+<p><img src="/../../img/%E7%94%A8%E6%88%B7%E7%BA%A7ansible%E7%8E%AF%E5%A2%83%E6%9E%84%E5%BB%BA/dcc6b723a386323cf562bade58b2cf2a8957be6f.png" srcset="/img/loading.gif" lazyload alt="image-20230912230504092"></p>
 <p>解决这个问题就需要提权：sudo 提权</p>
 <p>在受控主机(<font color='red'>node01、node02</font>)上执行visudo（配置 &#x2F;etc&#x2F;sudoers）</p>
 <p><font color='red'>node01机子</font></p>
 <figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs autoit">[root<span class="hljs-symbol">@node01</span> ~]<span class="hljs-meta"># visudo</span><br></code></pre></td></tr></table></figure>
 
-<p><img src="https://article.biliimg.com/bfs/article/ccee1ad9cf33b3602976597e16078888697559838.png" srcset="/img/loading.gif" lazyload alt="image-20230912230747742"></p>
+<p><img src="/../../img/%E7%94%A8%E6%88%B7%E7%BA%A7ansible%E7%8E%AF%E5%A2%83%E6%9E%84%E5%BB%BA/91e2a38e7ef071a3cb51f5b89dc133df750e339c.png" srcset="/img/loading.gif" lazyload alt="image-20230912230747742"></p>
 <p><font color='red'>node02机子</font></p>
 <figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs autoit">[root<span class="hljs-symbol">@node02</span> ~]<span class="hljs-meta"># visudo</span><br></code></pre></td></tr></table></figure>
 
-<p><img src="https://article.biliimg.com/bfs/article/daabec672321d91cd7fc3a5782cf0eb5697559838.png" srcset="/img/loading.gif" lazyload alt="image-20230912230906568"></p>
+<p><img src="/../../img/%E7%94%A8%E6%88%B7%E7%BA%A7ansible%E7%8E%AF%E5%A2%83%E6%9E%84%E5%BB%BA/645d2da0ea2f30c86fe3f4719053de461825fd10.png" srcset="/img/loading.gif" lazyload alt="image-20230912230906568"></p>
 <p>或者(<font color='red'>node01和node02执行以下指令</font>)</p>
 <figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs arcade">cat &gt;&gt;<span class="hljs-regexp">/etc/</span>sudoers.d/student &lt;&lt; EOF <br>student          <span class="hljs-built_in">ALL</span>=(<span class="hljs-built_in">ALL</span>)        NOPASSWD: <span class="hljs-built_in">ALL</span><br>EOF<br></code></pre></td></tr></table></figure>
 
 <p>在<font color='red'>控制主机（controller）</font>上(<font color='red'>student用户</font>)修改ansible.cfg配置文件提权</p>
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs routeros">[student@controller ansible]$ vim ansible.cfg<br>[defaults]<br><span class="hljs-attribute">inventory</span>=/home/student/ansible/inventory<br><span class="hljs-attribute">remote_port</span>=22<br><span class="hljs-attribute">remote_user</span>=student<br><span class="hljs-attribute">ask_pass</span>=<span class="hljs-literal">False</span><br>[privilege_escalation]<br><span class="hljs-attribute">become</span>=<span class="hljs-literal">True</span><br><span class="hljs-attribute">become_method</span>=sudo<br><span class="hljs-attribute">become_user</span>=root<br><span class="hljs-attribute">become_ask_pass</span>=<span class="hljs-literal">False</span><br></code></pre></td></tr></table></figure>
 
-<p><img src="https://article.biliimg.com/bfs/article/3970e3c907f629b58010a980c94f7a82697559838.png" srcset="/img/loading.gif" lazyload alt="image-20230912231556770"></p>
+<p><img src="/../../img/%E7%94%A8%E6%88%B7%E7%BA%A7ansible%E7%8E%AF%E5%A2%83%E6%9E%84%E5%BB%BA/0575ae46b3b79b6f7beffd757fd79427cee52b0e.png" srcset="/img/loading.gif" lazyload alt="image-20230912231556770"></p>
 <p>验证</p>
 <figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs livecodeserver">ansible all -m <span class="hljs-built_in">shell</span> -<span class="hljs-keyword">a</span> <span class="hljs-string">&quot;ls /root&quot;</span><br></code></pre></td></tr></table></figure>
 
-<p><img src="https://article.biliimg.com/bfs/article/60a7284ce137bd660f5fbeea91beb45d697559838.png" srcset="/img/loading.gif" lazyload alt="image-20230912231635877"></p>
+<p><img src="/../../img/%E7%94%A8%E6%88%B7%E7%BA%A7ansible%E7%8E%AF%E5%A2%83%E6%9E%84%E5%BB%BA/5e66812c14fd8690a9025e8436b5d6d3edd08ccf.png" srcset="/img/loading.gif" lazyload alt="image-20230912231635877"></p>
 <p><font color='red'>#在控制节点的student经过sudo提权之后可以读取&#x2F;root目录了</font></p>
 <p><code>可以返回目录！</code></p>
 <p><a href="https://blog.qianyios.top/2023/09/10/ansible/Ansible-%E6%80%BB%E6%89%8B%E5%86%8C/">Ansible练习目录 - 严千屹博客 (qianyios.top)</a></p>
@@ -425,7 +425,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2023年12月2日</div>
+          <div>2024年1月6日</div>
         </div>
       
       

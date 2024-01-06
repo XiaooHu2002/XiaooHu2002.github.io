@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://blog.qianyios.top/img/Shell/8580d818ee5184751cf94951d938eb498c95fae5.jpg">
 <meta property="article:published_time" content="2023-02-26T10:38:39.000Z">
-<meta property="article:modified_time" content="2023-12-02T16:22:26.007Z">
+<meta property="article:modified_time" content="2024-01-06T17:04:58.429Z">
 <meta property="article:author" content="严千屹">
 <meta property="article:tag" content="Shell">
 <meta name="twitter:card" content="summary_large_image">
@@ -286,7 +286,7 @@
                 <meta name="referrer" content="no-referrer"/>
 
 <h1 id="Shell"><a href="#Shell" class="headerlink" title="Shell"></a>Shell</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>Shell是一个<span style="color:red;">命令行解释器</span>，他接收应用程序&#x2F;用户命令，然后调用操作系统内核</p>
-<p><img src="https://article.biliimg.com/bfs/article/aeeb35e3eaf85a3fe3c6be8b9b38c11455933597.png" srcset="/img/loading.gif" lazyload alt="image-20230125165047995"></p>
+<p><img src="/../img/Shell/b8682c9a5af9d2af835aa15626c8789178af345a.png" srcset="/img/loading.gif" lazyload alt="image-20230125165047995"></p>
 <p>Shell还是一个功能相当强大的编辑语言，易编写，易调试，灵活性强。</p>
 <h2 id="Shell解析器"><a href="#Shell解析器" class="headerlink" title="Shell解析器"></a>Shell解析器</h2><h3 id="Linux提供的Shell解析器有6种："><a href="#Linux提供的Shell解析器有6种：" class="headerlink" title="Linux提供的Shell解析器有6种："></a>Linux提供的Shell解析器有6种：</h3><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs gradle">[root@Shell ~]# cat <span class="hljs-regexp">/etc/</span>Shells<br><span class="hljs-regexp">/bin/</span>sh<br><span class="hljs-regexp">/bin/</span>bash<br><span class="hljs-regexp">/usr/</span>bin/sh<br><span class="hljs-regexp">/usr/</span>bin/bash<br><span class="hljs-regexp">/bin/</span>tcsh<br><span class="hljs-regexp">/bin/</span>csh<br></code></pre></td></tr></table></figure>
 
@@ -766,9 +766,9 @@
 <p>A !~ B 判断字符串 A 中是否不包含能匹配 B 表达式的子字符串</p>
 <p>动作（Action）：</p>
 <p>格式化输出 流程控制语句</p>
-<p><img src="https://article.biliimg.com/bfs/article/96a8a445728c612863d320853e11e08d55933597.png" srcset="/img/loading.gif" lazyload alt="image-20230421143849290"></p>
+<p><img src="/../img/Shell/205fa6cf17277f79e65555cc1c7a9afe7819b814.png" srcset="/img/loading.gif" lazyload alt="image-20230421143849290"></p>
 <p>awk内置变量</p>
-<p><img src="https://article.biliimg.com/bfs/article/6892af82820e6e8ce060ce795ddfc70c55933597.png" srcset="/img/loading.gif" lazyload alt="image-20230421190306772"></p>
+<p><img src="/../img/Shell/2e8746e3feacb88db27cc8f033f27d3b5b52f28a.png" srcset="/img/loading.gif" lazyload alt="image-20230421190306772"></p>
 <p>例子：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs swift">[root<span class="hljs-meta">@localhost</span> <span class="hljs-operator">~</span>]# awk &#x27;&#123;printf <span class="hljs-variable">$2</span> <span class="hljs-string">&quot;<span class="hljs-subst">\t</span>&quot;</span> <span class="hljs-variable">$6</span> <span class="hljs-string">&quot;<span class="hljs-subst">\n</span>&quot;</span>&#125;&#x27; student.txt<br>#输出第二列和第六列<br></code></pre></td></tr></table></figure>
 
@@ -1293,8 +1293,8 @@
 </ol>
 <h3 id="cut"><a href="#cut" class="headerlink" title="cut"></a>cut</h3><figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs excel">[root@localhost ~]# cut [选项] 文件名选项：<br>-f 列号：          提取第几列<br>-d 分隔符：	     按照指定分隔符分割列<br>-c 字符范围：    不依赖分隔符来区分列，而是通过字符范围（行首为 <span class="hljs-number">0</span>）来进行字段提取。“<span class="hljs-built_in">n</span>-”表示从第 <span class="hljs-built_in">n</span> 个字符到行尾；“<span class="hljs-built_in">n</span>-m”从第 <span class="hljs-built_in">n</span> 个字符到第 m个字符；“-m”表示从第 <span class="hljs-number">1</span> 个字符到第 m 个字符。<br></code></pre></td></tr></table></figure>
 
-<h3 id="awk条件（Pattern）"><a href="#awk条件（Pattern）" class="headerlink" title="awk条件（Pattern）"></a>awk条件（Pattern）</h3><p><img src="https://article.biliimg.com/bfs/article/96a8a445728c612863d320853e11e08d55933597.png" srcset="/img/loading.gif" lazyload alt="image-20230421143849290"></p>
-<h3 id="awk内置变量"><a href="#awk内置变量" class="headerlink" title="awk内置变量"></a>awk内置变量</h3><p><img src="https://article.biliimg.com/bfs/article/6892af82820e6e8ce060ce795ddfc70c55933597.png" srcset="/img/loading.gif" lazyload alt="image-20230421190306772"></p>
+<h3 id="awk条件（Pattern）"><a href="#awk条件（Pattern）" class="headerlink" title="awk条件（Pattern）"></a>awk条件（Pattern）</h3><p><img src="/../img/Shell/205fa6cf17277f79e65555cc1c7a9afe7819b814.png" srcset="/img/loading.gif" lazyload alt="image-20230421143849290"></p>
+<h3 id="awk内置变量"><a href="#awk内置变量" class="headerlink" title="awk内置变量"></a>awk内置变量</h3><p><img src="/../img/Shell/2e8746e3feacb88db27cc8f033f27d3b5b52f28a.png" srcset="/img/loading.gif" lazyload alt="image-20230421190306772"></p>
 <div class="tbsm" style="margin-top:54px;">
 <div class="tbsm-top"><span><svg t="1674654360507" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="987" data-spm-anchor-id="a313x.7781069.0.i0" width="35" height="35"><path d="M410.49 97.74H155.08a56.74 56.74 0 0 0-56.84 56.73V410a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 467.32 410V154.58a56.83 56.83 0 0 0-56.83-56.84zM410.49 558.74H155.08a56.74 56.74 0 0 0-56.84 56.73V871a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 467.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84zM871.49 558.74H616.08a56.74 56.74 0 0 0-56.84 56.73V871a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 928.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84z" fill="#66EEFF" p-id="988"></path><path d="M410.49 558.74h-4.14A475 475 0 0 0 299.52 859.6a481.16 481.16 0 0 0 4.84 68.22h106.13A56.83 56.83 0 0 0 467.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84zM871.49 558.74H616.08a56.74 56.74 0 0 0-56.84 56.73V871a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 928.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84z" fill="#C2F8FF" p-id="989"></path></svg></span><span style="font-size:30px;"> 特别声明</span></div>
 <div class="tbsm-wz">千屹博客旗下的所有文章，是通过本人课堂学习和课外自学所精心整理的知识巨著<br/>难免会有出错的地方<br/>如果细心的你发现了小失误，可以在下方评论区告诉我，或者私信我！<br />非常感谢大家的热烈支持！</div>
@@ -1341,7 +1341,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2023年12月2日</div>
+          <div>2024年1月6日</div>
         </div>
       
       
