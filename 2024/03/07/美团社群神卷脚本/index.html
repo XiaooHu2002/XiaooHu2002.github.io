@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://blog.qianyios.top/img/%E7%BE%8E%E5%9B%A2%E7%A4%BE%E7%BE%A4%E7%A5%9E%E5%8D%B7%E8%84%9A%E6%9C%AC.assets/1.jpg">
 <meta property="article:published_time" content="2024-03-07T02:13:40.000Z">
-<meta property="article:modified_time" content="2024-03-06T18:24:24.769Z">
+<meta property="article:modified_time" content="2024-03-06T18:32:23.694Z">
 <meta property="article:author" content="严千屹">
 <meta property="article:tag" content="Docker">
 <meta property="article:tag" content="Centos 7">
@@ -297,7 +297,7 @@
 <p>2.项目地址：<a target="_blank" rel="noopener" href="https://github.com/leafTheFish/DeathNote">leafTheFish&#x2F;DeathNote (github.com)</a></p>
 <p>3.<font color='red'>领到多少全看运气，不要质疑脚本的可用性，如果在意领的少，请你不要使用，能有多少是多少</font></p>
 <p>效果图：</p>
-<p><img src="/../img/%E7%BE%8E%E5%9B%A2%E7%A4%BE%E7%BE%A4%E7%A5%9E%E5%8D%B7%E8%84%9A%E6%9C%AC.assets/7bd88bd2c0c2695598cefb91968832be697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240307020748709"></p>
+<p><img src="/../img/%E7%BE%8E%E5%9B%A2%E7%A4%BE%E7%BE%A4%E7%A5%9E%E5%8D%B7%E8%84%9A%E6%9C%AC.assets/642ecb53590bfc0604ff9738e2b0216c697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240307020748709"></p>
 <h2 id="部署步骤"><a href="#部署步骤" class="headerlink" title="部署步骤"></a>部署步骤</h2><h3 id="安装虚拟机"><a href="#安装虚拟机" class="headerlink" title="安装虚拟机"></a>安装虚拟机</h3><table>
 <thead>
 <tr>
@@ -319,27 +319,27 @@
 </tr>
 </tbody></table>
 <p>自行安装一个虚拟机就行了</p>
-<p><img src="/../img/%E7%BE%8E%E5%9B%A2%E7%A4%BE%E7%BE%A4%E7%A5%9E%E5%8D%B7%E8%84%9A%E6%9C%AC.assets/0e794244b7538800c05cdccf2677ee28697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240307010417382"></p>
+<p><img src="/../img/%E7%BE%8E%E5%9B%A2%E7%A4%BE%E7%BE%A4%E7%A5%9E%E5%8D%B7%E8%84%9A%E6%9C%AC.assets/615a85db6eb5fce1dd6439cd62b5ab63697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240307010417382"></p>
 <h3 id="安装Docker"><a href="#安装Docker" class="headerlink" title="安装Docker"></a>安装Docker</h3><p>以下代码可以全部复制运行，直接粘贴到运行窗口</p>
 <figure class="highlight dsconfig"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs dsconfig"><span class="hljs-string">rm</span> -<span class="hljs-string">rf</span> /<span class="hljs-string">etc</span>/<span class="hljs-string">yum</span>.<span class="hljs-string">repos</span>.<span class="hljs-string">d</span>/*<br><br><span class="hljs-string">curl</span> -<span class="hljs-string">o</span> /<span class="hljs-string">etc</span>/<span class="hljs-string">yum</span>.<span class="hljs-string">repos</span>.<span class="hljs-string">d</span>/<span class="hljs-string">CentOS-Base</span>.<span class="hljs-string">repo</span> <span class="hljs-string">http</span>://<span class="hljs-string">mirrors</span>.<span class="hljs-string">aliyun</span>.<span class="hljs-string">com</span>/<span class="hljs-string">repo</span>/<span class="hljs-string">Centos-7</span>.<span class="hljs-string">repo</span><br><br><span class="hljs-string">yum</span> <span class="hljs-string">clean</span> <span class="hljs-string">all</span> &amp;&amp; <span class="hljs-string">yum</span> <span class="hljs-string">makecache</span><br><br><span class="hljs-string">systemctl</span> <span class="hljs-string">disable</span> <span class="hljs-string">firewalld</span> <span class="hljs-built_in">--now</span><br><br><span class="hljs-string">sed</span> -<span class="hljs-string">i</span> <span class="hljs-string">&quot;s#SELINUX=enforcing#SELINUX=disabled#g&quot;</span> /<span class="hljs-string">etc</span>/<span class="hljs-string">selinux</span>/<span class="hljs-string">config</span><br><br><span class="hljs-string">setenforce</span> <span class="hljs-string">0</span><br><br><span class="hljs-string">systemctl</span> <span class="hljs-string">enable</span> <span class="hljs-string">chronyd</span> <span class="hljs-built_in">--now</span><br><br><span class="hljs-string">timedatectl</span> <span class="hljs-built_in">set-timezone</span> <span class="hljs-string">Asia</span>/<span class="hljs-string">Shanghai</span><br><br><span class="hljs-string">yum</span> <span class="hljs-string">install</span> -<span class="hljs-string">y</span> <span class="hljs-string">yum-utils</span><br><br><span class="hljs-string">yum</span> <span class="hljs-string">install</span> -<span class="hljs-string">y</span> <span class="hljs-string">device-mapper-persistent-data</span> <span class="hljs-string">lvm2</span><br><br><span class="hljs-string">yum-config-manager</span> <span class="hljs-built_in">--add-repo</span> <span class="hljs-string">https</span>://<span class="hljs-string">download</span>.<span class="hljs-string">docker</span>.<span class="hljs-string">com</span>/<span class="hljs-string">linux</span>/<span class="hljs-string">centos</span>/<span class="hljs-string">docker-ce</span>.<span class="hljs-string">repo</span><br><br><span class="hljs-string">yum</span> <span class="hljs-string">install</span> <span class="hljs-string">docker-ce</span> <span class="hljs-string">docker-ce-cli</span> <span class="hljs-string">containerd</span>.<span class="hljs-string">io</span> -<span class="hljs-string">y</span><br><br><span class="hljs-string">systemctl</span> <span class="hljs-string">enable</span> <span class="hljs-string">docker</span> <span class="hljs-built_in">--now</span><br><br><span class="hljs-string">docker</span> <span class="hljs-built_in">--version</span><br></code></pre></td></tr></table></figure>
 
 <p>安装过程中出现这些不用管，静静等待他安装完成</p>
-<p><img src="/../img/%E7%BE%8E%E5%9B%A2%E7%A4%BE%E7%BE%A4%E7%A5%9E%E5%8D%B7%E8%84%9A%E6%9C%AC.assets/7151f9890462f2dc47962b4b2920b07c697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240307011242361"></p>
+<p><img src="/../img/%E7%BE%8E%E5%9B%A2%E7%A4%BE%E7%BE%A4%E7%A5%9E%E5%8D%B7%E8%84%9A%E6%9C%AC.assets/e0811f82da3608c6fa58f8b0136badc2697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240307011242361"></p>
 <p>docker安装成功</p>
-<p><img src="/../img/%E7%BE%8E%E5%9B%A2%E7%A4%BE%E7%BE%A4%E7%A5%9E%E5%8D%B7%E8%84%9A%E6%9C%AC.assets/d2e6e1f434b1e637443e07adcd3ce44e697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240307011609793"></p>
+<p><img src="/../img/%E7%BE%8E%E5%9B%A2%E7%A4%BE%E7%BE%A4%E7%A5%9E%E5%8D%B7%E8%84%9A%E6%9C%AC.assets/a96de9b8e44b1612bdc0d41ebcea329d697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240307011609793"></p>
 <h3 id="安装青龙面板"><a href="#安装青龙面板" class="headerlink" title="安装青龙面板"></a>安装青龙面板</h3><p>项目地址：<a target="_blank" rel="noopener" href="https://github.com/whyour/qinglong">青龙面板</a></p>
 <figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs livescript">docker run -dit <span class="hljs-string">\</span><br>  -v $PWD/ql/data:/ql/data <span class="hljs-string">\</span><br>  -p <span class="hljs-number">5700</span>:<span class="hljs-number">5700</span> <span class="hljs-string">\</span><br>  -e QlBaseUrl=<span class="hljs-string">&quot;/&quot;</span> <span class="hljs-string">\</span><br>  -e QlPort=<span class="hljs-string">&quot;5700&quot;</span> <span class="hljs-string">\</span><br>  --name qinglong <span class="hljs-string">\</span><br>  --hostname qinglong <span class="hljs-string">\</span><br>  --restart <span class="hljs-keyword">unless</span>-stopped <span class="hljs-string">\</span><br>  whyour/qinglong:latest<br></code></pre></td></tr></table></figure>
 
 <p>直接运行全部，这是一整条命令，所以你要全部复制运行</p>
-<p><img src="/../img/%E7%BE%8E%E5%9B%A2%E7%A4%BE%E7%BE%A4%E7%A5%9E%E5%8D%B7%E8%84%9A%E6%9C%AC.assets/d10be5a7229d1ce0336b1845a3dc9864697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240307012131949"></p>
+<p><img src="/../img/%E7%BE%8E%E5%9B%A2%E7%A4%BE%E7%BE%A4%E7%A5%9E%E5%8D%B7%E8%84%9A%E6%9C%AC.assets/38799f58767474fc0ec34f616c6fe26d697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240307012131949"></p>
 <p>这个时候访问网页版，安装青龙面板，你的虚拟机ip加端口(5700)</p>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs awk">我的是<br>http:<span class="hljs-regexp">//</span><span class="hljs-number">192.168</span>.<span class="hljs-number">48.128</span>:<span class="hljs-number">5700</span><br></code></pre></td></tr></table></figure>
 
-<p><img src="/../img/%E7%BE%8E%E5%9B%A2%E7%A4%BE%E7%BE%A4%E7%A5%9E%E5%8D%B7%E8%84%9A%E6%9C%AC.assets/7f63f4f7466f94427e3dfe271a8b1923697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240307012334768"></p>
-<p><img src="/../img/%E7%BE%8E%E5%9B%A2%E7%A4%BE%E7%BE%A4%E7%A5%9E%E5%8D%B7%E8%84%9A%E6%9C%AC.assets/440d212c93c61d1e63e291acc958cb27697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240307013632043"></p>
-<p><img src="/../img/%E7%BE%8E%E5%9B%A2%E7%A4%BE%E7%BE%A4%E7%A5%9E%E5%8D%B7%E8%84%9A%E6%9C%AC.assets/ca8c61a2942f90358063680ce32791ff697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240307013659256"></p>
+<p><img src="/../img/%E7%BE%8E%E5%9B%A2%E7%A4%BE%E7%BE%A4%E7%A5%9E%E5%8D%B7%E8%84%9A%E6%9C%AC.assets/3ac166057cfe2625ddc200d1244a00d9697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240307012334768"></p>
+<p><img src="/../img/%E7%BE%8E%E5%9B%A2%E7%A4%BE%E7%BE%A4%E7%A5%9E%E5%8D%B7%E8%84%9A%E6%9C%AC.assets/efcbe58c8fb1bcfee9d84b147c16116e697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240307013632043"></p>
+<p><img src="/../img/%E7%BE%8E%E5%9B%A2%E7%A4%BE%E7%BE%A4%E7%A5%9E%E5%8D%B7%E8%84%9A%E6%9C%AC.assets/4442c741b88a4cd6da28a4755c447d44697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240307013659256"></p>
 <p>大概页面就是这样了</p>
-<p><img src="/../img/%E7%BE%8E%E5%9B%A2%E7%A4%BE%E7%BE%A4%E7%A5%9E%E5%8D%B7%E8%84%9A%E6%9C%AC.assets/a935cd549a3bf93e81d3c149ad6eda72697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240307013733371"></p>
+<p><img src="/../img/%E7%BE%8E%E5%9B%A2%E7%A4%BE%E7%BE%A4%E7%A5%9E%E5%8D%B7%E8%84%9A%E6%9C%AC.assets/0a94792290da786864f55c453fdcf326697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240307013733371"></p>
 <h3 id="安装美团脚本"><a href="#安装美团脚本" class="headerlink" title="安装美团脚本"></a>安装美团脚本</h3><p>进入容器</p>
 <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">docker</span> exec -it <span class="hljs-number">613</span> bash<br></code></pre></td></tr></table></figure>
 
@@ -351,12 +351,11 @@
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">ql repo https:<span class="hljs-regexp">//gi</span>thub.com<span class="hljs-regexp">/leafTheFish/</span>DeathNote.git<br></code></pre></td></tr></table></figure>
 
 <p>现在进入容器之后，试一下拉取方法二</p>
-<p><img src="/../img/%E7%BE%8E%E5%9B%A2%E7%A4%BE%E7%BE%A4%E7%A5%9E%E5%8D%B7%E8%84%9A%E6%9C%AC.assets/a286bccd5b7195633cb5b090db6b3164697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240307014503797"></p>
+<p><img src="/../img/%E7%BE%8E%E5%9B%A2%E7%A4%BE%E7%BE%A4%E7%A5%9E%E5%8D%B7%E8%84%9A%E6%9C%AC.assets/6412191ffc7237d18a7bcf6fd1536f7e697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240307014503797"></p>
 <p>访问青龙网页版</p>
-<p><img src="/../img/%E7%BE%8E%E5%9B%A2%E7%A4%BE%E7%BE%A4%E7%A5%9E%E5%8D%B7%E8%84%9A%E6%9C%AC.assets/08cece58d9039e431e5ec954effb3a2b697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240307014635917"></p>
+<p><img src="/../img/%E7%BE%8E%E5%9B%A2%E7%A4%BE%E7%BE%A4%E7%A5%9E%E5%8D%B7%E8%84%9A%E6%9C%AC.assets/ea6151e2c4f8c573facb8d9b4b0972a5697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240307014635917"></p>
 <h3 id="配置环境变量（重点）"><a href="#配置环境变量（重点）" class="headerlink" title="配置环境变量（重点）"></a>配置环境变量（重点）</h3><p>微信扫码登入你的美团账号（<font color='red'>无毒不大盗号哈</font>）介意勿弄</p>
-<img src="../img/%E7%BE%8E%E5%9B%A2%E7%A4%BE%E7%BE%A4%E7%A5%9E%E5%8D%B7%E8%84%9A%E6%9C%AC.assets/dd581c9e8a3143c86951a4fda5664465697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240307015218875" style="zoom:50%;" />
-
+<p><img src="/../img/%E7%BE%8E%E5%9B%A2%E7%A4%BE%E7%BE%A4%E7%A5%9E%E5%8D%B7%E8%84%9A%E6%9C%AC.assets/86394ebd0a5a7edc630c25ef0121409d697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240307022806124"></p>
 <p>这是美团官方的网站，你登入之后，点击右上角更多，复制网站链接出来</p>
 <p>会是下面这样的</p>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">https:<span class="hljs-regexp">//i</span>.meituan.com<span class="hljs-regexp">/mttouch/</span>page/account?userId=<span class="hljs-number">2827915055</span>&amp;token=AgFpIUuMoh0Nts-GA7EaGOYxxxxxxxxxxx(省略)xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxXs2QBRaqa57ZSZVi0GutQpixOaY0cZgjMyPZH_rzu<br></code></pre></td></tr></table></figure>
@@ -364,12 +363,11 @@
 <p>我们提取token&#x3D;后的文字</p>
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stylus"><span class="hljs-function"><span class="hljs-title">AgFpIUuMoh0Nts-GA7EaGOYxxxxxxxxxxx</span><span class="hljs-params">(省略)</span><span class="hljs-title">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxXs2QBRaqa57ZSZVi0GutQpixOaY0cZgjMyPZH_rzu</span></span><br></code></pre></td></tr></table></figure>
 
-<img src="../img/%E7%BE%8E%E5%9B%A2%E7%A4%BE%E7%BE%A4%E7%A5%9E%E5%8D%B7%E8%84%9A%E6%9C%AC.assets/7386b6831865ca221ff99d7a92926d3f697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240307015447739" style="zoom:67%;" />
-
+<p><img src="/../img/%E7%BE%8E%E5%9B%A2%E7%A4%BE%E7%BE%A4%E7%A5%9E%E5%8D%B7%E8%84%9A%E6%9C%AC.assets/25062ac4e6173ce952b9d5a5f86a2577697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240307022839631"></p>
 <p>回到青龙面板-环境变量</p>
 <p>变量名：meituanCookie 值是上面的提取的token</p>
-<p><img src="/../img/%E7%BE%8E%E5%9B%A2%E7%A4%BE%E7%BE%A4%E7%A5%9E%E5%8D%B7%E8%84%9A%E6%9C%AC.assets/9d24fa87f884a0e0d10a5ef6b34678fd697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240307015807157"></p>
-<p><img src="/../img/%E7%BE%8E%E5%9B%A2%E7%A4%BE%E7%BE%A4%E7%A5%9E%E5%8D%B7%E8%84%9A%E6%9C%AC.assets/8c417cbf27036c2fff04727cbe1f6b4a697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240307020007987"></p>
+<p><img src="/../img/%E7%BE%8E%E5%9B%A2%E7%A4%BE%E7%BE%A4%E7%A5%9E%E5%8D%B7%E8%84%9A%E6%9C%AC.assets/04ae2b8127b2943f0d0ddcd01abfd000697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240307015807157"></p>
+<p><img src="/../img/%E7%BE%8E%E5%9B%A2%E7%A4%BE%E7%BE%A4%E7%A5%9E%E5%8D%B7%E8%84%9A%E6%9C%AC.assets/55b0550f5a0262e0ce86955d8409b372697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240307020007987"></p>
 <p><font color='red'>教程结束</font></p>
 <h2 id="温馨提示（不要忽视）"><a href="#温馨提示（不要忽视）" class="headerlink" title="温馨提示（不要忽视）"></a>温馨提示（不要忽视）</h2><ol>
 <li><p>token会不定时过期，一旦日志提示你token过期，你需要重新扫码登入，提取token回到面板去更新变量的值</p>
@@ -377,12 +375,11 @@
 <li><p>因为是在虚拟机部署，不用的时候不要挂起，<font color='red'>要关机请退出容器（exit），执行（poweroff）命令</font></p>
 </li>
 </ol>
-<img src="../img/%E7%BE%8E%E5%9B%A2%E7%A4%BE%E7%BE%A4%E7%A5%9E%E5%8D%B7%E8%84%9A%E6%9C%AC.assets/539bb4707a1ccf9644ab2bb2c3a36737697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240307020236026" style="zoom: 80%;" />
-
+<p><img src="/../img/%E7%BE%8E%E5%9B%A2%E7%A4%BE%E7%BE%A4%E7%A5%9E%E5%8D%B7%E8%84%9A%E6%9C%AC.assets/ae531a4cb9b3ab76280cdb0af4e5b08b697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240307022856970"></p>
 <p>等你开机直接开就行，不要做什么操作，直接访问网页就行了</p>
 <p>3.不要乱改定时规则，就是说你可以一天都开着虚拟机，等他自动运行脚本，也可以放到服务器去。</p>
 <p>反正你虚拟机开着，他一到时间就会运行脚本，不用的时候就按照<font color='red'>第二步</font>按顺序关机</p>
-<p><img src="/../img/%E7%BE%8E%E5%9B%A2%E7%A4%BE%E7%BE%A4%E7%A5%9E%E5%8D%B7%E8%84%9A%E6%9C%AC.assets/de36bad86594a3c7bb7feff01569dcf9697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240307020456921"></p>
+<p><img src="/../img/%E7%BE%8E%E5%9B%A2%E7%A4%BE%E7%BE%A4%E7%A5%9E%E5%8D%B7%E8%84%9A%E6%9C%AC.assets/60f64675eb6decdd00cc79617de1b8b4697559838.png" srcset="/img/loading.gif" lazyload alt="image-20240307020456921"></p>
 <div class="tbsm" style="margin-top:54px;">
 <div class="tbsm-top"><span><svg t="1674654360507" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="987" data-spm-anchor-id="a313x.7781069.0.i0" width="35" height="35"><path d="M410.49 97.74H155.08a56.74 56.74 0 0 0-56.84 56.73V410a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 467.32 410V154.58a56.83 56.83 0 0 0-56.83-56.84zM410.49 558.74H155.08a56.74 56.74 0 0 0-56.84 56.73V871a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 467.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84zM871.49 558.74H616.08a56.74 56.74 0 0 0-56.84 56.73V871a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 928.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84z" fill="#66EEFF" p-id="988"></path><path d="M410.49 558.74h-4.14A475 475 0 0 0 299.52 859.6a481.16 481.16 0 0 0 4.84 68.22h106.13A56.83 56.83 0 0 0 467.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84zM871.49 558.74H616.08a56.74 56.74 0 0 0-56.84 56.73V871a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 928.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84z" fill="#C2F8FF" p-id="989"></path></svg></span><span style="font-size:30px;"> 特别声明</span></div>
 <div class="tbsm-wz">千屹博客旗下的所有文章，是通过本人课堂学习和课外自学所精心整理的知识巨著<br/>难免会有出错的地方<br/>如果细心的你发现了小失误，可以在下方评论区告诉我，或者私信我！<br />非常感谢大家的热烈支持！</div>
