@@ -22,18 +22,18 @@
     <meta name="description" content="用户级ansible环境构建">
 <meta property="og:type" content="article">
 <meta property="og:title" content="用户级ansible环境构建">
-<meta property="og:url" content="https://blog.qianyios.top/2023/09/10/ansible/%E7%94%A8%E6%88%B7%E7%BA%A7ansible%E7%8E%AF%E5%A2%83%E6%9E%84%E5%BB%BA/index.html">
+<meta property="og:url" content="https://b.qianyios.top/2023/09/10/ansible/%E7%94%A8%E6%88%B7%E7%BA%A7ansible%E7%8E%AF%E5%A2%83%E6%9E%84%E5%BB%BA/index.html">
 <meta property="og:site_name" content="严千屹博客">
 <meta property="og:description" content="用户级ansible环境构建">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://blog.qianyios.top/img/%E7%94%A8%E6%88%B7%E7%BA%A7ansible%E7%8E%AF%E5%A2%83%E6%9E%84%E5%BB%BA/46fbac8951ec0d9935c0a017c3f17e3fa62a11dc.png">
+<meta property="og:image" content="https://b.qianyios.top/img/%E7%94%A8%E6%88%B7%E7%BA%A7ansible%E7%8E%AF%E5%A2%83%E6%9E%84%E5%BB%BA/46fbac8951ec0d9935c0a017c3f17e3fa62a11dc.png">
 <meta property="article:published_time" content="2023-09-10T00:02:40.000Z">
 <meta property="article:modified_time" content="2024-01-06T17:04:58.496Z">
 <meta property="article:author" content="严千屹">
 <meta property="article:tag" content="Centos 7">
 <meta property="article:tag" content="Ansible">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://blog.qianyios.top/img/%E7%94%A8%E6%88%B7%E7%BA%A7ansible%E7%8E%AF%E5%A2%83%E6%9E%84%E5%BB%BA/46fbac8951ec0d9935c0a017c3f17e3fa62a11dc.png">
+<meta name="twitter:image" content="https://b.qianyios.top/img/%E7%94%A8%E6%88%B7%E7%BA%A7ansible%E7%8E%AF%E5%A2%83%E6%9E%84%E5%BB%BA/46fbac8951ec0d9935c0a017c3f17e3fa62a11dc.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -81,7 +81,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"blog.qianyios.top","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":true,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"b.qianyios.top","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":true,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -382,7 +382,7 @@
 <p><img src="/../../img/%E7%94%A8%E6%88%B7%E7%BA%A7ansible%E7%8E%AF%E5%A2%83%E6%9E%84%E5%BB%BA/5e66812c14fd8690a9025e8436b5d6d3edd08ccf.png" srcset="/img/loading.gif" lazyload alt="image-20230912231635877"></p>
 <p><font color='red'>#在控制节点的student经过sudo提权之后可以读取&#x2F;root目录了</font></p>
 <p><code>可以返回目录！</code></p>
-<p><a href="https://blog.qianyios.top/2023/09/10/ansible/Ansible-%E6%80%BB%E6%89%8B%E5%86%8C/">Ansible练习目录 - 严千屹博客 (qianyios.top)</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.qianyios.top/2023/09/10/ansible/Ansible-%E6%80%BB%E6%89%8B%E5%86%8C/">Ansible练习目录 - 严千屹博客 (qianyios.top)</a></p>
 <div class="tbsm" style="margin-top:54px;">
 <div class="tbsm-top"><span><svg t="1674654360507" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="987" data-spm-anchor-id="a313x.7781069.0.i0" width="35" height="35"><path d="M410.49 97.74H155.08a56.74 56.74 0 0 0-56.84 56.73V410a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 467.32 410V154.58a56.83 56.83 0 0 0-56.83-56.84zM410.49 558.74H155.08a56.74 56.74 0 0 0-56.84 56.73V871a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 467.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84zM871.49 558.74H616.08a56.74 56.74 0 0 0-56.84 56.73V871a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 928.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84z" fill="#66EEFF" p-id="988"></path><path d="M410.49 558.74h-4.14A475 475 0 0 0 299.52 859.6a481.16 481.16 0 0 0 4.84 68.22h106.13A56.83 56.83 0 0 0 467.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84zM871.49 558.74H616.08a56.74 56.74 0 0 0-56.84 56.73V871a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 928.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84z" fill="#C2F8FF" p-id="989"></path></svg></span><span style="font-size:30px;"> 特别声明</span></div>
 <div class="tbsm-wz">千屹博客旗下的所有文章，是通过本人课堂学习和课外自学所精心整理的知识巨著<br/>难免会有出错的地方<br/>如果细心的你发现了小失误，可以在下方评论区告诉我，或者私信我！<br />非常感谢大家的热烈支持！</div>
@@ -413,7 +413,7 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>用户级ansible环境构建</div>
-      <div>https://blog.qianyios.top/2023/09/10/ansible/用户级ansible环境构建/</div>
+      <div>https://b.qianyios.top/2023/09/10/ansible/用户级ansible环境构建/</div>
     </div>
     <div class="license-meta">
       
