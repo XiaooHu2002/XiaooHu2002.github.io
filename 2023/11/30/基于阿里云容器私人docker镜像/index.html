@@ -22,7 +22,7 @@
     <meta name="description" content="摆脱国外网络环境的限制">
 <meta property="og:type" content="article">
 <meta property="og:title" content="基于阿里云容器服务构建私人docker镜像">
-<meta property="og:url" content="https://b.qianyios.top/2023/11/30/%E5%9F%BA%E4%BA%8E%E9%98%BF%E9%87%8C%E4%BA%91%E5%AE%B9%E5%99%A8%E7%A7%81%E4%BA%BAdocker%E9%95%9C%E5%83%8F/index.html">
+<meta property="og:url" content="https://blog.qianyios.top/2023/11/30/%E5%9F%BA%E4%BA%8E%E9%98%BF%E9%87%8C%E4%BA%91%E5%AE%B9%E5%99%A8%E7%A7%81%E4%BA%BAdocker%E9%95%9C%E5%83%8F/index.html">
 <meta property="og:site_name" content="严千屹博客">
 <meta property="og:description" content="摆脱国外网络环境的限制">
 <meta property="og:locale" content="zh_CN">
@@ -80,7 +80,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"b.qianyios.top","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":true,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"blog.qianyios.top","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":true,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -295,7 +295,7 @@
 <p>接下来我们通过阿里云容器服务构建这些<font color='red'>海外镜像</font>为<font color='red'>私人镜像</font></p>
 <p><img src="/../img/%E5%9F%BA%E4%BA%8E%E9%98%BF%E9%87%8C%E4%BA%91%E5%AE%B9%E5%99%A8%E7%A7%81%E4%BA%BAdocker%E9%95%9C%E5%83%8F/962688b00e6628fafeca069533d9ff87697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231130213622452"></p>
 <p><font color='red'>使用之前，要有自己的阿里云账户，且要有一定的dockerfile知识</font></p>
-<p><a target="_blank" rel="noopener" href="https://blog.qianyios.top/2023/03/26/Docker%20node/">Docker笔记 - 严千屹博客 (qianyios.top)</a></p>
+<p><a href="https://blog.qianyios.top/2023/03/26/Docker%20node/">Docker笔记 - 严千屹博客 (qianyios.top)</a></p>
 <p>原理图：</p>
 <p><img src="/../img/%E5%9F%BA%E4%BA%8E%E9%98%BF%E9%87%8C%E4%BA%91%E5%AE%B9%E5%99%A8%E7%A7%81%E4%BA%BAdocker%E9%95%9C%E5%83%8F/1b2e659b30bdb217780825f7cb56c865697559838.png" srcset="/img/loading.gif" lazyload alt="image-20231130220200466"></p>
 <h2 id="创建海外镜像Dockerfile"><a href="#创建海外镜像Dockerfile" class="headerlink" title="创建海外镜像Dockerfile"></a>创建海外镜像Dockerfile</h2><p><a target="_blank" rel="noopener" href="https://codeup.aliyun.com/">Codeup · 企业级代码管理平台 (aliyun.com)</a></p>
@@ -370,7 +370,7 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>基于阿里云容器服务构建私人docker镜像</div>
-      <div>https://b.qianyios.top/2023/11/30/基于阿里云容器私人docker镜像/</div>
+      <div>https://blog.qianyios.top/2023/11/30/基于阿里云容器私人docker镜像/</div>
     </div>
     <div class="license-meta">
       
