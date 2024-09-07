@@ -1,0 +1,815 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+<head>
+  <script async src="https://us.umami.is/script.js" data-website-id="83039d8f-bd3d-4637-bcfa-22c3a2fc0ac1"></script>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#9ce8f452">
+  <meta name="author" content="严千屹">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="企业私有云平台部署">
+<meta property="og:type" content="article">
+<meta property="og:title" content="先电IaaS2.2部署OpenStack">
+<meta property="og:url" content="https://blog.qianyios.top/posts/52877/index.html">
+<meta property="og:site_name" content="严千屹博客">
+<meta property="og:description" content="企业私有云平台部署">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.qianyios.top/img/xiandian-openstack/62d99025ddef2fe788c2f582959cda640cd25815.png">
+<meta property="article:published_time" content="2023-06-19T16:11:40.000Z">
+<meta property="article:modified_time" content="2024-09-07T08:59:57.821Z">
+<meta property="article:author" content="严千屹">
+<meta property="article:tag" content="Centos 7">
+<meta property="article:tag" content="OpenStack">
+<meta property="article:tag" content="Iaas">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.qianyios.top/img/xiandian-openstack/62d99025ddef2fe788c2f582959cda640cd25815.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>先电IaaS2.2部署OpenStack - 严千屹博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/mycss.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.qianyios.top","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":true,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  <meta name="referrer" content="no-referrer"/>
+
+  
+</head>
+
+<link rel="stylesheet" href="https://portb.kbai.cc/hexo&kbai/mousezhizhen.css"/>
+<canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 9999; pointer-events: none;" ></canvas>
+<script src="https://cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script>
+<script src="https://script-1256884783.file.myqcloud.com/cursor/explosion.min.js"></script>
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>严 千 屹</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/null') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="先电IaaS2.2部署OpenStack"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-06-19 16:11" pubdate>
+          2023年6月19日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          43 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">先电IaaS2.2部署OpenStack</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <meta name="referrer" content="no-referrer"/>
+
+
+
+<h1 id="先电IaaS2-2私有云部署OpenStack"><a href="#先电IaaS2-2私有云部署OpenStack" class="headerlink" title="先电IaaS2.2私有云部署OpenStack"></a>先电IaaS2.2私有云部署OpenStack</h1><h2 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h2><h3 id="ip拓扑"><a href="#ip拓扑" class="headerlink" title="ip拓扑"></a>ip拓扑</h3><table>
+<thead>
+<tr>
+<th align="center">主机名</th>
+<th align="center">ip1（NAT）</th>
+<th align="center">ip2（仅主机）</th>
+<th align="center">硬盘</th>
+<th align="center">内存</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">controller-48</td>
+<td align="center">192.168.48.10</td>
+<td align="center">192.168.148.10</td>
+<td align="center">100G</td>
+<td align="center">8G</td>
+</tr>
+<tr>
+<td align="center">computer-48</td>
+<td align="center">192.168.48.20</td>
+<td align="center">192.168.148.20</td>
+<td align="center">100G</td>
+<td align="center">3G</td>
+</tr>
+</tbody></table>
+<h3 id="基础镜像"><a href="#基础镜像" class="headerlink" title="基础镜像"></a>基础镜像</h3><p><a target="_blank" rel="noopener" href="https://mirrors.aliyun.com/centos/7/isos/x86_64/CentOS-7-x86_64-DVD-2009.iso?spm=a2c6h.25603864.0.0.74092d1ctaON7P">CentOS-7-x86_64-DVD-2009.iso</a><br><a target="_blank" rel="noopener" href="https://pan.quark.cn/s/baeeb5269112">chinaskills_cloud_iaas.iso</a></p>
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs tap">[root@localhost ~]<span class="hljs-comment"># ll</span><br>total 4758568<br>-rw-r--r-- <span class="hljs-number"> 1 </span>root root <span class="hljs-number"> 861155328 </span>Jun<span class="hljs-number"> 19 </span>03:06 CentOS-7-x86_64-DVD-2009.iso<br>-rw-r--r-- <span class="hljs-number"> 1 </span>root root<span class="hljs-number"> 3799093248 </span>Jun<span class="hljs-number"> 19 </span>03:06 chinaskills_cloud_iaas.iso<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="虚拟机硬件配置"><a href="#虚拟机硬件配置" class="headerlink" title="虚拟机硬件配置"></a>虚拟机硬件配置</h3><p><img src="/../img/xiandian-openstack/2c6ee30d82a77a9207d568f1f75ebeaf539c598f.png" srcset="/img/loading.gif" lazyload alt="image-20230619160042336"></p>
+<p>controller</p>
+<img src="../img/xiandian-openstack/b461d257e41adb937a439d26f546e0971e9d7562.png" srcset="/img/loading.gif" lazyload alt="image-20230618184223889" style="zoom:67%;" />
+
+<p>computer</p>
+<p><img src="/../img/xiandian-openstack/181f86237817db4d8a51d251d6d6138463bea45e.png" srcset="/img/loading.gif" lazyload alt="image-20230618184522907"></p>
+<p><strong>sdb和sdc是分别作为cinder服务和swift服务的存储磁盘。</strong></p>
+<h3 id="配置主机名和hosts，关闭防火墙和永久关闭selinux"><a href="#配置主机名和hosts，关闭防火墙和永久关闭selinux" class="headerlink" title="配置主机名和hosts，关闭防火墙和永久关闭selinux"></a>配置主机名和hosts，关闭防火墙和永久关闭selinux</h3><p>controller</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs gams">hostnamectl <span class="hljs-keyword">set</span>-hostname <span class="hljs-comment">controller &amp;&amp; bash</span><br>systemctl <span class="hljs-comment">disable firewalld --now</span><br>sed <span class="hljs-comment">-i</span> <span class="hljs-comment">&#x27;s/SELINUX=enforcing/SELINUX=disabled/g&#x27;</span> /etc/<span class="hljs-comment">sysconfig</span>/selinux<br>sed -i <span class="hljs-comment">&#x27;s/SELINUX=enforcing/SELINUX=disabled/g&#x27;</span> /<span class="hljs-comment">etc</span>/selinux/<span class="hljs-comment">config</span><br>echo <span class="hljs-comment">&quot;192.168.48.10 controller&quot;</span> <span class="hljs-comment">&gt;&gt;</span> /etc/<span class="hljs-comment">hosts</span><br>echo <span class="hljs-comment">&quot;192.168.48.20 computer&quot;</span> <span class="hljs-comment">&gt;&gt;</span> /etc/<span class="hljs-comment">hosts</span><br>setenforce <span class="hljs-comment">0</span><br></code></pre></td></tr></table></figure>
+
+<p>computer</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs gams">hostnamectl <span class="hljs-keyword">set</span>-hostname <span class="hljs-comment">computer &amp;&amp; bash</span><br>systemctl <span class="hljs-comment">disable firewalld --now</span><br>sed <span class="hljs-comment">-i</span> <span class="hljs-comment">&#x27;s/SELINUX=enforcing/SELINUX=disabled/g&#x27;</span> /etc/<span class="hljs-comment">sysconfig</span>/selinux<br>sed -i <span class="hljs-comment">&#x27;s/SELINUX=enforcing/SELINUX=disabled/g&#x27;</span> /<span class="hljs-comment">etc</span>/selinux/<span class="hljs-comment">config</span><br>echo <span class="hljs-comment">&quot;192.168.48.10 controller&quot;</span> <span class="hljs-comment">&gt;&gt;</span> /etc/<span class="hljs-comment">hosts</span><br>echo <span class="hljs-comment">&quot;192.168.48.20 computer&quot;</span> <span class="hljs-comment">&gt;&gt;</span> /etc/<span class="hljs-comment">hosts</span><br>setenforce <span class="hljs-comment">0</span><br></code></pre></td></tr></table></figure>
+
+<p>确保两者可以互通！</p>
+<h3 id="格式化compute磁盘（在compute中操作）"><a href="#格式化compute磁盘（在compute中操作）" class="headerlink" title="格式化compute磁盘（在compute中操作）"></a>格式化compute磁盘（在compute中操作）</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs awk">mkfs.xfs <span class="hljs-regexp">/dev/</span>sdb<br>mkfs.xfs <span class="hljs-regexp">/dev/</span>sdc<br></code></pre></td></tr></table></figure>
+
+<h3 id="配置yum源"><a href="#配置yum源" class="headerlink" title="配置yum源"></a>配置yum源</h3><p>controller</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs awk">rm -rf <span class="hljs-regexp">/etc/yum</span>.repos.d/*<br>cat &gt;&gt; <span class="hljs-regexp">/etc/yum</span>.repos.d/centos.repo &lt;&lt; EOF<br>[centos]<br>name=centos<br>baseurl=file:<span class="hljs-regexp">//</span><span class="hljs-regexp">/qianyios/</span>centos<br>gpgcheck=<span class="hljs-number">0</span><br>enabled=<span class="hljs-number">1</span><br>[iaas]<br>name=iaas<br>baseurl=file:<span class="hljs-regexp">//</span><span class="hljs-regexp">/qianyios/i</span>aas-repo<br>gpgcheck=<span class="hljs-number">0</span><br>enabled=<span class="hljs-number">1</span><br>EOF<br></code></pre></td></tr></table></figure>
+
+<p>computer</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs awk">mkdir repo.bak<br>mv <span class="hljs-regexp">/etc/yum</span>.repos.d<span class="hljs-regexp">/* repo.bak/</span><br>cat &gt;&gt; <span class="hljs-regexp">/etc/yum</span>.repos.d/centos.repo &lt;&lt; EOF<br>[centos]<br>name=centos<br>baseurl=ftp:<span class="hljs-regexp">//</span><span class="hljs-number">192.168</span>.<span class="hljs-number">48.10</span>/centos<br>gpgcheck=<span class="hljs-number">0</span><br>enabled=<span class="hljs-number">1</span><br>[iaas]<br>name=iaas<br>baseurl=ftp:<span class="hljs-regexp">//</span><span class="hljs-number">192.168</span>.<span class="hljs-number">48.10</span>/iaas-repo<br>gpgcheck=<span class="hljs-number">0</span><br>enabled=<span class="hljs-number">1</span><br>EOF<br></code></pre></td></tr></table></figure>
+
+<h3 id="挂载iso镜像文件"><a href="#挂载iso镜像文件" class="headerlink" title="挂载iso镜像文件"></a>挂载iso镜像文件</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment">#控制节点</span><br>mkdir <span class="hljs-regexp">/qianyios/</span>centos -p<br>mount -o loop CentOS-<span class="hljs-number">7</span>-x86_64-DVD-<span class="hljs-number">2009</span>.iso <span class="hljs-regexp">/mnt/</span><br>cp -rvf <span class="hljs-regexp">/mnt/</span>* <span class="hljs-regexp">/qianyios/</span>centos/<br>umount <span class="hljs-regexp">/mnt/</span><br>mount -o loop chinaskills_cloud_iaas.iso <span class="hljs-regexp">/mnt/</span><br>cp -rvf <span class="hljs-regexp">/mnt/</span>* <span class="hljs-regexp">/qianyios/</span><br>umount <span class="hljs-regexp">/mnt/</span><br>yum clean all &amp;&amp; yum makecache<br></code></pre></td></tr></table></figure>
+
+<h3 id="搭建ftp服务器"><a href="#搭建ftp服务器" class="headerlink" title="搭建ftp服务器"></a>搭建ftp服务器</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">控制节点<br>yum install vsftpd -y<br><span class="hljs-built_in">cat</span>&gt;&gt; /etc/vsftpd/vsftpd.conf &lt;&lt;<span class="hljs-string">EOF</span><br><span class="hljs-string">anon_root=/qianyios/</span><br><span class="hljs-string">EOF</span><br>systemctl start vsftpd &amp;&amp; systemctl <span class="hljs-built_in">enable</span> vsftpd<br></code></pre></td></tr></table></figure>
+
+<p>验证操作</p>
+<p>1.清理yum缓存</p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs 1c"><span class="hljs-meta">#各节点</span><br>yum clean all <span class="hljs-meta">&amp;&amp; yum makecache</span><br></code></pre></td></tr></table></figure>
+
+<p>2.在文件资源管理器输入<a href="ftp://192.168.48.10/">ftp://192.168.48.10/</a></p>
+<p><img src="/../img/xiandian-openstack/e8657f54037c60e02ba43b1b9c4410e75f05a433.png" srcset="/img/loading.gif" lazyload alt="image-20230618192456867"></p>
+<h2 id="编辑xiandian变量"><a href="#编辑xiandian变量" class="headerlink" title="编辑xiandian变量"></a>编辑xiandian变量</h2><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment">#各节点</span><br>yum install iaas-xiandian -y<br><span class="hljs-comment">#使用sed命令批量去除第一个#注释符为空</span><br>sed -i -e <span class="hljs-string">&#x27;s/^#//&#x27;</span>g <span class="hljs-regexp">/etc/</span>xiandian/openrc.sh<br>使用sed命令批量修改密码默认<span class="hljs-number">000000</span><br>sed -i -e <span class="hljs-string">&#x27;s/PASS=/PASS=000000/&#x27;</span>g <span class="hljs-regexp">/etc/</span>xiandian/openrc.sh<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><code class="hljs routeros">grep -v <span class="hljs-string">&quot;^#&quot;</span> /etc/xiandian/openrc.sh | grep -v <span class="hljs-string">&quot;^$&quot;</span><br><span class="hljs-attribute">HOST_IP</span>=192.168.48.10<br><span class="hljs-attribute">HOST_PASS</span>=123456<br><span class="hljs-comment">#ssh登入密码</span><br><span class="hljs-attribute">HOST_NAME</span>=controller<br><span class="hljs-attribute">HOST_IP_NODE</span>=192.168.48.20<br><span class="hljs-attribute">HOST_PASS_NODE</span>=123456<br><span class="hljs-comment">#ssh登入密码</span><br><span class="hljs-attribute">HOST_NAME_NODE</span>=computer<br><span class="hljs-attribute">network_segment_IP</span>=192.168.48.0/24<br><span class="hljs-attribute">RABBIT_USER</span>=openstack<br><span class="hljs-attribute">RABBIT_PASS</span>=000000<br><span class="hljs-attribute">DB_PASS</span>=000000<br><span class="hljs-attribute">DOMAIN_NAME</span>=demo<br><span class="hljs-attribute">ADMIN_PASS</span>=000000<br><span class="hljs-attribute">DEMO_PASS</span>=000000<br><span class="hljs-attribute">KEYSTONE_DBPASS</span>=000000<br><span class="hljs-attribute">GLANCE_DBPASS</span>=000000<br><span class="hljs-attribute">GLANCE_PASS</span>=000000<br><span class="hljs-attribute">NOVA_DBPASS</span>=000000<br><span class="hljs-attribute">NOVA_PASS</span>=000000<br><span class="hljs-attribute">NEUTRON_DBPASS</span>=000000<br><span class="hljs-attribute">NEUTRON_PASS</span>=000000<br><span class="hljs-attribute">METADATA_SECRET</span>=000000<br><span class="hljs-attribute">INTERFACE_IP</span>=192.168.48.10<br><span class="hljs-comment">#复制到第二台机的时候，记得改成192.168.48.20</span><br><span class="hljs-attribute">INTERFACE_NAME</span>=ens36<br><span class="hljs-comment">#第二块网卡的名字</span><br><span class="hljs-attribute">Physical_NAME</span>=provider<br><span class="hljs-attribute">minvlan</span>=2<br><span class="hljs-attribute">maxvlan</span>=300<br><span class="hljs-attribute">CINDER_DBPASS</span>=000000<br><span class="hljs-attribute">CINDER_PASS</span>=000000<br><span class="hljs-attribute">BLOCK_DISK</span>=sdb<br><span class="hljs-attribute">SWIFT_PASS</span>=000000<br><span class="hljs-attribute">OBJECT_DISK</span>=sdc<br><span class="hljs-attribute">STORAGE_LOCAL_NET_IP</span>=192.168.48.20<br><span class="hljs-attribute">HEAT_DBPASS</span>=000000<br><span class="hljs-attribute">HEAT_PASS</span>=000000<br><span class="hljs-attribute">ZUN_DBPASS</span>=000000<br><span class="hljs-attribute">ZUN_PASS</span>=000000<br><span class="hljs-attribute">KURYR_DBPASS</span>=000000<br><span class="hljs-attribute">KURYR_PASS</span>=000000<br><span class="hljs-attribute">CEILOMETER_DBPASS</span>=000000<br><span class="hljs-attribute">CEILOMETER_PASS</span>=000000<br><span class="hljs-attribute">AODH_DBPASS</span>=000000<br><span class="hljs-attribute">AODH_PASS</span>=000000<br><span class="hljs-attribute">BARBICAN_DBPASS</span>=000000<br><span class="hljs-attribute">BARBICAN_PASS</span>=000000<br><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs awk">scp <span class="hljs-regexp">/etc/</span>xiandian<span class="hljs-regexp">/openrc.sh computer:/</span>etc<span class="hljs-regexp">/xiandian/</span>openrc.sh <br><span class="hljs-comment">#以下在计算节点</span><br>sed -i <span class="hljs-string">&#x27;s/INTERFACE_IP=192.168.48.10/INTERFACE_IP=192.168.48.20/g&#x27;</span> <span class="hljs-regexp">/etc/</span>xiandian/openrc.sh<br></code></pre></td></tr></table></figure>
+
+<h2 id="安装平台基本服务"><a href="#安装平台基本服务" class="headerlink" title="安装平台基本服务"></a>安装平台基本服务</h2><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs awk">[root@controller ~]<span class="hljs-comment"># iaas-pre-host.sh </span><br>[root@compute ~]<span class="hljs-comment"># iaas-pre-host.sh </span><br><span class="hljs-comment">#双节点</span><br>reboot<br><span class="hljs-comment"># 可同时执行，执行完毕后脚本会提示重启，不然rabbitmq服务会报错！！！此脚本会初始化虚拟机环境，如修改主机</span><br>名、主机映射、时间同步等，自己可去尝试解读脚本，手工搭建平台！！！！，由于重启可能导致平台出现问题可用ssh<br>连接自己的IP地址重新登陆，只要出现屏幕登录时间以及看到屏幕欢迎界面即可<br>Controller节点<br>iaas-install-mysql.sh<br>iaas-install-keystone.sh<br>iaas-install-glance.sh<br><br>Controller节点<br>iaas-install-nova-controller.sh<br>Compute节点<br>iaas-install-nova-compute.sh<br><br>Controller节点<br>sed -i <span class="hljs-string">&#x27;s/yum install openstack-neutron openstack-neutron-ml2 openstack-neutron-linuxbridge ebtables -y/yum install openstack-neutron openstack-neutron-ml2 openstack-neutron-linuxbridge ebtables -y --skip-broken/g&#x27;</span> <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/bin/i</span>aas-install-neutron-controller.sh<br><br>iaas-install-neutron-controller.sh<br>Compute节点<br>iaas-install-neutron-compute.sh<br><br>Controller节点<br>iaas-install-dashboard.sh<br><br>从Ftp服务器上下载镜像到本地。（在controller中操作）<br>source <span class="hljs-regexp">/etc/</span>keystone/admin-openrc.sh<br>glance image-create --name CentOS7.<span class="hljs-number">5</span> --disk-format qcow2 --container-format bare --progress &lt; <span class="hljs-regexp">/qianyios/im</span>ages/CentOS_7.<span class="hljs-number">5</span>_x86_64_XD.qcow2<br><br></code></pre></td></tr></table></figure>
+
+<p>访问页面<a target="_blank" rel="noopener" href="http://192.168.48.10/dashboard/">http://192.168.48.10/dashboard/</a></p>
+<p><img src="/../img/xiandian-openstack/5080427a3e62da8a697977a9a280cce2a6c194b4.png" srcset="/img/loading.gif" lazyload alt="image-20230619014112445"></p>
+<h2 id="更多服务"><a href="#更多服务" class="headerlink" title="更多服务"></a>更多服务</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-comment">#所以安装脚本都在/usr/local/bin/目录下</span><br><span class="hljs-comment">#按照自己需求安装</span><br>安装Swift对象存储服务<br>iaas-<span class="hljs-keyword">install</span>-swift-controller.sh<br>安装Heat编配服务<br>iaas-<span class="hljs-keyword">install</span>-heat.sh<br>安装Zun服务<br>iaas-<span class="hljs-keyword">install</span>-zun-controller.sh<br>安装Ceilometer监控服务<br>iaas-<span class="hljs-keyword">install</span>-ceilometer-controller.sh<br>安装Aodh监控服务<br>iaas-<span class="hljs-keyword">install</span>-aodh.sh<br></code></pre></td></tr></table></figure>
+
+
+
+<div class="tbsm" style="margin-top:54px;">
+<div class="tbsm-top"><span><svg t="1674654360507" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="987" data-spm-anchor-id="a313x.7781069.0.i0" width="35" height="35"><path d="M410.49 97.74H155.08a56.74 56.74 0 0 0-56.84 56.73V410a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 467.32 410V154.58a56.83 56.83 0 0 0-56.83-56.84zM410.49 558.74H155.08a56.74 56.74 0 0 0-56.84 56.73V871a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 467.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84zM871.49 558.74H616.08a56.74 56.74 0 0 0-56.84 56.73V871a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 928.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84z" fill="#66EEFF" p-id="988"></path><path d="M410.49 558.74h-4.14A475 475 0 0 0 299.52 859.6a481.16 481.16 0 0 0 4.84 68.22h106.13A56.83 56.83 0 0 0 467.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84zM871.49 558.74H616.08a56.74 56.74 0 0 0-56.84 56.73V871a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 928.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84z" fill="#C2F8FF" p-id="989"></path></svg></span><span style="font-size:30px;"> 特别声明</span></div>
+<div class="tbsm-wz">千屹博客旗下的所有文章，是通过本人课堂学习和课外自学所精心整理的知识巨著<br/>难免会有出错的地方<br/>如果细心的你发现了小失误，可以在下方评论区告诉我，或者私信我！<br />非常感谢大家的热烈支持！</div>
+</div>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Centos-7/">#Centos 7</a>
+      
+        <a href="/tags/OpenStack/">#OpenStack</a>
+      
+        <a href="/tags/Iaas/">#Iaas</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>先电IaaS2.2部署OpenStack</div>
+      <div>https://blog.qianyios.top/posts/52877/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>严千屹</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年6月19日</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>更新于</div>
+          <div>2024年9月7日</div>
+        </div>
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - 非商业性使用">
+                    <i class="iconfont icon-nc"></i>
+                  </span>
+                </a>
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="ND - 禁止演绎">
+                    <i class="iconfont icon-nd"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/648/" title="Centos7 部署 k8s（基于containerd 运行时）">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Centos7 部署 k8s（基于containerd 运行时）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/44663/" title="ChatGPT千屹镜像站">
+                        <span class="hidden-mobile">ChatGPT千屹镜像站</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"geJAvpyCyYwmp1wI8u2CCkV5-gzGzoHsz","appKey":"WnNukDH4RUTtMsUwJvNG4vyR","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":true},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <div class="zsqk"> <p>(￣▽￣)" 赞赏！</p> <div class="zstb"> <a  class="qr-trigger" target="_self"> <i class="iconfont icon-wechat-fill" aria-hidden="true"></i> <img class="qr-img animate__animated animate__bounc animate__fadeInDown" src="https://blog.qianyios.top/img/zansang/wxzf.png" srcset="/img/loading.gif" lazyload alt="qrcode" /> </a> <a  class="qr-trigger" target="_self"> <i class="iconfont icon-alipay-fill" aria-hidden="true"></i> <img class="qr-img animate__animated animate__bounc animate__fadeInDown" src="https://blog.qianyios.top/img/zansang/zfb.png" srcset="/img/loading.gif" lazyload alt="qrcode" /> </a>
+</div>
+<p class="zsyy animate__animated animate__bounce animate__flash animate__infinite	infinite animate__slow">如果对你有帮助，就请我喝一杯吧！！</p> </div> <br /> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+     ICP备案号: 粤ICP备2024250479号-1
+    </a>
+  </span>
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
