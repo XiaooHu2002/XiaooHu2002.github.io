@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://blog.qianyios.top/img/rook%E9%83%A8%E7%BD%B2ceph/4595b90af8405aeecc3e06c4c9ab2dc5697559838.png">
 <meta property="article:published_time" content="2023-11-19T22:29:40.000Z">
-<meta property="article:modified_time" content="2024-09-07T08:59:57.820Z">
+<meta property="article:modified_time" content="2024-09-07T11:12:42.315Z">
 <meta property="article:author" content="严千屹">
 <meta property="article:tag" content="Ceph">
 <meta property="article:tag" content="K8s">
@@ -349,6 +349,8 @@
 </tr>
 </tbody></table>
 <p>我这里是五台机，本应该ceph（三节点）是需要部署在三台node上的，这里为了测试方便，<font color='red'>仅部署在master1，node01，node02上所以需要给这三台加一个物理硬盘</font></p>
+<p>注意！使用之前，请确定是否去掉master节点的污点</p>
+<p><a href="https://blog.qianyios.top/posts/7158/#%E6%8B%BF%E6%8E%89master%E8%8A%82%E7%82%B9%E7%9A%84%E6%B1%A1%E7%82%B9">【去污点方法】</a></p>
 <p><font color='red'>以下所有操作都在master进行</font></p>
 <h2 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h2><h3 id="克隆仓库"><a href="#克隆仓库" class="headerlink" title="克隆仓库"></a>克隆仓库</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs awk">git clone --single-branch --branch v1.<span class="hljs-number">12.8</span> https:<span class="hljs-regexp">//gi</span>thub.com<span class="hljs-regexp">/rook/</span>rook.git<br>cd rook<span class="hljs-regexp">/deploy/</span>examples<br></code></pre></td></tr></table></figure>
 
