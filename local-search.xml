@@ -46,6 +46,29 @@
   
   
   <entry>
+    <title>Centos系列更换Yum源办法</title>
+    <link href="/posts/61f2951a/"/>
+    <url>/posts/61f2951a/</url>
+    
+    <content type="html"><![CDATA[<meta name="referrer" content="no-referrer"/><h1 id="Centos系列更换Yum源办法"><a href="#Centos系列更换Yum源办法" class="headerlink" title="Centos系列更换Yum源办法"></a>Centos系列更换Yum源办法</h1><p>阿里网站：<a href="https://mirrors.aliyun.com/repo/">repo安装包下载_开源镜像站-阿里云 (aliyun.com)</a></p><p>Centos Stream 8</p><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs awk">mkdir repo.bak<br>mv <span class="hljs-regexp">/etc/yum</span>.repos.d<span class="hljs-regexp">/* repo.bak/</span><br>wget -O <span class="hljs-regexp">/etc/yum</span>.repos.d<span class="hljs-regexp">/CentOS-Stream-AppStream.repo https:/</span><span class="hljs-regexp">/mirrors.aliyun.com/</span>repo<span class="hljs-regexp">/centos-stream/</span><span class="hljs-number">8</span>/CentOS-Stream-AppStream.repo<br>wget -O <span class="hljs-regexp">/etc/yum</span>.repos.d<span class="hljs-regexp">/CentOS-Stream-BaseOS.repo https:/</span><span class="hljs-regexp">/mirrors.aliyun.com/</span>repo<span class="hljs-regexp">/centos-stream/</span><span class="hljs-number">8</span>/CentOS-Stream-BaseOS.repo<br>dnf clean all &amp;&amp; dnf makecache<br></code></pre></td></tr></table></figure><p>Centos 7</p><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs awk">mkdir repo.bak<br>mv <span class="hljs-regexp">/etc/yum</span>.repos.d<span class="hljs-regexp">/* repo.bak/</span><br>wget -O <span class="hljs-regexp">/etc/yum</span>.repos.d<span class="hljs-regexp">/Centos-7.repo https:/</span><span class="hljs-regexp">/mirrors.aliyun.com/</span>repo/Centos-<span class="hljs-number">7</span>.repo<br>yum clean all &amp;&amp; yum makecache<br></code></pre></td></tr></table></figure><p>Centos 8</p><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs awk">mkdir repo.bak<br>mv <span class="hljs-regexp">/etc/yum</span>.repos.d<span class="hljs-regexp">/* repo.bak/</span><br>curl -o <span class="hljs-regexp">/etc/yum</span>.repos.d<span class="hljs-regexp">/CentOS-Base.repo https:/</span><span class="hljs-regexp">/mirrors.aliyun.com/</span>repo/Centos-vault-<span class="hljs-number">8.5</span>.<span class="hljs-number">2111</span>.repo<br>yum clean all &amp;&amp; yum makecache<br></code></pre></td></tr></table></figure><div class="tbsm" style="margin-top:54px;"><div class="tbsm-top"><span><svg t="1674654360507" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="987" data-spm-anchor-id="a313x.7781069.0.i0" width="35" height="35"><path d="M410.49 97.74H155.08a56.74 56.74 0 0 0-56.84 56.73V410a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 467.32 410V154.58a56.83 56.83 0 0 0-56.83-56.84zM410.49 558.74H155.08a56.74 56.74 0 0 0-56.84 56.73V871a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 467.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84zM871.49 558.74H616.08a56.74 56.74 0 0 0-56.84 56.73V871a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 928.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84z" fill="#66EEFF" p-id="988"></path><path d="M410.49 558.74h-4.14A475 475 0 0 0 299.52 859.6a481.16 481.16 0 0 0 4.84 68.22h106.13A56.83 56.83 0 0 0 467.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84zM871.49 558.74H616.08a56.74 56.74 0 0 0-56.84 56.73V871a56.84 56.84 0 0 0 56.84 56.84h255.41A56.83 56.83 0 0 0 928.32 871V615.58a56.83 56.83 0 0 0-56.83-56.84z" fill="#C2F8FF" p-id="989"></path></svg></span><span style="font-size:30px;"> 特别声明</span></div><div class="tbsm-wz">千屹博客旗下的所有文章，是通过本人课堂学习和课外自学所精心整理的知识巨著<br/>难免会有出错的地方<br/>如果细心的你发现了小失误，可以在下方评论区告诉我，或者私信我！<br />非常感谢大家的热烈支持！</div></div>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Centos 8 stream</tag>
+      
+      <tag>Centos7</tag>
+      
+      <tag>Centos 8</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>基于K8S的CICD系统实现</title>
     <link href="/posts/40462/"/>
     <url>/posts/40462/</url>
